@@ -26,6 +26,7 @@
 package org.openelis.security.bean;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -38,14 +39,13 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 import org.jboss.security.annotation.SecurityDomain;
-import org.openelis.security.messages.Messages;
+import org.openelis.gwt.common.ModulePermission.ModuleFlags;
+import org.openelis.gwt.common.PermissionException;
+import org.openelis.gwt.common.SectionPermission.SectionFlags;
+import org.openelis.gwt.common.SystemUserPermission;
+import org.openelis.gwt.common.SystemUserVO;
 import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.remote.SystemUserPermissionRemote;
-import org.openelis.ui.common.ModulePermission.ModuleFlags;
-import org.openelis.ui.common.PermissionException;
-import org.openelis.ui.common.SectionPermission.SectionFlags;
-import org.openelis.ui.common.SystemUserPermission;
-import org.openelis.ui.common.SystemUserVO;
 
 import com.teklabs.gwt.i18n.client.LocaleFactory;
 import com.teklabs.gwt.i18n.server.LocaleProxy;
@@ -206,7 +206,7 @@ public class UserCacheBean {
      */
     public void applyPermission(String module, ModuleFlags flag) throws Exception {
         if ( !getPermission().has(module, flag))
-            throw new PermissionException(Messages.get().exc_modulePerm(flag.name(), module));
+            throw new PermissionException(((SecurityMessages)getConstants(SecurityMessages.class)).modelPerm(flag.name(), module));
     }
 
     /**
@@ -215,7 +215,7 @@ public class UserCacheBean {
      */
     public void applyPermission(String section, SectionFlags flag) throws Exception {
         if ( !getPermission().has(section, flag))
-            throw new PermissionException(Messages.get().exc_sectionPerm(flag.name(), section));
+            throw new PermissionException(((SecurityMessages)getConstants(SecurityMessages.class)).sectionPerm(flag.name(), section));
     }
 
     /**
@@ -275,7 +275,7 @@ public class UserCacheBean {
      */
     public SystemUserPermission getPermission() throws Exception {
         Element e;
-        String name, appName;
+        String name;
         SystemUserPermission data;
 
         name = getName();
@@ -285,8 +285,7 @@ public class UserCacheBean {
 
         data = null;
         try {
-            appName = System.getProperty("org.openelis.security.system.security.application");
-            data = security.fetchByApplicationAndLoginName(appName, name);
+            data = security.fetchByApplicationAndLoginName("security", name);
             permCache.put(new Element(name, data));
             cache.put(new Element(data.getLoginName(), data.getUser()));
             cache.put(new Element(data.getSystemUserId(), data.getUser()));
@@ -298,16 +297,22 @@ public class UserCacheBean {
         return data;
     }
     
-    
-    public SecurityMessages getMessages() {
+    public <T> T getConstants(Class cls) {
+        Element e;
+        T consts;
+        
         try {
+            e = cache.get(cls.getName()+":"+getLocale());
+            if(e != null)
+                return (T)e.getValue();
+            
+            LocaleProxy.setLocale(new Locale(getLocale()));
             LocaleProxy.initialize();
-            return LocaleFactory.get(SecurityMessages.class,getLocale());
-        }catch(Exception e) {
-            e.printStackTrace();
-            return null;
+            consts = (T)LocaleFactory.get(cls);
+            cache.put(new Element(cls.getName()+":"+getLocale(),consts));
+            return consts;
+        }catch(Exception e1) {
+           return null;
         }
     }
-    
-    
 }

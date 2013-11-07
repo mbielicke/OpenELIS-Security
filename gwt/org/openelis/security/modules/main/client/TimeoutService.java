@@ -1,12 +1,10 @@
 package org.openelis.security.modules.main.client;
 
-import org.openelis.ui.common.Datetime;
-import org.openelis.ui.screen.Callback;
-import org.openelis.ui.services.TokenService;
+import org.openelis.gwt.common.Datetime;
+import org.openelis.gwt.screen.Callback;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.HasRpcToken;
 
 public class TimeoutService implements TimeoutServiceInt, TimeoutServiceIntAsync {
 
@@ -23,7 +21,6 @@ public class TimeoutService implements TimeoutServiceInt, TimeoutServiceIntAsync
 
     private TimeoutService() {
         service = (TimeoutServiceIntAsync)GWT.create(TimeoutServiceInt.class);
-        ((HasRpcToken)service).setRpcToken(TokenService.getToken());
     }
 
     @Override

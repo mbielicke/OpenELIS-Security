@@ -25,7 +25,7 @@
  */
 package org.openelis.security.domain;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
 /**
  * Class represents the fields in database table system_user_module.

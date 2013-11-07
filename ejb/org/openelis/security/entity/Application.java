@@ -39,7 +39,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
 @NamedQueries({
                @NamedQuery(name = "Application.FetchById", query = "select	new org.openelis.security.domain.ApplicationDO(id,name,description)"

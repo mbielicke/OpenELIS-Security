@@ -40,7 +40,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
 @NamedQueries({
                @NamedQuery(name = "Section.FetchById", query = "select new org.openelis.security.domain.SectionDO(id,applicationId,name,description)"

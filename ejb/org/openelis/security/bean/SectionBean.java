@@ -28,6 +28,7 @@ package org.openelis.security.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,13 +38,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.jboss.security.annotation.SecurityDomain;
+import org.openelis.gwt.common.DataBaseUtil;
+import org.openelis.gwt.common.FieldErrorException;
+import org.openelis.gwt.common.NotFoundException;
+import org.openelis.gwt.common.ValidationErrorsList;
 import org.openelis.security.domain.SectionViewDO;
 import org.openelis.security.entity.Section;
+import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.meta.ApplicationMeta;
-import org.openelis.ui.common.DataBaseUtil;
-import org.openelis.ui.common.FieldErrorException;
-import org.openelis.ui.common.NotFoundException;
-import org.openelis.ui.common.ValidationErrorsList;
 
 @Stateless
 @SecurityDomain("security")
@@ -58,6 +60,13 @@ public class SectionBean {
     
     @EJB
     private UserCacheBean         userCache;
+    
+    private SecurityMessages     consts;
+    
+    @PostConstruct
+    protected void init() {
+        consts = userCache.getConstants(SecurityMessages.class);
+    }
 
     public ArrayList<SectionViewDO> fetchByApplicationId(Integer id) throws Exception {
         Query query;
@@ -121,7 +130,7 @@ public class SectionBean {
         name = data.getName();
 
         if (DataBaseUtil.isEmpty(name))
-            list.add(new FieldErrorException(userCache.getMessages().exc_fieldRequired(), ApplicationMeta.getSectionName()));
+            list.add(new FieldErrorException(consts.fieldRequired(), ApplicationMeta.getSectionName()));
 
         if (list.size() > 0)
             throw list;
@@ -133,7 +142,7 @@ public class SectionBean {
         list = new ValidationErrorsList();
         try {
             systemUserSection.fetchBySectionId(data.getId());
-            list.add(new FieldErrorException(userCache.getMessages().systemUser_sectionAddedToUser(),data.getName()));
+            list.add(new FieldErrorException(consts.sectionAssignedToUser(""),data.getName()));
         } catch (NotFoundException ignE) {
             // ignore
         }

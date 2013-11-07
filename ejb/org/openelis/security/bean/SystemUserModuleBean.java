@@ -28,6 +28,7 @@ package org.openelis.security.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,14 +38,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.jboss.security.annotation.SecurityDomain;
+import org.openelis.gwt.common.DataBaseUtil;
+import org.openelis.gwt.common.FieldErrorException;
+import org.openelis.gwt.common.NotFoundException;
+import org.openelis.gwt.common.ValidationErrorsList;
 import org.openelis.security.domain.SystemUserModuleDO;
 import org.openelis.security.domain.SystemUserModuleViewDO;
 import org.openelis.security.entity.SystemUserModule;
+import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.meta.SystemUserMeta;
-import org.openelis.ui.common.DataBaseUtil;
-import org.openelis.ui.common.FieldErrorException;
-import org.openelis.ui.common.NotFoundException;
-import org.openelis.ui.common.ValidationErrorsList;
 
 @Stateless
 @SecurityDomain("security")
@@ -56,6 +58,13 @@ public class SystemUserModuleBean {
     
     @EJB
     private UserCacheBean               userCache;
+    
+    private SecurityMessages consts;
+    
+    @PostConstruct
+    protected void init() {
+        consts = userCache.getConstants(SecurityMessages.class);   
+    }
 
     public ArrayList<SystemUserModuleViewDO> fetchBySystemUserId(Integer id) throws Exception {
         Query query;
@@ -138,7 +147,7 @@ public class SystemUserModuleBean {
         list = new ValidationErrorsList();
 
         if ( !"Y".equals(data.getHasSelect()))
-            list.add(new FieldErrorException(userCache.getMessages().exc_selectPermRequired(),
+            list.add(new FieldErrorException(consts.selectPermRequired(),
                                              SystemUserMeta.getModuleHasSelect()));
 
         if (list.size() > 0)

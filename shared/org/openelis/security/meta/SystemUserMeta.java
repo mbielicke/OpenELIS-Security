@@ -28,8 +28,8 @@ package org.openelis.security.meta;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.openelis.ui.common.Meta;
-import org.openelis.ui.common.MetaMap;
+import org.openelis.gwt.common.Meta;
+import org.openelis.gwt.common.MetaMap;
 
 public class SystemUserMeta implements Meta, MetaMap {   
     

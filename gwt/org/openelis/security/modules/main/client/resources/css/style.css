@@ -1,6 +1,6 @@
-@sprite .AppBackground {
-	gwt-image: 'AppBackground';
-	opacity: 0.8;
+
+.AppBackground {
+    background:lightgrey;
 }
 
 /*
@@ -24,7 +24,24 @@
 	}
 }
 */
+@sprite .logoutIcon {
+	gwt-image:'logout';
+	height:20px;
+	width:20px;
+}
 
+@sprite .RemoveRowButtonImage{
+	gwt-image:'removeRow';
+}
+@sprite .disabled .RemoveRowButtonImage{
+	gwt-image:'removeRowDisabled';
+}
+@sprite .AddRowButtonImage{
+	gwt-image:'addRow';
+}
+@sprite .disabled .AddRowButtonImage{
+	gwt-image:'addRowDisabled';
+}
 
 .WhiteContentPanel {
 	background:white;

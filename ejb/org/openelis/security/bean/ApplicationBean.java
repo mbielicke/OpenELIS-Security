@@ -38,18 +38,19 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.jboss.security.annotation.SecurityDomain;
+import org.openelis.gwt.common.DataBaseUtil;
+import org.openelis.gwt.common.DatabaseException;
+import org.openelis.gwt.common.FieldErrorException;
+import org.openelis.gwt.common.LastPageException;
+import org.openelis.gwt.common.NotFoundException;
+import org.openelis.gwt.common.ValidationErrorsList;
+import org.openelis.gwt.common.data.QueryData;
 import org.openelis.security.domain.ApplicationDO;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.entity.Application;
+import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.meta.ApplicationMeta;
-import org.openelis.ui.common.DataBaseUtil;
-import org.openelis.ui.common.DatabaseException;
-import org.openelis.ui.common.FieldErrorException;
-import org.openelis.ui.common.LastPageException;
-import org.openelis.ui.common.NotFoundException;
-import org.openelis.ui.common.ValidationErrorsList;
-import org.openelis.ui.common.data.QueryData;
-import org.openelis.ui.util.QueryBuilderV2;
+import org.openelis.util.QueryBuilderV2;
 
 @Stateless
 @SecurityDomain("security")
@@ -166,16 +167,19 @@ public class ApplicationBean {
     public void validate(ApplicationDO data) throws Exception {
         ValidationErrorsList list;
         ApplicationDO qdata;
+        SecurityMessages consts;
         
+        consts = user.getConstants(SecurityMessages.class);
+
         list = new ValidationErrorsList();
         if (DataBaseUtil.isEmpty(data.getName())) {
-            list.add(new FieldErrorException(user.getMessages().exc_fieldRequired(),
+            list.add(new FieldErrorException(consts.fieldRequired(),
                                              ApplicationMeta.getName()));
         } else {
             try {
                 qdata = fetchByName(data.getName());
                 if ( !qdata.getId().equals(data.getId()))
-                    list.add(new FieldErrorException(user.getMessages().exc_fieldRequired(),
+                    list.add(new FieldErrorException(consts.fieldRequired(),
                                                      ApplicationMeta.getName()));
             } catch (NotFoundException ignE) {
                 // ignore

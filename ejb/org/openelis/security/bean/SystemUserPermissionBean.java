@@ -35,13 +35,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.openelis.gwt.common.ModulePermission;
+import org.openelis.gwt.common.SectionPermission;
+import org.openelis.gwt.common.SystemUserPermission;
+import org.openelis.gwt.common.SystemUserVO;
 import org.openelis.security.domain.SystemUserDO;
 import org.openelis.security.local.SystemUserPermissionLocal;
 import org.openelis.security.remote.SystemUserPermissionRemote;
-import org.openelis.ui.common.ModulePermission;
-import org.openelis.ui.common.SectionPermission;
-import org.openelis.ui.common.SystemUserPermission;
-import org.openelis.ui.common.SystemUserVO;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

@@ -25,18 +25,61 @@
  */
 package org.openelis.security.modules.template.client;
 
-import static org.openelis.ui.screen.Screen.ShortKeys.CTRL;
-import static org.openelis.ui.screen.State.ADD;
-import static org.openelis.ui.screen.State.DEFAULT;
-import static org.openelis.ui.screen.State.DELETE;
-import static org.openelis.ui.screen.State.DISPLAY;
-import static org.openelis.ui.screen.State.QUERY;
-import static org.openelis.ui.screen.State.UPDATE;
-import static org.openelis.ui.screen.Screen.Validation.Status.VALID;
+import static org.openelis.gwt.screen.State.ADD;
+import static org.openelis.gwt.screen.State.DEFAULT;
+import static org.openelis.gwt.screen.State.DELETE;
+import static org.openelis.gwt.screen.State.DISPLAY;
+import static org.openelis.gwt.screen.State.QUERY;
+import static org.openelis.gwt.screen.State.UPDATE;
+import static org.openelis.gwt.screen.Screen.ShortKeys.CTRL;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 
+import org.openelis.gwt.common.DataBaseUtil;
+import org.openelis.gwt.common.LastPageException;
+import org.openelis.gwt.common.ModulePermission;
+import org.openelis.gwt.common.NotFoundException;
+import org.openelis.gwt.common.PermissionException;
+import org.openelis.gwt.common.ValidationErrorsList;
+import org.openelis.gwt.common.data.Query;
+import org.openelis.gwt.common.data.QueryData;
+import org.openelis.gwt.event.ActionEvent;
+import org.openelis.gwt.event.ActionHandler;
+import org.openelis.gwt.event.BeforeCloseEvent;
+import org.openelis.gwt.event.BeforeCloseHandler;
+import org.openelis.gwt.event.BeforeDragStartEvent;
+import org.openelis.gwt.event.BeforeDragStartHandler;
+import org.openelis.gwt.event.DataChangeEvent;
+import org.openelis.gwt.event.DropEvent;
+import org.openelis.gwt.event.DropHandler;
+import org.openelis.gwt.event.StateChangeEvent;
+import org.openelis.gwt.event.StateChangeHandler;
+import org.openelis.gwt.screen.Screen;
+import org.openelis.gwt.screen.ScreenHandler;
+import org.openelis.gwt.screen.ScreenNavigator;
+import org.openelis.gwt.screen.State;
+import org.openelis.gwt.widget.AtoZButtons;
+import org.openelis.gwt.widget.Button;
+import org.openelis.gwt.widget.DragItem;
+import org.openelis.gwt.widget.Dropdown;
+import org.openelis.gwt.widget.Item;
+import org.openelis.gwt.widget.Label;
+import org.openelis.gwt.widget.ModalWindow;
+import org.openelis.gwt.widget.Queryable;
+import org.openelis.gwt.widget.TabLayoutPanel;
+import org.openelis.gwt.widget.TextBox;
+import org.openelis.gwt.widget.WindowInt;
+import org.openelis.gwt.widget.table.Row;
+import org.openelis.gwt.widget.table.Table;
+import org.openelis.gwt.widget.table.event.BeforeCellEditedEvent;
+import org.openelis.gwt.widget.table.event.BeforeCellEditedHandler;
+import org.openelis.gwt.widget.table.event.CellEditedEvent;
+import org.openelis.gwt.widget.table.event.CellEditedHandler;
+import org.openelis.gwt.widget.table.event.RowAddedEvent;
+import org.openelis.gwt.widget.table.event.RowAddedHandler;
+import org.openelis.gwt.widget.table.event.RowDeletedEvent;
+import org.openelis.gwt.widget.table.event.RowDeletedHandler;
 import org.openelis.security.domain.ApplicationDO;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SectionViewDO;
@@ -53,44 +96,6 @@ import org.openelis.security.modules.clausepopout.client.ClausePopoutScreen.Acti
 import org.openelis.security.modules.main.cache.UserCache;
 import org.openelis.security.modules.main.client.Security;
 import org.openelis.security.modules.systemuser.client.SystemUserService;
-import org.openelis.ui.common.DataBaseUtil;
-import org.openelis.ui.common.LastPageException;
-import org.openelis.ui.common.ModulePermission;
-import org.openelis.ui.common.NotFoundException;
-import org.openelis.ui.common.PermissionException;
-import org.openelis.ui.common.ValidationErrorsList;
-import org.openelis.ui.common.data.Query;
-import org.openelis.ui.common.data.QueryData;
-import org.openelis.ui.event.ActionEvent;
-import org.openelis.ui.event.ActionHandler;
-import org.openelis.ui.event.BeforeCloseEvent;
-import org.openelis.ui.event.BeforeCloseHandler;
-import org.openelis.ui.event.DataChangeEvent;
-import org.openelis.ui.event.StateChangeEvent;
-import org.openelis.ui.screen.Screen;
-import org.openelis.ui.screen.ScreenHandler;
-import org.openelis.ui.screen.ScreenNavigator;
-import org.openelis.ui.screen.State;
-import org.openelis.ui.widget.AtoZButtons;
-import org.openelis.ui.widget.Button;
-import org.openelis.ui.widget.Dropdown;
-import org.openelis.ui.widget.Item;
-import org.openelis.ui.widget.ModalWindow;
-import org.openelis.ui.widget.Queryable;
-import org.openelis.ui.widget.TabLayoutPanel;
-import org.openelis.ui.widget.TextBox;
-import org.openelis.ui.widget.WindowInt;
-import org.openelis.ui.widget.table.Row;
-import org.openelis.ui.widget.table.Table;
-import org.openelis.ui.widget.table.event.BeforeCellEditedEvent;
-import org.openelis.ui.widget.table.event.BeforeCellEditedHandler;
-import org.openelis.ui.widget.table.event.CellDoubleClickedEvent;
-import org.openelis.ui.widget.table.event.CellEditedEvent;
-import org.openelis.ui.widget.table.event.CellEditedHandler;
-import org.openelis.ui.widget.table.event.RowAddedEvent;
-import org.openelis.ui.widget.table.event.RowAddedHandler;
-import org.openelis.ui.widget.table.event.RowDeletedEvent;
-import org.openelis.ui.widget.table.event.RowDeletedHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -150,7 +155,7 @@ public class TemplateScreen extends Screen {
 
         userPermission = UserCache.getPermission().getModule("templates");
         if (userPermission == null)
-            throw new PermissionException(Messages.get().exc_screenPerm("Template Screen"));
+            throw new PermissionException(Messages.get().screenPerm("Template Screen"));
 
         initWidget(uiBinder.createAndBindUi(this));
         window.setContent(this);
@@ -160,7 +165,7 @@ public class TemplateScreen extends Screen {
         initialize();
         setState(State.DEFAULT);
         initializeDropdowns();
-        fireDataChange();
+        DataChangeEvent.fire(this);
     }
 
     /**
@@ -173,7 +178,7 @@ public class TemplateScreen extends Screen {
         //
         // button panel buttons
         //
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 query.setEnabled(isState(DEFAULT,DISPLAY) &&
                                  userPermission.hasSelectPermission());
@@ -187,7 +192,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(query, 'q', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 previous.setEnabled(isState(DISPLAY));
             }
@@ -195,7 +200,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(previous, 'p', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 next.setEnabled(isState(DISPLAY));
             }
@@ -203,7 +208,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(next, 'n', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 add.setEnabled(isState(DEFAULT,DISPLAY) &&
                                userPermission.hasAddPermission());
@@ -217,7 +222,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(add, 'a', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 update.setEnabled(isState(DISPLAY) &&
                                   userPermission.hasUpdatePermission());
@@ -231,7 +236,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(update, 'u', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 delete.setEnabled(isState(DISPLAY) &&
                                   userPermission.hasDeletePermission());
@@ -245,7 +250,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(delete, 'd', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 commit.setEnabled(isState(QUERY,ADD,UPDATE,DELETE));
             }
@@ -253,7 +258,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(commit, 'm', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 abort.setEnabled(isState(QUERY,ADD,UPDATE,DELETE));
             }
@@ -261,7 +266,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(abort, 'o', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 modAppDropDown.setEnabled(true);
             }
@@ -281,14 +286,41 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 appModuleTable.setEnabled(isState(ADD,UPDATE));
             }
         });
 
+        appModuleTable.enableDrag();
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        appModuleTable.getDragController()
+                      .addBeforeDragStartHandler(new BeforeDragStartHandler<DragItem>() {
+                          public void onBeforeDragStart(BeforeDragStartEvent<DragItem> event) {
+                              Row row;
+                              Label<String> label;
+                              String value;
+
+                              if (!isState(ADD,UPDATE)) {
+                                  event.cancel();
+                                  return;
+                              }
+                              try {
+                                  row = appModuleTable.getRowAt(event.getDragObject().getIndex());
+                                  value = (String)row.getCell(0);
+                                  if (value == null)
+                                      value = "";
+                                  label = new Label<String>(value);
+                                  label.setStyleName("ScreenLabel");
+                                  label.setWordWrap(false);
+                                  event.setProxy(label);
+                              } catch (Exception e) {
+                                  Window.alert("table beforeDragStart: " + e.getMessage());
+                              }
+                          }
+                      });
+
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 secAppDropDown.setEnabled(true);
             }
@@ -308,12 +340,40 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 appSectionTable.setEnabled(isState(ADD,UPDATE));
             }
         });
 
+        appSectionTable.enableDrag();
+
+        appSectionTable.getDragController()
+                       .addBeforeDragStartHandler(new BeforeDragStartHandler<DragItem>() {
+                           public void onBeforeDragStart(BeforeDragStartEvent<DragItem> event) {
+                               Row row;
+                               Label<String> label;
+                               String value;
+
+                               if (!isState(ADD,UPDATE)) {
+                                   event.cancel();
+                                   return;
+                               }
+
+                               try {
+                                   row = appSectionTable.getRowAt(event.getDragObject().getIndex());
+                                   value = (String)row.getCell(0);
+                                   if (value == null)
+                                       value = "";
+                                   label = new Label<String>(value);
+                                   label.setStyleName("ScreenLabel");
+                                   label.setWordWrap(false);
+                                   event.setProxy(label);
+                               } catch (Exception e) {
+                                   Window.alert("table beforeDragStart: " + e.getMessage());
+                               }
+                           }
+                       });
 
         addScreenHandler(loginName, SystemUserMeta.getLoginName(), new ScreenHandler<String>() {
             public void onDataChange(DataChangeEvent event) {
@@ -398,8 +458,6 @@ public class TemplateScreen extends Screen {
         userModuleTable.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
                 showClauseButton.setEnabled(true);
-                if (isState(ADD,UPDATE))
-                    removeModuleButton.setEnabled(true);
             }
         });
 
@@ -522,26 +580,22 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        appModuleTable.addCellDoubleClickedHandler(new CellDoubleClickedEvent.Handler() {
-            
-            @Override
-            public void onCellDoubleClicked(CellDoubleClickedEvent event) {
+        userModuleTable.enableDrop();
+        appModuleTable.addDropTarget(userModuleTable.getDropController());
+
+        userModuleTable.getDropController().addDropHandler(new DropHandler<DragItem>() {
+            public void onDrop(DropEvent<DragItem> event) {
                 int drg, drp;
                 Row row, drow;
                 SystemModuleViewDO data;
 
-                if (!isState(ADD,UPDATE)) {
-                    event.cancel();
-                    return;
-                }
-                
-                drg = event.getRow();
+                drg = event.getDragObject().getIndex();
 
                 drow = appModuleTable.getRowAt(drg);
                 data = (SystemModuleViewDO)drow.getData();
 
                 if (moduleAddedtoUser(data.getId())) {
-                    Window.alert(Messages.get().template_moduleAddedToTemplate());
+                    Window.alert(Messages.get().moduleAddedToTemplate());
                     return;
                 }
                 row = new Row(8);
@@ -559,13 +613,13 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeModuleButton.setEnabled(false);
+                removeModuleButton.setEnabled(!isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 showClauseButton.setEnabled(false);
             }
@@ -623,13 +677,6 @@ public class TemplateScreen extends Screen {
             
             public Widget onTab(boolean forward) {
             	return forward ? loginName : userModuleTable;
-            }
-        });
-
-        userSectionTable.addSelectionHandler(new SelectionHandler<Integer>() {
-            public void onSelection(SelectionEvent<Integer> event) {
-                if (isState(ADD,UPDATE))
-                    removeSectionButton.setEnabled(true);
             }
         });
 
@@ -711,25 +758,21 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        appSectionTable.addCellDoubleClickedHandler(new CellDoubleClickedEvent.Handler() {
-            
-            @Override
-            public void onCellDoubleClicked(CellDoubleClickedEvent event) {
+        userSectionTable.enableDrop();
+        appSectionTable.addDropTarget(userSectionTable.getDropController());
+
+        userSectionTable.getDropController().addDropHandler(new DropHandler<DragItem>() {
+            public void onDrop(DropEvent<DragItem> event) {
                 int drg, drp;
                 Row row, drow;
                 SectionViewDO data;
-                
-                if (!isState(ADD,UPDATE)) {
-                    event.cancel();
-                    return;
-                }
 
-                drg = event.getRow();
+                drg = event.getDragObject().getIndex();
                 drow = appSectionTable.getRowAt(drg);
                 data = (SectionViewDO)drow.getData();
 
                 if (sectionAddedtoUser(data.getId())) {
-                    Window.alert(Messages.get().template_sectionAddedToTemplate());
+                    Window.alert(Messages.get().sectionAddedToTemplate());
                     return;
                 }
 
@@ -748,9 +791,9 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeSectionButton.setEnabled(false);
+                removeSectionButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
@@ -759,7 +802,7 @@ public class TemplateScreen extends Screen {
         //
         nav = new ScreenNavigator<IdNameVO>(atozTable, atozNext, atozPrev) {
             public void executeQuery(final Query query) {
-                setBusy(Messages.get().msg_querying());
+                setBusy(Messages.get().querying());
 
                 SystemUserService.get().query(query, new AsyncCallback<ArrayList<IdNameVO>>() {
                     public void onSuccess(ArrayList<IdNameVO> result) {
@@ -770,15 +813,15 @@ public class TemplateScreen extends Screen {
                     public void onFailure(Throwable error) {
                         setQueryResult(null);
                         if (error instanceof NotFoundException) {
-                            setDone(Messages.get().msg_noRecordsFound());
+                            setDone(Messages.get().noRecordsFound());
                             setState(DEFAULT);
                         } else if (error instanceof LastPageException) {
-                            setError(Messages.get().msg_noMoreRecordInDir());
+                            setError(Messages.get().noMoreRecordInDir());
                             removeBusy();
                         } else {
                             Window.alert("Error: System User call query failed; " +
                                          error.getMessage());
-                            setError(Messages.get().msg_queryFailed());
+                            setError(Messages.get().queryFailed());
                             removeBusy();
                         }
                     }
@@ -804,7 +847,7 @@ public class TemplateScreen extends Screen {
             }
         };
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 boolean enable;
                 enable = isState(DEFAULT,DISPLAY) && userPermission.hasSelectPermission();
@@ -841,7 +884,7 @@ public class TemplateScreen extends Screen {
             public void onBeforeClosed(BeforeCloseEvent<WindowInt> event) {
                 if (EnumSet.of(State.ADD, State.UPDATE).contains(state)) {
                     event.cancel();
-                    setError(Messages.get().msg_mustCommitOrAbort());
+                    setError(Messages.get().mustCommitOrAbort());
                 }
             }
         });
@@ -906,10 +949,10 @@ public class TemplateScreen extends Screen {
     protected void query(ClickEvent event) {
         manager = new SystemUserManager();
         setState(QUERY);
-        fireDataChange();
+        DataChangeEvent.fire(this);
 
         loginName.setFocus(true);
-        setDone(Messages.get().msg_enterFieldsToQuery());
+        setDone(Messages.get().enterFieldsToQuery());
     }
 
     @UiHandler("previous")
@@ -933,20 +976,20 @@ public class TemplateScreen extends Screen {
         data.setIsTemplate("Y");
 
         setState(ADD);
-        fireDataChange();
+        DataChangeEvent.fire(this);
         loginName.setFocus(true);
-        setDone(Messages.get().msg_enterInformationPressCommit());
+        setDone(Messages.get().enterInformationPressCommit());
     }
 
     @UiHandler("update")
     protected void update(ClickEvent event) {
-        setBusy(Messages.get().msg_lockForUpdate());
+        setBusy(Messages.get().lockForUpdate());
 
         try {
             manager = SystemUserService.get().fetchForUpdate(manager.getSystemUser().getId());
 
             setState(UPDATE);
-            fireDataChange();
+            DataChangeEvent.fire(this);
             loginName.setFocus(true);
         } catch (Exception e) {
             com.google.gwt.user.client.Window.alert(e.getMessage());
@@ -957,13 +1000,13 @@ public class TemplateScreen extends Screen {
 
     @UiHandler("delete")
     protected void delete(ClickEvent event) {
-        setBusy(Messages.get().msg_lockForUpdate());
+        setBusy(Messages.get().lockForUpdate());
 
         try {
             manager = SystemUserService.get().fetchForUpdate(manager.getSystemUser().getId());
 
             setState(DELETE);
-            fireDataChange();
+            DataChangeEvent.fire(this);
         } catch (Exception e) {
             com.google.gwt.user.client.Window.alert(e.getMessage());
         }
@@ -974,14 +1017,11 @@ public class TemplateScreen extends Screen {
     @UiHandler("commit")
     protected void commit(ClickEvent event) {
         Query query;
-        Validation validation;
 
         finishEditing();
-        
-        validation = validate();
 
-        if (validation.getStatus() != VALID) {
-            window.setError(Messages.get().msg_correctErrors());
+        if ( !validate()) {
+            window.setError(Messages.get().correctErrors());
             return;
         }
         
@@ -992,13 +1032,13 @@ public class TemplateScreen extends Screen {
                 nav.setQuery(query);
                 break;
             case ADD :
-                setBusy(Messages.get().msg_adding());
+                setBusy(Messages.get().adding());
                 try {
                     manager = SystemUserService.get().add(manager);
                 
                     setState(DISPLAY);
-                    fireDataChange();
-                    setDone(Messages.get().msg_addingComplete());
+                    DataChangeEvent.fire(this);
+                    setDone(Messages.get().addingComplete());
                 } catch (ValidationErrorsList e) {
                     showErrors(e);
                     removeBusy();
@@ -1009,12 +1049,12 @@ public class TemplateScreen extends Screen {
                 }
                 break;
             case UPDATE :
-                setBusy(Messages.get().msg_updating());
+                setBusy(Messages.get().updating());
                 try {
                     SystemUserService.get().update(manager);
 
                     setState(DISPLAY);
-                    setDone(Messages.get().msg_updatingComplete());
+                    setDone(Messages.get().updatingComplete());
                 } catch (ValidationErrorsList e) {
                     showErrors(e);
                     removeBusy();
@@ -1025,12 +1065,12 @@ public class TemplateScreen extends Screen {
                 }
                 break;
             case DELETE :
-                setBusy(Messages.get().msg_deleting());
+                setBusy(Messages.get().deleting());
                 try {
                     SystemUserService.get().delete(manager);
 
                     fetchById(null);
-                    setDone(Messages.get().msg_deleteComplete());
+                    setDone(Messages.get().deleteComplete());
                 } catch (ValidationErrorsList e) {
                     showErrors(e);
                     removeBusy();
@@ -1046,38 +1086,38 @@ public class TemplateScreen extends Screen {
     protected void abort(ClickEvent event) {
         finishEditing();
         clearErrors();
-        setBusy(Messages.get().msg_cancelChanges());
+        setBusy(Messages.get().cancelChanges());
         
         switch(state) {
             case QUERY :
                 fetchById(null);
-                setDone(Messages.get().msg_queryAborted());
+                setDone(Messages.get().queryAborted());
                 break;
             case ADD :
                 fetchById(null);
-                setDone(Messages.get().msg_addAborted());
+                setDone(Messages.get().addAborted());
                 break;
             case UPDATE :
                 try {
                     manager = SystemUserService.get().abortUpdate(manager.getSystemUser().getId());
                     setState(DISPLAY);
-                    fireDataChange();
+                    DataChangeEvent.fire(this);
                 } catch (Exception e) {
                     com.google.gwt.user.client.Window.alert(e.getMessage());
                     fetchById(null);
                 }
-                setDone(Messages.get().msg_updateAborted());
+                setDone(Messages.get().updateAborted());
                 break;
             case DELETE :
                 try {
                     manager = SystemUserService.get().abortUpdate(manager.getSystemUser().getId());
                     setState(DISPLAY);
-                    fireDataChange();
+                    DataChangeEvent.fire(this);
                 } catch (Exception e) {
                     com.google.gwt.user.client.Window.alert(e.getMessage());
                     fetchById(null);
                 }
-                setDone(Messages.get().msg_deleteAborted());
+                setDone(Messages.get().deleteAborted());
                 break;
             default :
                 clearStatus();
@@ -1095,25 +1135,25 @@ public class TemplateScreen extends Screen {
             data.setIsTemplate("N");
             setState(DEFAULT);
         } else {
-            setBusy(Messages.get().msg_fetching());
+            setBusy(Messages.get().fetching());
             try {
                 manager = SystemUserService.get().fetchById(id,SystemUserManager.Load.MODULES,SystemUserManager.Load.SECTIONS);
 
                 setState(DISPLAY);
             } catch (NotFoundException e) {
                 fetchById(null);
-                setDone(Messages.get().msg_noRecordsFound());
+                setDone(Messages.get().noRecordsFound());
                 return false;
             } catch (Exception e) {
                 removeBusy();
                 fetchById(null);
                 e.printStackTrace();
-                com.google.gwt.user.client.Window.alert(Messages.get().msg_fetchFailed() +
+                com.google.gwt.user.client.Window.alert(Messages.get().fetchFailed() +
                                                         e.getMessage());
                 return false;
             }
         }
-        fireDataChange();
+        DataChangeEvent.fire(this);
         clearStatus();
         removeBusy();
 
@@ -1201,7 +1241,7 @@ public class TemplateScreen extends Screen {
         Row row;
 
         model = new ArrayList<Row>();
-        setBusy(Messages.get().msg_fetching());
+        setBusy(Messages.get().fetching());
         try {
             modules = ApplicationService.get().fetchModulesByAppId(id);
             for (SystemModuleViewDO data : modules) {
@@ -1212,7 +1252,7 @@ public class TemplateScreen extends Screen {
             clearStatus();
             removeBusy();
         } catch (NotFoundException ign) {
-            setDone(Messages.get().msg_noRecordsFound());
+            setDone(Messages.get().noRecordsFound());
         } catch (Exception e) {
             Window.alert(e.getMessage());
             clearStatus();
@@ -1228,7 +1268,7 @@ public class TemplateScreen extends Screen {
 
         model = new ArrayList<Row>();
         try {
-            setBusy(Messages.get().msg_fetching());
+            setBusy(Messages.get().fetching());
             sections = ApplicationService.get().fetchSectionsByAppId(id);
             for (SectionViewDO data : sections) {
                 row = new Row(data.getName());
@@ -1238,7 +1278,7 @@ public class TemplateScreen extends Screen {
             clearStatus();
             removeBusy();
         } catch (NotFoundException ign) {
-            setDone(Messages.get().msg_noRecordsFound());
+            setDone(Messages.get().noRecordsFound());
         } catch (Exception e) {
             Window.alert(e.getMessage());
             clearStatus();
@@ -1321,7 +1361,7 @@ public class TemplateScreen extends Screen {
 
         modal = new ModalWindow();
         ((ModalWindow)modal).setSize("400px","400px");
-        modal.setName(Messages.get().gen_clause());
+        modal.setName(Messages.get().clause());
         modal.setContent(clausePopoutScreen);
         clausePopoutScreen.setState(state);
         clausePopoutScreen.setWindow(modal);

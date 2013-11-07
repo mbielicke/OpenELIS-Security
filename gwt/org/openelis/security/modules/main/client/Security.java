@@ -25,12 +25,11 @@
  */
 package org.openelis.security.modules.main.client;
 
+import org.openelis.gwt.widget.Browser;
+import org.openelis.gwt.widget.MenuItem;
 import org.openelis.security.modules.application.client.ApplicationScreen;
 import org.openelis.security.modules.systemuser.client.SystemUserScreen;
 import org.openelis.security.modules.template.client.TemplateScreen;
-import org.openelis.ui.widget.Browser;
-import org.openelis.ui.widget.Confirm;
-import org.openelis.ui.widget.MenuItem;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -69,7 +68,7 @@ public class Security extends ResizeComposite {
             public void execute() {
                 try {
                     logout();
-                    Window.open("/security/Security.html", "_self", null);
+                    Window.open("Security.html", "_self", null);
                 } catch (Throwable e) {
                     e.printStackTrace();
                     Window.alert(e.getMessage());
@@ -85,7 +84,7 @@ public class Security extends ResizeComposite {
             systemUser.addCommand(new Command() {
                 public void execute() {
                     try {
-                        final org.openelis.ui.widget.Window win = new org.openelis.ui.widget.Window(true);
+                        final org.openelis.gwt.widget.Window win = new org.openelis.gwt.widget.Window();
                         win.setSize("967px", "751px");
                         new SystemUserScreen(win);
                         win.setName("System User");
@@ -103,7 +102,7 @@ public class Security extends ResizeComposite {
             template.addCommand(new Command() {
                 public void execute() {
                     try {
-                        final org.openelis.ui.widget.Window win = new org.openelis.ui.widget.Window(true);
+                        final org.openelis.gwt.widget.Window win = new org.openelis.gwt.widget.Window();
                         win.setSize("917px", "698px");
                         new TemplateScreen(win);
                         win.setName("Templates");
@@ -121,7 +120,7 @@ public class Security extends ResizeComposite {
             application.addCommand(new Command() {
                 public void execute() {
                     try {
-                        final org.openelis.ui.widget.Window win = new org.openelis.ui.widget.Window(true);
+                        final org.openelis.gwt.widget.Window win = new org.openelis.gwt.widget.Window();
                         win.setSize("886px","686px");
                         new ApplicationScreen(win);
                         win.setName("Application");
@@ -152,6 +151,6 @@ public class Security extends ResizeComposite {
             public void onFailure(Throwable caught) {
             }
         });
-        Window.open("/security/Security.html", "_self", null);
+        Window.open("Security.html", "_self", null);
     }
 }

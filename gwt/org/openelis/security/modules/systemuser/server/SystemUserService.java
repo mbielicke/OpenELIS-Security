@@ -30,14 +30,14 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 
+import org.openelis.gwt.common.data.Query;
+import org.openelis.gwt.server.RemoteServlet;
 import org.openelis.security.bean.SystemUserBean;
 import org.openelis.security.bean.SystemUserManagerBean;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SystemUserDO;
 import org.openelis.security.manager.SystemUserManager;
 import org.openelis.security.modules.systemuser.client.SystemUserServiceInt;
-import org.openelis.ui.common.data.Query;
-import org.openelis.ui.server.RemoteServlet;
 
 /*
  * This class provides service for SystemUserManager, SystemUserSectionManager
@@ -58,66 +58,39 @@ public class SystemUserService extends RemoteServlet implements SystemUserServic
     private SystemUserBean        systemUser;
 
     public SystemUserManager fetchById(Integer id, SystemUserManager.Load... elements) throws Exception {
-        try {
-            return systemUserManager.fetchById(id,elements);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return systemUserManager.fetchById(id,elements);
     }
 
     public ArrayList<IdNameVO> query(Query query) throws Exception {
         try {
-            return systemUser.query(query.getFields(), query.getPage() * rowPP, rowPP);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
+        return systemUser.query(query.getFields(), query.getPage() * rowPP, rowPP);
+        }catch(Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 
     public ArrayList<SystemUserDO> fetchTemplateList() throws Exception {
-        try {
-            return systemUser.fetchTemplateList();
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return systemUser.fetchTemplateList();
     }
 
     public SystemUserManager add(SystemUserManager man) throws Exception {
-        try {
-            return systemUserManager.add(man);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return systemUserManager.add(man);
     }
 
-    public SystemUserManager update(SystemUserManager man) throws Exception {
-        try {
-            return systemUserManager.update(man);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+    public void update(SystemUserManager man) throws Exception {
+        systemUserManager.update(man);
     }
 
-    public SystemUserManager delete(SystemUserManager man) throws Exception {
-        try {
-            return systemUserManager.delete(man);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+    public void delete(SystemUserManager man) throws Exception {
+        systemUserManager.delete(man);
     }
 
     public SystemUserManager fetchForUpdate(Integer id) throws Exception {
-        try {
-            return systemUserManager.fetchForUpdate(id);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return systemUserManager.fetchForUpdate(id);
     }
 
     public SystemUserManager abortUpdate(Integer id) throws Exception {
-        try {
-            return systemUserManager.abortUpdate(id);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return systemUserManager.abortUpdate(id);
     }
 }

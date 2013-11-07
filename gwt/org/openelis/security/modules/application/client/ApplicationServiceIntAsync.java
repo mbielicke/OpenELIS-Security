@@ -1,13 +1,14 @@
 package org.openelis.security.modules.application.client;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
+import org.openelis.gwt.common.data.Query;
 import org.openelis.security.domain.ApplicationDO;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SectionViewDO;
 import org.openelis.security.domain.SystemModuleViewDO;
 import org.openelis.security.manager.ApplicationManager;
-import org.openelis.ui.common.data.Query;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -25,7 +26,7 @@ public interface ApplicationServiceIntAsync {
 
     void query(Query query, AsyncCallback<ArrayList<IdNameVO>> callback);
 
-    void update(ApplicationManager man, AsyncCallback<ApplicationManager> callback);
+    void update(ApplicationManager man, AsyncCallback<Void> callback);
 
     void fetchModulesByAppId(Integer id, AsyncCallback<ArrayList<SystemModuleViewDO>> callback);
 

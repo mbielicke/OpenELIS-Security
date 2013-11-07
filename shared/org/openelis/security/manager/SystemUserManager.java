@@ -44,7 +44,7 @@ public class SystemUserManager implements Serializable {
     protected SystemUserDO                            systemUser;
     protected ArrayList<SystemUserSectionViewDO>      sections;
     protected ArrayList<SystemUserModuleViewDO>       modules;
-    public    ArrayList<DataObject>                   removed;
+    protected ArrayList<DataObject>                   removed;
     
     transient public final UserSection                section = new UserSection();
     transient public final UserModule                 module  = new UserModule();
@@ -146,11 +146,7 @@ public class SystemUserManager implements Serializable {
      * removed from the database.
      */
     protected void removeDataObject(DataObject data) {
-        if(removed == null)
-            removed = new ArrayList<DataObject>();
-        
         removed.add(data);
-        
     }
    
     

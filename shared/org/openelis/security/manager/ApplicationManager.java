@@ -44,7 +44,7 @@ public class ApplicationManager implements Serializable {
     protected ApplicationDO                            application;
     protected ArrayList<SectionViewDO>                 sections;
     protected ArrayList<SystemModuleViewDO>            modules;
-    public    ArrayList<DataObject>                    removed;
+    protected ArrayList<DataObject>                    removed;
     
     transient public final Section                     section = new Section();
     transient public final Module                      module = new Module();
@@ -147,8 +147,6 @@ public class ApplicationManager implements Serializable {
      * removed from the database.
      */
     protected void removeDataObject(DataObject data) {
-        if(removed == null) 
-            removed = new ArrayList<DataObject>();
         removed.add(data);
     }
 }

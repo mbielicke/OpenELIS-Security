@@ -27,7 +27,6 @@ package org.openelis.security.bean;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -37,13 +36,11 @@ import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.openelis.gwt.common.EntityLockedException;
+import org.openelis.gwt.common.SystemUserVO;
 import org.openelis.security.entity.Lock;
 import org.openelis.security.entity.Lock.PK;
-import org.openelis.ui.common.EntityLockedException;
-import org.openelis.ui.common.SystemUserVO;
-
-import com.teklabs.gwt.i18n.server.LocaleProvider;
-import com.teklabs.gwt.i18n.server.LocaleProxy;
+import org.openelis.security.messages.SecurityMessages;
 
 @Stateless
 public class LockBean {
@@ -56,6 +53,13 @@ public class LockBean {
 
     private static int    DEFAULT_LOCK_TIME = 15 * 60 * 1000, // 15 M * 60 S * 1000 Millis
                           GRACE_LOCK_TIME = 2 * 60 * 1000;
+
+    private SecurityMessages consts;
+    
+    @PostConstruct
+    protected void init() {
+        consts = userCache.getConstants(SecurityMessages.class);
+    }
     
     /**
      * Method creates a new lock entry for the specified table reference and id.
@@ -100,7 +104,7 @@ public class LockBean {
                 lock.setSessionId(userCache.getSessionId());
             } else {
                 user = userCache.getSystemUser(lock.getSystemUserId());
-                throw new EntityLockedException(userCache.getMessages().exc_entityLock(user.getLoginName(), new Date(lock.getExpires())));
+                throw new EntityLockedException(consts.entityLock(user.getLoginName(), new Date(lock.getExpires()).toString()));
             }
         } catch (Exception e) {
             throw e;
@@ -161,7 +165,7 @@ public class LockBean {
 
         if (lock == null || !lock.getSystemUserId().equals(userId) ||
             !lock.getSessionId().equals(sessionId))
-            throw new EntityLockedException(userCache.getMessages().exc_expiredLock());
+            throw new EntityLockedException(consts.expiredLock());
         //
         // if the lock has expired, we are going to refresh its expiration time
         //

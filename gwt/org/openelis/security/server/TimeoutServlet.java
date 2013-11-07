@@ -4,16 +4,15 @@ import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 
+import org.openelis.gwt.common.Datetime;
 import org.openelis.security.bean.UserCacheBean;
 import org.openelis.security.modules.main.client.TimeoutServiceInt;
-import org.openelis.ui.common.Datetime;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.google.gwt.user.server.rpc.XsrfProtectedServiceServlet;
 
 
 @WebServlet("/security/timeout")
-public class TimeoutServlet extends XsrfProtectedServiceServlet implements TimeoutServiceInt {
+public class TimeoutServlet extends RemoteServiceServlet implements TimeoutServiceInt {
 
     private static final long serialVersionUID = 1L;
 

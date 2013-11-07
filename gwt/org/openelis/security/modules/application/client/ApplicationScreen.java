@@ -25,16 +25,49 @@
  */
 package org.openelis.security.modules.application.client;
 
-import static org.openelis.ui.screen.Screen.ShortKeys.CTRL;
-import static org.openelis.ui.screen.State.ADD;
-import static org.openelis.ui.screen.State.DEFAULT;
-import static org.openelis.ui.screen.State.DISPLAY;
-import static org.openelis.ui.screen.State.QUERY;
-import static org.openelis.ui.screen.State.UPDATE;
-import static org.openelis.ui.screen.Screen.Validation.Status.VALID;
+import static org.openelis.gwt.screen.State.ADD;
+import static org.openelis.gwt.screen.State.DEFAULT;
+import static org.openelis.gwt.screen.State.DISPLAY;
+import static org.openelis.gwt.screen.State.QUERY;
+import static org.openelis.gwt.screen.State.UPDATE;
+import static org.openelis.gwt.screen.Screen.ShortKeys.CTRL;
 
 import java.util.ArrayList;
 
+import org.openelis.gwt.common.DataBaseUtil;
+import org.openelis.gwt.common.LastPageException;
+import org.openelis.gwt.common.ModulePermission;
+import org.openelis.gwt.common.NotFoundException;
+import org.openelis.gwt.common.PermissionException;
+import org.openelis.gwt.common.ValidationErrorsList;
+import org.openelis.gwt.common.data.Query;
+import org.openelis.gwt.common.data.QueryData;
+import org.openelis.gwt.event.ActionEvent;
+import org.openelis.gwt.event.ActionHandler;
+import org.openelis.gwt.event.BeforeCloseEvent;
+import org.openelis.gwt.event.BeforeCloseHandler;
+import org.openelis.gwt.event.DataChangeEvent;
+import org.openelis.gwt.event.StateChangeEvent;
+import org.openelis.gwt.event.StateChangeHandler;
+import org.openelis.gwt.screen.Screen;
+import org.openelis.gwt.screen.ScreenHandler;
+import org.openelis.gwt.screen.ScreenNavigator;
+import org.openelis.gwt.widget.AtoZButtons;
+import org.openelis.gwt.widget.Button;
+import org.openelis.gwt.widget.Item;
+import org.openelis.gwt.widget.Queryable;
+import org.openelis.gwt.widget.TextBox;
+import org.openelis.gwt.widget.WindowInt;
+import org.openelis.gwt.widget.table.Row;
+import org.openelis.gwt.widget.table.Table;
+import org.openelis.gwt.widget.table.event.BeforeCellEditedEvent;
+import org.openelis.gwt.widget.table.event.BeforeCellEditedHandler;
+import org.openelis.gwt.widget.table.event.CellEditedEvent;
+import org.openelis.gwt.widget.table.event.CellEditedHandler;
+import org.openelis.gwt.widget.table.event.RowAddedEvent;
+import org.openelis.gwt.widget.table.event.RowAddedHandler;
+import org.openelis.gwt.widget.table.event.RowDeletedEvent;
+import org.openelis.gwt.widget.table.event.RowDeletedHandler;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SectionViewDO;
 import org.openelis.security.domain.SystemModuleViewDO;
@@ -44,41 +77,6 @@ import org.openelis.security.meta.ApplicationMeta;
 import org.openelis.security.modules.clausepopout.client.ClausePopoutScreen;
 import org.openelis.security.modules.clausepopout.client.ClausePopoutScreen.Action;
 import org.openelis.security.modules.main.cache.UserCache;
-import org.openelis.ui.common.DataBaseUtil;
-import org.openelis.ui.common.LastPageException;
-import org.openelis.ui.common.ModulePermission;
-import org.openelis.ui.common.NotFoundException;
-import org.openelis.ui.common.PermissionException;
-import org.openelis.ui.common.ValidationErrorsList;
-import org.openelis.ui.common.data.Query;
-import org.openelis.ui.common.data.QueryData;
-import org.openelis.ui.event.ActionEvent;
-import org.openelis.ui.event.ActionHandler;
-import org.openelis.ui.event.BeforeCloseEvent;
-import org.openelis.ui.event.BeforeCloseHandler;
-import org.openelis.ui.event.DataChangeEvent;
-import org.openelis.ui.event.StateChangeEvent;
-import org.openelis.ui.event.StateChangeEvent.Handler;
-import org.openelis.ui.screen.Screen;
-import org.openelis.ui.screen.ScreenHandler;
-import org.openelis.ui.screen.ScreenNavigator;
-import org.openelis.ui.widget.AtoZButtons;
-import org.openelis.ui.widget.Button;
-import org.openelis.ui.widget.Item;
-import org.openelis.ui.widget.ModalWindow;
-import org.openelis.ui.widget.Queryable;
-import org.openelis.ui.widget.TextBox;
-import org.openelis.ui.widget.WindowInt;
-import org.openelis.ui.widget.table.Row;
-import org.openelis.ui.widget.table.Table;
-import org.openelis.ui.widget.table.event.BeforeCellEditedEvent;
-import org.openelis.ui.widget.table.event.BeforeCellEditedHandler;
-import org.openelis.ui.widget.table.event.CellEditedEvent;
-import org.openelis.ui.widget.table.event.CellEditedHandler;
-import org.openelis.ui.widget.table.event.RowAddedEvent;
-import org.openelis.ui.widget.table.event.RowAddedHandler;
-import org.openelis.ui.widget.table.event.RowDeletedEvent;
-import org.openelis.ui.widget.table.event.RowDeletedHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -134,7 +132,7 @@ public class ApplicationScreen extends Screen {
 
         userPermission = UserCache.getPermission().getModule("application");
         if (userPermission == null)
-            throw new PermissionException(Messages.get().exc_screenPerm("Application Screen"));
+            throw new PermissionException(Messages.get().screenPerm("Application Screen"));
 
         initWidget(uiBinder.createAndBindUi(this));
         window.setContent(this);
@@ -143,7 +141,7 @@ public class ApplicationScreen extends Screen {
 
         initialize();
         setState(DEFAULT);
-        fireDataChange();
+        DataChangeEvent.fire(this);
     }
 
     /**
@@ -156,7 +154,7 @@ public class ApplicationScreen extends Screen {
         //
         // button panel buttons
         //
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 query.setEnabled(isState(DEFAULT, DISPLAY) &&
                                  userPermission.hasSelectPermission());
@@ -170,7 +168,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(query, 'q', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 previous.setEnabled(isState(DISPLAY));
             }
@@ -178,7 +176,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(previous, 'p', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 next.setEnabled(isState(DISPLAY));
             }
@@ -186,7 +184,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(next, 'n', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 add.setEnabled(isState(DEFAULT,DISPLAY) &&
                                userPermission.hasAddPermission());
@@ -200,7 +198,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(add, 'a', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 update.setEnabled(isState(DISPLAY) &&
                                   userPermission.hasUpdatePermission());
@@ -212,7 +210,7 @@ public class ApplicationScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 commit.setEnabled(isState(QUERY,ADD,UPDATE));
             }
@@ -220,7 +218,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(commit, 'm', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 abort.setEnabled(isState(QUERY,ADD,UPDATE));
             }
@@ -331,8 +329,6 @@ public class ApplicationScreen extends Screen {
         moduleTable.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
                 showClauseButton.setEnabled(true);
-                if (isState(ADD,UPDATE))
-                    removeModuleButton.setEnabled(true);
             }
         });
 
@@ -417,19 +413,19 @@ public class ApplicationScreen extends Screen {
         addScreenHandler(moduleTable.getColumnWidget(6),ApplicationMeta.getSystemModuleClause(),new ScreenHandler<String>(){});
         */
         
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 addModuleButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeModuleButton.setEnabled(false);
+                removeModuleButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 showClauseButton.setEnabled(false);
             }
@@ -470,13 +466,6 @@ public class ApplicationScreen extends Screen {
             
             public Widget onTab(boolean forward) {
             	return forward ? name : moduleTable;
-            }
-        });
-
-        sectionTable.addSelectionHandler(new SelectionHandler<Integer>() {
-            public void onSelection(SelectionEvent<Integer> event) {
-                if (isState(ADD,UPDATE))
-                    removeSectionButton.setEnabled(true);
             }
         });
 
@@ -532,7 +521,6 @@ public class ApplicationScreen extends Screen {
                 try {
                     manager.section.remove(event.getIndex());
                 } catch (Exception e) {
-                    e.printStackTrace();
                     Window.alert(e.getMessage());
                 }
             }
@@ -543,15 +531,15 @@ public class ApplicationScreen extends Screen {
         addScreenHandler(sectionTable.getColumnWidget(1),ApplicationMeta.getSectionDescription(),new ScreenHandler<String>(){});
         */
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 addSectionButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeSectionButton.setEnabled(false);
+                removeSectionButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
@@ -560,7 +548,7 @@ public class ApplicationScreen extends Screen {
         //
         nav = new ScreenNavigator<IdNameVO>(atozTable, atozNext, atozPrev) {
             public void executeQuery(final Query query) {
-                setBusy(Messages.get().msg_querying());
+                setBusy(Messages.get().querying());
 
                 ApplicationService.get().query(query, new AsyncCallback<ArrayList<IdNameVO>>() {
                     public void onSuccess(ArrayList<IdNameVO> result) {
@@ -570,15 +558,15 @@ public class ApplicationScreen extends Screen {
                     public void onFailure(Throwable error) {
                         setQueryResult(null);
                         if (error instanceof NotFoundException) {
-                            setDone(Messages.get().msg_noRecordsFound());
+                            setDone(Messages.get().noRecordsFound());
                             setState(DEFAULT);
                         } else if (error instanceof LastPageException) {
-                            setError(Messages.get().msg_noMoreRecordInDir());
+                            setError(Messages.get().noMoreRecordInDir());
                             removeBusy();
                         } else {
                             Window.alert("Error: Application call query failed; " +
                                          error.getMessage());
-                            setError(Messages.get().msg_queryFailed());
+                            setError(Messages.get().queryFailed());
                             removeBusy();
                         }
                     }
@@ -604,7 +592,7 @@ public class ApplicationScreen extends Screen {
             }
         };
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 boolean enable;
                 enable = isState(DEFAULT,DISPLAY) &&
@@ -621,7 +609,7 @@ public class ApplicationScreen extends Screen {
 
                 field = new QueryData();
                 field.setKey(ApplicationMeta.getName());
-                field.setQuery( ((Button)event.getSource()).getAction().toLowerCase());
+                field.setQuery( ((Button)event.getSource()).getAction());
                 field.setType(QueryData.Type.STRING);
 
                 query = new Query();
@@ -634,7 +622,7 @@ public class ApplicationScreen extends Screen {
             public void onBeforeClosed(BeforeCloseEvent<WindowInt> event) {
                 if (isState(ADD,UPDATE)) {
                     event.cancel();
-                    setError(Messages.get().msg_mustCommitOrAbort());
+                    setError(Messages.get().mustCommitOrAbort());
                 }
             }
         });
@@ -693,10 +681,10 @@ public class ApplicationScreen extends Screen {
         manager = new ApplicationManager();
 
         setState(QUERY);
-        fireDataChange();
+        DataChangeEvent.fire(this);
 
         name.setFocus(true);
-        setDone(Messages.get().msg_enterFieldsToQuery());
+        setDone(Messages.get().enterFieldsToQuery());
     }
 
     @UiHandler("previous")
@@ -714,21 +702,21 @@ public class ApplicationScreen extends Screen {
         manager = new ApplicationManager();
 
         setState(ADD);
-        fireDataChange();
+        DataChangeEvent.fire(this);
 
         name.setFocus(true);
-        setDone(Messages.get().msg_enterInformationPressCommit());
+        setDone(Messages.get().enterInformationPressCommit());
     }
 
     @UiHandler("update")
     protected void update(ClickEvent event) {
-        setBusy(Messages.get().msg_lockForUpdate());
+        setBusy(Messages.get().lockForUpdate());
 
         try {
             manager = ApplicationService.get().fetchForUpdate(manager.getApplication().getId());
 
             setState(UPDATE);
-            fireDataChange();
+            DataChangeEvent.fire(this);
             name.setFocus(true);
         } catch (Exception e) {
             com.google.gwt.user.client.Window.alert(e.getMessage());
@@ -740,14 +728,11 @@ public class ApplicationScreen extends Screen {
     @UiHandler("commit")
     protected void commit(ClickEvent event) {
         Query query;
-        Validation validation;
 
         finishEditing();
 
-        validation = validate();
-        
-        if (validation.getStatus() != VALID) {
-            setError(Messages.get().msg_correctErrors());
+        if ( !validate()) {
+            setError(Messages.get().correctErrors());
             return;
         }
 
@@ -756,13 +741,13 @@ public class ApplicationScreen extends Screen {
             query.setFields(getQueryFields());
             nav.setQuery(query);
         } else if (state == ADD) {
-            setBusy(Messages.get().msg_adding());
+            setBusy(Messages.get().adding());
             try {
                 manager = ApplicationService.get().add(manager);
 
                 setState(DISPLAY);
-                fireDataChange();
-                setDone(Messages.get().msg_addingComplete());
+                DataChangeEvent.fire(this);
+                setDone(Messages.get().addingComplete());
             } catch (ValidationErrorsList e) {
                 showErrors(e);
                 removeBusy();
@@ -772,12 +757,12 @@ public class ApplicationScreen extends Screen {
                 removeBusy();
             }
         } else if (state == UPDATE) {
-            setBusy(Messages.get().msg_updating());
+            setBusy(Messages.get().updating());
             try {
                 ApplicationService.get().update(manager);
 
                 setState(DISPLAY);
-                setDone(Messages.get().msg_updatingComplete());
+                setDone(Messages.get().updatingComplete());
             } catch (ValidationErrorsList e) {
                 showErrors(e);
                 removeBusy();
@@ -793,24 +778,24 @@ public class ApplicationScreen extends Screen {
     protected void abort(ClickEvent event) {
         finishEditing();
         clearErrors();
-        setBusy(Messages.get().msg_cancelChanges());
+        setBusy(Messages.get().cancelChanges());
 
         if (state == QUERY) {
             fetchById(null);
-            setDone(Messages.get().msg_queryAborted());
+            setDone(Messages.get().queryAborted());
         } else if (state == ADD) {
             fetchById(null);
-            setDone(Messages.get().msg_addAborted());
+            setDone(Messages.get().addAborted());
         } else if (state == UPDATE) {
             try {
                 manager = ApplicationService.get().abortUpdate(manager.getApplication().getId());
                 setState(DISPLAY);
-                fireDataChange();
+                DataChangeEvent.fire(this);
             } catch (Exception e) {
                 com.google.gwt.user.client.Window.alert(e.getMessage());
                 fetchById(null);
             }
-            setDone(Messages.get().msg_updateAborted());
+            setDone(Messages.get().updateAborted());
         } else {
             clearStatus();
             removeBusy();
@@ -822,25 +807,25 @@ public class ApplicationScreen extends Screen {
             manager = new ApplicationManager();
             setState(DEFAULT);
         } else {
-            setBusy(Messages.get().msg_fetching());
+            setBusy(Messages.get().fetching());
             try {
                 manager = ApplicationService.get().fetchById(id,ApplicationManager.Load.MODULES,ApplicationManager.Load.SECTIONS);
 
                 setState(DISPLAY);
             } catch (NotFoundException e) {
                 fetchById(null);
-                setDone(Messages.get().msg_noRecordsFound());
+                setDone(Messages.get().noRecordsFound());
                 return false;
             } catch (Exception e) {
                 removeBusy();
                 fetchById(null);
                 e.printStackTrace();
-                com.google.gwt.user.client.Window.alert(Messages.get().msg_fetchFailed() +
+                com.google.gwt.user.client.Window.alert(Messages.get().fetchFailed() +
                                                         e.getMessage());
                 return false;
             }
         }
-        fireDataChange();
+        DataChangeEvent.fire(this);
         clearStatus();
         removeBusy();
 
@@ -921,9 +906,8 @@ public class ApplicationScreen extends Screen {
             });
         }
 
-        modal = new ModalWindow();
-        ((ModalWindow)modal).setSize("400px","400px");
-        modal.setName(Messages.get().gen_clause());
+        modal = new org.openelis.gwt.widget.ModalWindow();
+        modal.setName(Messages.get().clause());
         modal.setContent(clausePopoutScreen);
         clausePopoutScreen.setState(state);
         clausePopoutScreen.setWindow(modal);

@@ -28,10 +28,10 @@ package org.openelis.security.server;
 import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 
+import org.openelis.gwt.common.SystemUserPermission;
+import org.openelis.gwt.server.RemoteServlet;
 import org.openelis.security.bean.UserCacheBean;
 import org.openelis.security.modules.main.cache.UserCacheServiceInt;
-import org.openelis.ui.common.SystemUserPermission;
-import org.openelis.ui.server.RemoteServlet;
 
 @WebServlet("/security/userCache")
 public class UserCacheService extends RemoteServlet implements UserCacheServiceInt {

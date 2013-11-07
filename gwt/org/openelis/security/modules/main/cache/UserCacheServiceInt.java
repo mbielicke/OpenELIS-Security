@@ -1,12 +1,12 @@
 package org.openelis.security.modules.main.cache;
 
-import org.openelis.ui.common.SystemUserPermission;
+import org.openelis.gwt.common.SystemUserPermission;
 
+import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.XsrfProtectedService;
 
 @RemoteServiceRelativePath("userCache")
-public interface UserCacheServiceInt extends XsrfProtectedService {
+public interface UserCacheServiceInt extends RemoteService {
 
     public SystemUserPermission getPermission() throws Exception;
 }

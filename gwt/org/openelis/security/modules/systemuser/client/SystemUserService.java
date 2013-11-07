@@ -2,16 +2,14 @@ package org.openelis.security.modules.systemuser.client;
 
 import java.util.ArrayList;
 
+import org.openelis.gwt.common.data.Query;
+import org.openelis.gwt.screen.Callback;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SystemUserDO;
 import org.openelis.security.manager.SystemUserManager;
-import org.openelis.ui.common.data.Query;
-import org.openelis.ui.screen.Callback;
-import org.openelis.ui.services.TokenService;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.HasRpcToken;
 
 public class SystemUserService implements SystemUserServiceIntAsync, SystemUserServiceInt {
 
@@ -28,7 +26,6 @@ public class SystemUserService implements SystemUserServiceIntAsync, SystemUserS
 
     private SystemUserService() {
         service = (SystemUserServiceIntAsync)GWT.create(SystemUserServiceInt.class);
-        ((HasRpcToken)service).setRpcToken(TokenService.getToken());
     }
 
     @Override
@@ -42,7 +39,7 @@ public class SystemUserService implements SystemUserServiceIntAsync, SystemUserS
     }
 
     @Override
-    public void delete(SystemUserManager man, AsyncCallback<SystemUserManager> callback) {
+    public void delete(SystemUserManager man, AsyncCallback<Void> callback) {
         service.delete(man, callback);
     }
 
@@ -67,7 +64,7 @@ public class SystemUserService implements SystemUserServiceIntAsync, SystemUserS
     }
 
     @Override
-    public void update(SystemUserManager man, AsyncCallback<SystemUserManager> callback) {
+    public void update(SystemUserManager man, AsyncCallback<Void> callback) {
         service.update(man, callback);
     }
 
@@ -108,21 +105,21 @@ public class SystemUserService implements SystemUserServiceIntAsync, SystemUserS
     }
 
     @Override
-    public SystemUserManager update(SystemUserManager man) throws Exception {
-        Callback<SystemUserManager> callback;
+    public void update(SystemUserManager man) throws Exception {
+        Callback<Void> callback;
 
-        callback = new Callback<SystemUserManager>();
+        callback = new Callback<Void>();
         service.update(man, callback);
-        return callback.getResult();
+
     }
 
     @Override
-    public SystemUserManager delete(SystemUserManager man) throws Exception {
-        Callback<SystemUserManager> callback;
+    public void delete(SystemUserManager man) throws Exception {
+        Callback<Void> callback;
 
-        callback = new Callback<SystemUserManager>();
+        callback = new Callback<Void>();
         service.delete(man, callback);
-        return callback.getResult();
+
     }
 
     @Override
