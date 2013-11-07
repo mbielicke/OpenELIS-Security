@@ -67,76 +67,41 @@ public class ApplicationService extends RemoteServlet implements ApplicationServ
     private SectionBean            section;
 
     public ApplicationManager fetchById(Integer id, ApplicationManager.Load... elements) throws Exception {
-        try {
-            return appManager.fetchById(id,elements);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return appManager.fetchById(id,elements);
     }
 
     public ArrayList<ApplicationDO> fetchList() throws Exception {
-        try {
-            return application.fetchList();
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return application.fetchList();
     }
 
     public ArrayList<IdNameVO> query(Query query) throws Exception {
-        try {
-            return application.query(query.getFields(), query.getPage() * rowPP, rowPP);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return application.query(query.getFields(), query.getPage() * rowPP, rowPP);
     }
 
     public ApplicationManager add(ApplicationManager man) throws Exception {
-        try {
-            return appManager.add(man);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return appManager.add(man);
     }
 
-    public ApplicationManager update(ApplicationManager man) throws Exception {
-        try {
-            return appManager.update(man);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+    public void update(ApplicationManager man) throws Exception {
+        appManager.update(man);
     }
 
     public ApplicationManager fetchForUpdate(Integer id) throws Exception {
-        try {
-            return appManager.fetchForUpdate(id);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return appManager.fetchForUpdate(id);
     }
 
     public ApplicationManager abortUpdate(Integer id) throws Exception {
-        try {
-            return appManager.abortUpdate(id);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return appManager.abortUpdate(id);
     }
 
     @Override
     public ArrayList<SystemModuleViewDO> fetchModulesByAppId(Integer id) throws Exception {
-        try {
-            return module.fetchByApplicationId(id);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return module.fetchByApplicationId(id);
     }
 
     @Override
     public ArrayList<SectionViewDO> fetchSectionsByAppId(Integer id) throws Exception {
-        try {
-            return section.fetchByApplicationId(id);
-        } catch (Exception anyE) {
-            throw serializeForGWT(anyE);
-        }
+        return section.fetchByApplicationId(id);
     }
+
 }

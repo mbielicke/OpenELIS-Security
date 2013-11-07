@@ -27,7 +27,9 @@ package org.openelis.security.bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -40,11 +42,16 @@ import org.jboss.security.annotation.SecurityDomain;
 import org.openelis.security.domain.SystemUserSectionDO;
 import org.openelis.security.domain.SystemUserSectionViewDO;
 import org.openelis.security.entity.SystemUserSection;
+import org.openelis.security.messages.Messages;
+import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.meta.SystemUserMeta;
 import org.openelis.ui.common.DataBaseUtil;
 import org.openelis.ui.common.FieldErrorException;
 import org.openelis.ui.common.NotFoundException;
 import org.openelis.ui.common.ValidationErrorsList;
+
+import com.teklabs.gwt.i18n.server.LocaleProvider;
+import com.teklabs.gwt.i18n.server.LocaleProxy;
 
 @Stateless
 @SecurityDomain("security")
@@ -56,6 +63,22 @@ public class SystemUserSectionBean {
 
     @EJB
     private UserCacheBean     userCache;
+
+    @PostConstruct
+    protected void init() {
+        LocaleProxy.setLocaleProvider(new LocaleProvider() {
+            @Override
+            public Locale getLocale() {
+                try {
+                    return new Locale(userCache.getLocale());
+                }catch(Exception e) {
+                    return new Locale("en");
+                }
+            }
+        });
+        
+        LocaleProxy.initialize();
+    }
 
     public ArrayList<SystemUserSectionViewDO> fetchBySystemUserId(Integer id) throws Exception {
         Query query;
@@ -138,7 +161,7 @@ public class SystemUserSectionBean {
         list = new ValidationErrorsList();
 
         if ( !"Y".equals(data.getHasView()))
-            list.add(new FieldErrorException(userCache.getMessages().exc_viewPermRequired(),
+            list.add(new FieldErrorException(Messages.get().exc_viewPermRequired(),
                                              SystemUserMeta.getSectionHasView()));
 
         if (list.size() > 0)

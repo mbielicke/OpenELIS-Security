@@ -6,6 +6,14 @@ public interface StyleCSS extends CssResource {
 
     String AppBackground();
 
+    String logoutIcon();
+
+    String AddRowButtonImage();
+
+    String RemoveRowButtonImage();
+
+    String disabled();
+
     String WhiteContentPanel();
 
     String WeekPicker();

@@ -31,7 +31,6 @@ import static org.openelis.ui.screen.State.DEFAULT;
 import static org.openelis.ui.screen.State.DISPLAY;
 import static org.openelis.ui.screen.State.QUERY;
 import static org.openelis.ui.screen.State.UPDATE;
-import static org.openelis.ui.screen.Screen.Validation.Status.VALID;
 
 import java.util.ArrayList;
 
@@ -58,14 +57,13 @@ import org.openelis.ui.event.BeforeCloseEvent;
 import org.openelis.ui.event.BeforeCloseHandler;
 import org.openelis.ui.event.DataChangeEvent;
 import org.openelis.ui.event.StateChangeEvent;
-import org.openelis.ui.event.StateChangeEvent.Handler;
+import org.openelis.ui.event.StateChangeHandler;
 import org.openelis.ui.screen.Screen;
 import org.openelis.ui.screen.ScreenHandler;
 import org.openelis.ui.screen.ScreenNavigator;
 import org.openelis.ui.widget.AtoZButtons;
 import org.openelis.ui.widget.Button;
 import org.openelis.ui.widget.Item;
-import org.openelis.ui.widget.ModalWindow;
 import org.openelis.ui.widget.Queryable;
 import org.openelis.ui.widget.TextBox;
 import org.openelis.ui.widget.WindowInt;
@@ -156,7 +154,7 @@ public class ApplicationScreen extends Screen {
         //
         // button panel buttons
         //
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 query.setEnabled(isState(DEFAULT, DISPLAY) &&
                                  userPermission.hasSelectPermission());
@@ -170,7 +168,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(query, 'q', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 previous.setEnabled(isState(DISPLAY));
             }
@@ -178,7 +176,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(previous, 'p', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 next.setEnabled(isState(DISPLAY));
             }
@@ -186,7 +184,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(next, 'n', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 add.setEnabled(isState(DEFAULT,DISPLAY) &&
                                userPermission.hasAddPermission());
@@ -200,7 +198,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(add, 'a', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 update.setEnabled(isState(DISPLAY) &&
                                   userPermission.hasUpdatePermission());
@@ -212,7 +210,7 @@ public class ApplicationScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 commit.setEnabled(isState(QUERY,ADD,UPDATE));
             }
@@ -220,7 +218,7 @@ public class ApplicationScreen extends Screen {
 
         addShortcut(commit, 'm', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 abort.setEnabled(isState(QUERY,ADD,UPDATE));
             }
@@ -331,8 +329,6 @@ public class ApplicationScreen extends Screen {
         moduleTable.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
                 showClauseButton.setEnabled(true);
-                if (isState(ADD,UPDATE))
-                    removeModuleButton.setEnabled(true);
             }
         });
 
@@ -417,19 +413,19 @@ public class ApplicationScreen extends Screen {
         addScreenHandler(moduleTable.getColumnWidget(6),ApplicationMeta.getSystemModuleClause(),new ScreenHandler<String>(){});
         */
         
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 addModuleButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeModuleButton.setEnabled(false);
+                removeModuleButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 showClauseButton.setEnabled(false);
             }
@@ -470,13 +466,6 @@ public class ApplicationScreen extends Screen {
             
             public Widget onTab(boolean forward) {
             	return forward ? name : moduleTable;
-            }
-        });
-
-        sectionTable.addSelectionHandler(new SelectionHandler<Integer>() {
-            public void onSelection(SelectionEvent<Integer> event) {
-                if (isState(ADD,UPDATE))
-                    removeSectionButton.setEnabled(true);
             }
         });
 
@@ -532,7 +521,6 @@ public class ApplicationScreen extends Screen {
                 try {
                     manager.section.remove(event.getIndex());
                 } catch (Exception e) {
-                    e.printStackTrace();
                     Window.alert(e.getMessage());
                 }
             }
@@ -543,15 +531,15 @@ public class ApplicationScreen extends Screen {
         addScreenHandler(sectionTable.getColumnWidget(1),ApplicationMeta.getSectionDescription(),new ScreenHandler<String>(){});
         */
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 addSectionButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeSectionButton.setEnabled(false);
+                removeSectionButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
@@ -604,7 +592,7 @@ public class ApplicationScreen extends Screen {
             }
         };
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 boolean enable;
                 enable = isState(DEFAULT,DISPLAY) &&
@@ -621,7 +609,7 @@ public class ApplicationScreen extends Screen {
 
                 field = new QueryData();
                 field.setKey(ApplicationMeta.getName());
-                field.setQuery( ((Button)event.getSource()).getAction().toLowerCase());
+                field.setQuery( ((Button)event.getSource()).getAction());
                 field.setType(QueryData.Type.STRING);
 
                 query = new Query();
@@ -740,13 +728,10 @@ public class ApplicationScreen extends Screen {
     @UiHandler("commit")
     protected void commit(ClickEvent event) {
         Query query;
-        Validation validation;
 
         finishEditing();
 
-        validation = validate();
-        
-        if (validation.getStatus() != VALID) {
+        if ( !validate()) {
             setError(Messages.get().msg_correctErrors());
             return;
         }
@@ -921,8 +906,7 @@ public class ApplicationScreen extends Screen {
             });
         }
 
-        modal = new ModalWindow();
-        ((ModalWindow)modal).setSize("400px","400px");
+        modal = new org.openelis.ui.widget.ModalWindow();
         modal.setName(Messages.get().gen_clause());
         modal.setContent(clausePopoutScreen);
         clausePopoutScreen.setState(state);

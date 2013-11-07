@@ -5,8 +5,8 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   
-  <display-name>Security Application</display-name>
-  <description>Security Application</description>
+  <display-name>Securtiy Application v0.0</display-name>
+  <description>Initial Development of Security Application</description>
   
    <security-constraint>
    <web-resource-collection>
@@ -39,20 +39,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
    <load-on-startup>4</load-on-startup>
   </servlet>
     
-  <servlet>
-    <servlet-name>xsrf</servlet-name>
-    <servlet-class>com.google.gwt.user.server.rpc.XsrfTokenServiceServlet</servlet-class>
-  </servlet>
-  
   <servlet-mapping>
    <servlet-name>remoteLoggingServlet</servlet-name>
-   <url-pattern>/security/remote_logging</url-pattern>
+   <url-pattern>/timetracker/remote_logging</url-pattern>
   </servlet-mapping>  
-  
-  <servlet-mapping>
-    <servlet-name>xsrf</servlet-name>
-    <url-pattern>/security/xsrf</url-pattern>
-  </servlet-mapping>
   
     <session-config>
     <session-timeout>300</session-timeout>
@@ -67,10 +57,4 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <welcome-file-list>
     <welcome-file>Security.html</welcome-file>
   </welcome-file-list>
-  
-  <context-param>
-    <param-name>gwt.xsrf.session_cookie_name</param-name>
-    <param-value>JSESSIONID</param-value>
-  </context-param>
-  
 </web-app>

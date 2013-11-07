@@ -32,7 +32,6 @@ import static org.openelis.ui.screen.State.DELETE;
 import static org.openelis.ui.screen.State.DISPLAY;
 import static org.openelis.ui.screen.State.QUERY;
 import static org.openelis.ui.screen.State.UPDATE;
-import static org.openelis.ui.screen.Screen.Validation.Status.VALID;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -65,16 +64,23 @@ import org.openelis.ui.event.ActionEvent;
 import org.openelis.ui.event.ActionHandler;
 import org.openelis.ui.event.BeforeCloseEvent;
 import org.openelis.ui.event.BeforeCloseHandler;
+import org.openelis.ui.event.BeforeDragStartEvent;
+import org.openelis.ui.event.BeforeDragStartHandler;
 import org.openelis.ui.event.DataChangeEvent;
+import org.openelis.ui.event.DropEvent;
+import org.openelis.ui.event.DropHandler;
 import org.openelis.ui.event.StateChangeEvent;
+import org.openelis.ui.event.StateChangeHandler;
 import org.openelis.ui.screen.Screen;
 import org.openelis.ui.screen.ScreenHandler;
 import org.openelis.ui.screen.ScreenNavigator;
 import org.openelis.ui.screen.State;
 import org.openelis.ui.widget.AtoZButtons;
 import org.openelis.ui.widget.Button;
+import org.openelis.ui.widget.DragItem;
 import org.openelis.ui.widget.Dropdown;
 import org.openelis.ui.widget.Item;
+import org.openelis.ui.widget.Label;
 import org.openelis.ui.widget.ModalWindow;
 import org.openelis.ui.widget.Queryable;
 import org.openelis.ui.widget.TabLayoutPanel;
@@ -84,7 +90,6 @@ import org.openelis.ui.widget.table.Row;
 import org.openelis.ui.widget.table.Table;
 import org.openelis.ui.widget.table.event.BeforeCellEditedEvent;
 import org.openelis.ui.widget.table.event.BeforeCellEditedHandler;
-import org.openelis.ui.widget.table.event.CellDoubleClickedEvent;
 import org.openelis.ui.widget.table.event.CellEditedEvent;
 import org.openelis.ui.widget.table.event.CellEditedHandler;
 import org.openelis.ui.widget.table.event.RowAddedEvent;
@@ -173,7 +178,7 @@ public class TemplateScreen extends Screen {
         //
         // button panel buttons
         //
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 query.setEnabled(isState(DEFAULT,DISPLAY) &&
                                  userPermission.hasSelectPermission());
@@ -187,7 +192,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(query, 'q', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 previous.setEnabled(isState(DISPLAY));
             }
@@ -195,7 +200,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(previous, 'p', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 next.setEnabled(isState(DISPLAY));
             }
@@ -203,7 +208,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(next, 'n', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 add.setEnabled(isState(DEFAULT,DISPLAY) &&
                                userPermission.hasAddPermission());
@@ -217,7 +222,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(add, 'a', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 update.setEnabled(isState(DISPLAY) &&
                                   userPermission.hasUpdatePermission());
@@ -231,7 +236,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(update, 'u', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 delete.setEnabled(isState(DISPLAY) &&
                                   userPermission.hasDeletePermission());
@@ -245,7 +250,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(delete, 'd', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 commit.setEnabled(isState(QUERY,ADD,UPDATE,DELETE));
             }
@@ -253,7 +258,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(commit, 'm', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 abort.setEnabled(isState(QUERY,ADD,UPDATE,DELETE));
             }
@@ -261,7 +266,7 @@ public class TemplateScreen extends Screen {
 
         addShortcut(abort, 'o', CTRL);
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 modAppDropDown.setEnabled(true);
             }
@@ -281,14 +286,41 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 appModuleTable.setEnabled(isState(ADD,UPDATE));
             }
         });
 
+        appModuleTable.enableDrag();
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        appModuleTable.getDragController()
+                      .addBeforeDragStartHandler(new BeforeDragStartHandler<DragItem>() {
+                          public void onBeforeDragStart(BeforeDragStartEvent<DragItem> event) {
+                              Row row;
+                              Label<String> label;
+                              String value;
+
+                              if (!isState(ADD,UPDATE)) {
+                                  event.cancel();
+                                  return;
+                              }
+                              try {
+                                  row = appModuleTable.getRowAt(event.getDragObject().getIndex());
+                                  value = (String)row.getCell(0);
+                                  if (value == null)
+                                      value = "";
+                                  label = new Label<String>(value);
+                                  label.setStyleName("ScreenLabel");
+                                  label.setWordWrap(false);
+                                  event.setProxy(label);
+                              } catch (Exception e) {
+                                  Window.alert("table beforeDragStart: " + e.getMessage());
+                              }
+                          }
+                      });
+
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 secAppDropDown.setEnabled(true);
             }
@@ -308,12 +340,40 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 appSectionTable.setEnabled(isState(ADD,UPDATE));
             }
         });
 
+        appSectionTable.enableDrag();
+
+        appSectionTable.getDragController()
+                       .addBeforeDragStartHandler(new BeforeDragStartHandler<DragItem>() {
+                           public void onBeforeDragStart(BeforeDragStartEvent<DragItem> event) {
+                               Row row;
+                               Label<String> label;
+                               String value;
+
+                               if (!isState(ADD,UPDATE)) {
+                                   event.cancel();
+                                   return;
+                               }
+
+                               try {
+                                   row = appSectionTable.getRowAt(event.getDragObject().getIndex());
+                                   value = (String)row.getCell(0);
+                                   if (value == null)
+                                       value = "";
+                                   label = new Label<String>(value);
+                                   label.setStyleName("ScreenLabel");
+                                   label.setWordWrap(false);
+                                   event.setProxy(label);
+                               } catch (Exception e) {
+                                   Window.alert("table beforeDragStart: " + e.getMessage());
+                               }
+                           }
+                       });
 
         addScreenHandler(loginName, SystemUserMeta.getLoginName(), new ScreenHandler<String>() {
             public void onDataChange(DataChangeEvent event) {
@@ -398,8 +458,6 @@ public class TemplateScreen extends Screen {
         userModuleTable.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
                 showClauseButton.setEnabled(true);
-                if (isState(ADD,UPDATE))
-                    removeModuleButton.setEnabled(true);
             }
         });
 
@@ -522,20 +580,16 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        appModuleTable.addCellDoubleClickedHandler(new CellDoubleClickedEvent.Handler() {
-            
-            @Override
-            public void onCellDoubleClicked(CellDoubleClickedEvent event) {
+        userModuleTable.enableDrop();
+        appModuleTable.addDropTarget(userModuleTable.getDropController());
+
+        userModuleTable.getDropController().addDropHandler(new DropHandler<DragItem>() {
+            public void onDrop(DropEvent<DragItem> event) {
                 int drg, drp;
                 Row row, drow;
                 SystemModuleViewDO data;
 
-                if (!isState(ADD,UPDATE)) {
-                    event.cancel();
-                    return;
-                }
-                
-                drg = event.getRow();
+                drg = event.getDragObject().getIndex();
 
                 drow = appModuleTable.getRowAt(drg);
                 data = (SystemModuleViewDO)drow.getData();
@@ -559,13 +613,13 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeModuleButton.setEnabled(false);
+                removeModuleButton.setEnabled(!isState(ADD,UPDATE));
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 showClauseButton.setEnabled(false);
             }
@@ -623,13 +677,6 @@ public class TemplateScreen extends Screen {
             
             public Widget onTab(boolean forward) {
             	return forward ? loginName : userModuleTable;
-            }
-        });
-
-        userSectionTable.addSelectionHandler(new SelectionHandler<Integer>() {
-            public void onSelection(SelectionEvent<Integer> event) {
-                if (isState(ADD,UPDATE))
-                    removeSectionButton.setEnabled(true);
             }
         });
 
@@ -711,20 +758,16 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        appSectionTable.addCellDoubleClickedHandler(new CellDoubleClickedEvent.Handler() {
-            
-            @Override
-            public void onCellDoubleClicked(CellDoubleClickedEvent event) {
+        userSectionTable.enableDrop();
+        appSectionTable.addDropTarget(userSectionTable.getDropController());
+
+        userSectionTable.getDropController().addDropHandler(new DropHandler<DragItem>() {
+            public void onDrop(DropEvent<DragItem> event) {
                 int drg, drp;
                 Row row, drow;
                 SectionViewDO data;
-                
-                if (!isState(ADD,UPDATE)) {
-                    event.cancel();
-                    return;
-                }
 
-                drg = event.getRow();
+                drg = event.getDragObject().getIndex();
                 drow = appSectionTable.getRowAt(drg);
                 data = (SectionViewDO)drow.getData();
 
@@ -748,9 +791,9 @@ public class TemplateScreen extends Screen {
             }
         });
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
-                removeSectionButton.setEnabled(false);
+                removeSectionButton.setEnabled(isState(ADD,UPDATE));
             }
         });
 
@@ -804,7 +847,7 @@ public class TemplateScreen extends Screen {
             }
         };
 
-        addStateChangeHandler(new StateChangeEvent.Handler() {
+        addStateChangeHandler(new StateChangeHandler() {
             public void onStateChange(StateChangeEvent event) {
                 boolean enable;
                 enable = isState(DEFAULT,DISPLAY) && userPermission.hasSelectPermission();
@@ -974,13 +1017,10 @@ public class TemplateScreen extends Screen {
     @UiHandler("commit")
     protected void commit(ClickEvent event) {
         Query query;
-        Validation validation;
 
         finishEditing();
-        
-        validation = validate();
 
-        if (validation.getStatus() != VALID) {
+        if ( !validate()) {
             window.setError(Messages.get().msg_correctErrors());
             return;
         }

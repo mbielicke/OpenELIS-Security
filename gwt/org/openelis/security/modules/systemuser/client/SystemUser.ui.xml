@@ -2,23 +2,24 @@
   xmlns:t='urn:import:org.openelis.ui.widget.table'>
 
   <ui:with type="org.openelis.security.messages.SecurityMessages" field="prm" />
+  <ui:with type="org.openelis.ui.resources.UIResources" field="libRes" />
   <ui:with type="org.openelis.security.modules.main.client.resources.SecurityResources" field="res" />
 
-  <g:SplitLayoutPanel ui:field="layout" styleName="{res.style.WhiteContentPanel}">
+  <g:SplitLayoutPanel ui:field="layout">
     <g:west size="267">
       <w:TabLayoutPanel barHeight="25" barUnit="PX" ui:field="tabPanel">
         <w:tab>
           <w:customHeader>
             <w:TabWidget text="{prm.gen_users}" />
           </w:customHeader>
-          <g:LayoutPanel styleName="{res.tabpanel.TabContainer}">
+          <g:LayoutPanel styleName="{libRes.tabpanel.TabContainer}">
             <g:layer>
               <g:LayoutPanel>
                 <g:layer left="0px" top="0px" bottom="0px" width="20px">
                   <w:AtoZButtons ui:field="atozButtons" multiColumn="false" />
                 </g:layer>
                 <g:layer top="0px" left="20px" right="0px" bottom="20px">
-                  <t:Table horizontalScroll="ALWAYS" ui:field="atozTable" visibleRows="25" styleName="{res.table.ScreenTableWithSides}"
+                  <t:Table horizontalScroll="ALWAYS" ui:field="atozTable" visibleRows="25" styleName="{libRes.table.ScreenTableWithSides}"
                     verticalScroll="ALWAYS" header="true">
                     <t:Column label="{prm.gen_loginName}" width="225">
                       <t:LabelCell />
@@ -28,8 +29,8 @@
                 <g:layer bottom="0px" height="20px" left="20px" right="0px">
                   <g:HorizontalPanel horizontalAlignment="CENTER" width="100%">
                     <g:HorizontalPanel>
-                      <w:Button enabled="false" ui:field="atozPrev" leftIcon="{res.icon.PreviousButtonImage}" css="{res.buttonPanel}" />
-                      <w:Button enabled="false" ui:field="atozNext" leftIcon="{res.icon.NextButtonImage}" css="{res.buttonPanel}" />
+                      <w:Button enabled="false" ui:field="atozPrev" leftIcon="{libRes.buttonPanel.PreviousButtonImage}" css="{libRes.buttonPanel}" />
+                      <w:Button enabled="false" ui:field="atozNext" leftIcon="{libRes.buttonPanel.NextButtonImage}" css="{libRes.buttonPanel}" />
                     </g:HorizontalPanel>
                   </g:HorizontalPanel>
                 </g:layer>
@@ -41,14 +42,14 @@
           <w:customHeader>
             <w:TabWidget text="{prm.gen_modules}" />
           </w:customHeader>
-          <g:LayoutPanel ui:field="modules" styleName="{res.tabpanel.TabContainer}">
+          <g:LayoutPanel ui:field="modules" styleName="{libRes.tabpanel.TabContainer}">
             <g:layer top="0px" height="40px">
               <g:HTMLPanel>
                 <table class="{res.style.Form}">
                   <tr>
                     <td class="{res.style.Prompt}"><ui:text from="{prm.gen_selectApplication}" /></td>
                     <td>
-                      <w:Dropdown field="Integer" ui:field="modAppDropDown" width="125" dropHeight="300px"/>
+                      <w:Dropdown field="Integer" ui:field="modAppDropDown" width="125" />
                     </td>
                   </tr>
                 </table>
@@ -67,7 +68,7 @@
           <w:customHeader>
             <w:TabWidget text="{prm.gen_sections}" />
           </w:customHeader>
-          <g:LayoutPanel styleName="{res.tabpanel.TabContainer}">
+          <g:LayoutPanel styleName="{libRes.tabpanel.TabContainer}">
             <g:layer top="0px" height="40px">
               <g:HTMLPanel>
                 <table class="{res.style.Form}">
@@ -93,7 +94,7 @@
           <w:customHeader>
             <w:TabWidget text="{prm.gen_templates}" />
           </w:customHeader>
-          <g:LayoutPanel styleName="{res.tabpanel.TabContainer}">
+          <g:LayoutPanel styleName="{libRes.tabpanel.TabContainer}">
             <g:layer top="0px" bottom="0px">
               <t:Table horizontalScroll="ALWAYS" ui:field="templateTable" visibleRows="25" verticalScroll="ALWAYS" header="true">
                 <t:Column label="{prm.gen_templates}" width="200">
@@ -108,24 +109,24 @@
     <g:center>
       <g:LayoutPanel ui:field="content">
         <g:layer top="0px" height="30px">
-          <g:AbsolutePanel styleName="{res.buttonPanel.ButtonPanelContainer}" width="100%">
+          <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonPanelContainer}" width="100%">
             <g:HorizontalPanel width="100%">
-              <w:Button css="{res.buttonPanel}" ui:field="query" leftIcon="{res.icon.QueryButtonImage}" text="{prm.btn_query}" toggles="true" />
-              <w:Button css="{res.buttonPanel}" ui:field="previous" leftIcon="{res.icon.PreviousButtonImage}" text="{prm.btn_previous}"/>
-              <w:Button css="{res.buttonPanel}" ui:field="next" leftIcon="{res.icon.NextButtonImage}" text="{prm.btn_next}" />
-              <g:AbsolutePanel styleName="{res.buttonPanel.ButtonDivider}" />
-              <w:Button css="{res.buttonPanel}" ui:field="add" leftIcon="{res.icon.AddButtonImage}" text="{prm.btn_add}" toggles="true" />
-              <w:Button css="{res.buttonPanel}" ui:field="update" leftIcon="{res.icon.UpdateButtonImage}" text="{prm.btn_update}" toggles="true"/>
-              <w:Button css="{res.buttonPanel}" ui:field="delete" leftIcon="{res.icon.DeleteButtonImage}" text="{prm.btn_delete}" />
-              <g:AbsolutePanel styleName="{res.buttonPanel.ButtonDivider}" />
-              <w:Button css="{res.buttonPanel}" ui:field="commit" leftIcon="{res.icon.CommitButtonImage}" text="{prm.btn_commit}"/>
-              <w:Button css="{res.buttonPanel}" ui:field="abort" leftIcon="{res.icon.AbortButtonImage}" text="{prm.btn_abort}" />
-              <g:AbsolutePanel styleName="{res.buttonPanel.ButtonDivider}" />
+              <w:Button css="{libRes.buttonPanel}" ui:field="query" leftIcon="{libRes.buttonPanel.QueryButtonImage}" text="{prm.btn_query}" toggles="true" />
+              <w:Button css="{libRes.buttonPanel}" ui:field="previous" leftIcon="{libRes.buttonPanel.PreviousButtonImage}" text="{prm.btn_previous}"/>
+              <w:Button css="{libRes.buttonPanel}" ui:field="next" leftIcon="{libRes.buttonPanel.NextButtonImage}" text="{prm.btn_next}" />
+              <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonDivider}" />
+              <w:Button css="{libRes.buttonPanel}" ui:field="add" leftIcon="{libRes.buttonPanel.AddButtonImage}" text="{prm.btn_add}" toggles="true" />
+              <w:Button css="{libRes.buttonPanel}" ui:field="update" leftIcon="{libRes.buttonPanel.UpdateButtonImage}" text="{prm.btn_update}" toggles="true"/>
+              <w:Button css="{libRes.buttonPanel}" ui:field="delete" leftIcon="{libRes.buttonPanel.DeleteButtonImage}" text="{prm.btn_delete}" />
+              <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonDivider}" />
+              <w:Button css="{libRes.buttonPanel}" ui:field="commit" leftIcon="{libRes.buttonPanel.CommitButtonImage}" text="{prm.btn_commit}"/>
+              <w:Button css="{libRes.buttonPanel}" ui:field="abort" leftIcon="{libRes.buttonPanel.AbortButtonImage}" text="{prm.btn_abort}" />
+              <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonDivider}" />
               <w:Menu ui:field="optionsMenu" selfShow="true">
                 <w:display>
-                  <w:Button ui:field="options" action="option" css="{res.buttonPanel}" text="{prm.btn_options}" rightIcon="{res.icon.OptionsButtonImage}" />
+                  <w:Button ui:field="options" action="option" css="{libRes.buttonPanel}" text="{prm.btn_options}" rightIcon="{libRes.buttonPanel.OptionsButtonImage}" />
                 </w:display>
-                <w:MenuItem ui:field="duplicateRecord" icon="{res.icon.DuplicateRowButtonImage}" display="{prm.btn_duplicateRecord}" />
+                <w:MenuItem ui:field="duplicateRecord" icon="{libRes.buttonPanel.DuplicateRowButtonImage}" display="{prm.btn_duplicateRecord}" />
               </w:Menu>
             </g:HorizontalPanel>
           </g:AbsolutePanel>
@@ -180,7 +181,7 @@
               <g:LayoutPanel>
                 <g:layer top="0px" bottom="25px">
                   <t:Table horizontalScroll="ALWAYS" ui:field="userModuleTable" visibleRows="12" verticalScroll="ALWAYS" header="true"
-                    styleName="{res.table.ScreenTableWithSides}">
+                    styleName="{libRes.table.ScreenTableWithSides}">
                     <t:Column label="{prm.gen_application}" width="70">
                       <t:TextBoxCell>
                         <w:TextBox />
@@ -217,7 +218,7 @@
                 </g:layer>
                 <g:layer bottom="0px" height="25px">
                   <g:HorizontalPanel>
-                    <w:Button ui:field="removeModuleButton" leftIcon="{res.icon.RemoveRowButtonImage}" text="{prm.gen_removeRow}" />
+                    <w:Button ui:field="removeModuleButton" leftIcon="{res.style.RemoveRowButtonImage}" text="{prm.gen_removeRow}" />
                     <w:Button ui:field="showClause" text="{prm.gen_showClause}" />
                   </g:HorizontalPanel>
                 </g:layer>
@@ -228,7 +229,7 @@
               <g:LayoutPanel>
                 <g:layer top="0px" bottom="25px">
                   <t:Table horizontalScroll="ALWAYS" ui:field="userSectionTable" visibleRows="6" verticalScroll="ALWAYS"
-                    styleName="{res.table.ScreenTableWithSides}" header="true">
+                    styleName="{libRes.table.ScreenTableWithSides}" header="true">
                     <t:Column label="{prm.gen_application}" width="70">
                       <t:TextBoxCell>
                         <w:TextBox />
@@ -263,7 +264,7 @@
                 </g:layer>
                 <g:layer bottom="0px" height="25px">
                   <g:HorizontalPanel>
-                    <w:Button ui:field="removeSectionButton" leftIcon="{res.icon.RemoveRowButtonImage}" text="{prm.gen_removeRow}" />
+                    <w:Button ui:field="removeSectionButton" leftIcon="{res.style.RemoveRowButtonImage}" text="{prm.gen_removeRow}" />
                   </g:HorizontalPanel>
                 </g:layer>
               </g:LayoutPanel>

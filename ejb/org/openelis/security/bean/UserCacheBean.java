@@ -26,6 +26,7 @@
 package org.openelis.security.bean;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -41,11 +42,11 @@ import org.jboss.security.annotation.SecurityDomain;
 import org.openelis.security.messages.Messages;
 import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.remote.SystemUserPermissionRemote;
-import org.openelis.ui.common.ModulePermission.ModuleFlags;
 import org.openelis.ui.common.PermissionException;
-import org.openelis.ui.common.SectionPermission.SectionFlags;
 import org.openelis.ui.common.SystemUserPermission;
 import org.openelis.ui.common.SystemUserVO;
+import org.openelis.ui.common.ModulePermission.ModuleFlags;
+import org.openelis.ui.common.SectionPermission.SectionFlags;
 
 import com.teklabs.gwt.i18n.client.LocaleFactory;
 import com.teklabs.gwt.i18n.server.LocaleProxy;
@@ -275,7 +276,7 @@ public class UserCacheBean {
      */
     public SystemUserPermission getPermission() throws Exception {
         Element e;
-        String name, appName;
+        String name;
         SystemUserPermission data;
 
         name = getName();
@@ -285,8 +286,7 @@ public class UserCacheBean {
 
         data = null;
         try {
-            appName = System.getProperty("org.openelis.security.system.security.application");
-            data = security.fetchByApplicationAndLoginName(appName, name);
+            data = security.fetchByApplicationAndLoginName("security", name);
             permCache.put(new Element(name, data));
             cache.put(new Element(data.getLoginName(), data.getUser()));
             cache.put(new Element(data.getSystemUserId(), data.getUser()));
@@ -297,17 +297,5 @@ public class UserCacheBean {
 
         return data;
     }
-    
-    
-    public SecurityMessages getMessages() {
-        try {
-            LocaleProxy.initialize();
-            return LocaleFactory.get(SecurityMessages.class,getLocale());
-        }catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
     
 }

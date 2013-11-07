@@ -15,7 +15,7 @@ public interface SystemUserServiceIntAsync {
 
     void add(SystemUserManager man, AsyncCallback<SystemUserManager> callback);
 
-    void delete(SystemUserManager man, AsyncCallback<SystemUserManager> callback);
+    void delete(SystemUserManager man, AsyncCallback<Void> callback);
 
     void fetchById(Integer id, SystemUserManager.Load[] elements, AsyncCallback<SystemUserManager> callback);
 
@@ -25,6 +25,6 @@ public interface SystemUserServiceIntAsync {
 
     void query(Query query, AsyncCallback<ArrayList<IdNameVO>> callback);
 
-    void update(SystemUserManager man, AsyncCallback<SystemUserManager> callback);
+    void update(SystemUserManager man, AsyncCallback<Void> callback);
 
 }

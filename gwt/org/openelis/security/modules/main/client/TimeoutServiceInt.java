@@ -2,11 +2,11 @@ package org.openelis.security.modules.main.client;
 
 import org.openelis.ui.common.Datetime;
 
+import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.XsrfProtectedService;
 
 @RemoteServiceRelativePath("timeout")
-public interface TimeoutServiceInt extends XsrfProtectedService {
+public interface TimeoutServiceInt extends RemoteService {
 
     public Datetime getLastAccess() throws Exception;
 

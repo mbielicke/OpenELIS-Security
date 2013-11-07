@@ -71,19 +71,20 @@ public class SystemUserManagerBean {
 
         manager = new SystemUserManager();
         setSystemUser(manager, user.fetchById(id));
-
-        if (Arrays.asList(elements).contains(SystemUserManager.Load.SECTIONS)) {
+        
+        
+        if (Arrays.asList(elements).contains(SystemUserManager.Load.SECTIONS))  { 
             try {
                 setSystemUserSections(manager, section.fetchBySystemUserId(id));
-            } catch (NotFoundException e) {
+            }catch(NotFoundException e) {
                 // do nothing
             }
         }
-
+        
         if (Arrays.asList(elements).contains(SystemUserManager.Load.MODULES)) {
             try {
                 setSystemUserModules(manager, module.fetchBySystemUserId(id));
-            } catch (NotFoundException e) {
+            }catch(NotFoundException e) {
                 // do nothing
             }
         }
@@ -102,23 +103,23 @@ public class SystemUserManagerBean {
         id = man.getSystemUser().getId();
 
         for (int i = 0; i < man.module.count(); i++ ) {
-            man.module.get(i).setSystemUserId(id);
+        	man.module.get(i).setSystemUserId(id);
             module.add(man.module.get(i));
-        }
+                    }
 
         for (int i = 0; i < man.section.count(); i++ ) {
-            man.section.get(i).setSystemUserId(id);
+        	man.section.get(i).setSystemUserId(id);
             section.add(man.section.get(i));
-
+            
         }
 
         return man;
 
     }
 
-    public SystemUserManager update(SystemUserManager man) throws Exception {
-        Integer id;
-
+    public void update(SystemUserManager man) throws Exception {
+    	Integer id; 
+    	
         checkSecurity(ModuleFlags.UPDATE);
 
         validate(man);
@@ -128,38 +129,39 @@ public class SystemUserManagerBean {
         user.update(man.getSystemUser());
         id = man.getSystemUser().getId();
 
-        if (man.removed != null && !man.removed.isEmpty()) {
-            for (DataObject vo : man.removed) {
-                if (vo instanceof SystemUserSectionViewDO)
+
+        for (int i = 0; i < man.module.count(); i++) {	
+        	if(man.module.get(i).getId() != null)
+        		module.update(man.module.get(i));
+        	else {
+            	man.module.get(i).setSystemUserId(id);
+        		module.add(man.module.get(i));
+        	}
+        }
+
+        for (int i = 0; i < man.section.count(); i++ ) {
+        	if(man.section.get(i).getId() != null)
+        		section.update(man.section.get(i));
+        	else {
+        		man.section.get(i).setSystemUserId(id);
+        		section.add(man.section.get(i));
+        	}
+        }
+        
+        if(man.removed != null && !man.removed.isEmpty()) {
+            for(DataObject vo : man.removed) {
+                if(vo instanceof SystemUserSectionViewDO)
                     section.delete((SystemUserSectionViewDO)vo);
                 else
                     module.delete((SystemUserModuleViewDO)vo);
             }
         }
 
-        for (int i = 0; i < man.module.count(); i++ ) {
-            if (man.module.get(i).getId() != null)
-                module.update(man.module.get(i));
-            else {
-                man.module.get(i).setSystemUserId(id);
-                module.add(man.module.get(i));
-            }
-        }
-
-        for (int i = 0; i < man.section.count(); i++ ) {
-            if (man.section.get(i).getId() != null)
-                section.update(man.section.get(i));
-            else {
-                man.section.get(i).setSystemUserId(id);
-                section.add(man.section.get(i));
-            }
-        }
-
         lock.unlock(ReferenceTable.SYSTEM_USER, man.getSystemUser().getId());
-        return man;
+
     }
 
-    public SystemUserManager delete(SystemUserManager man) throws Exception {
+    public void delete(SystemUserManager man) throws Exception {
 
         checkSecurity(ModuleFlags.DELETE);
 
@@ -174,20 +176,20 @@ public class SystemUserManagerBean {
             section.delete(man.section.get(i));
 
         lock.unlock(ReferenceTable.SYSTEM_USER, man.getSystemUser().getId());
-        return man;
+
     }
 
     public SystemUserManager fetchForUpdate(Integer id) throws Exception {
 
         lock.lock(ReferenceTable.SYSTEM_USER, id);
 
-        return fetchById(id, SystemUserManager.Load.MODULES, SystemUserManager.Load.SECTIONS);
+        return fetchById(id,SystemUserManager.Load.MODULES, SystemUserManager.Load.SECTIONS);
 
     }
 
     public SystemUserManager abortUpdate(Integer id) throws Exception {
         lock.unlock(ReferenceTable.SYSTEM_USER, id);
-        return fetchById(id, SystemUserManager.Load.MODULES, SystemUserManager.Load.SECTIONS);
+        return fetchById(id,SystemUserManager.Load.MODULES, SystemUserManager.Load.SECTIONS);
     }
 
     private void validate(SystemUserManager man) throws Exception {

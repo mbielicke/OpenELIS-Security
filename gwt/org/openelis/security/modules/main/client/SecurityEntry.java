@@ -49,19 +49,10 @@ public class SecurityEntry implements EntryPoint, NativePreviewHandler {
      */
     public void onModuleLoad() {
         SecurityResources.INSTANCE.style().ensureInjected();
-        SecurityResources.INSTANCE.icon().ensureInjected();
         // All Events will flow this this handler first before any other
         // handlers.
         Event.addNativePreviewHandler(this);
         LocaleFactory.put(SecurityMessages.class, GWT.<SecurityMessages>create(SecurityMessages.class));
-        
-        GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
-            public void onUncaughtException(Throwable e) {
-                e.printStackTrace();
-                Window.alert("Sorry, but an unexpected error has occurred.  Please contact IT support");
-            }
-        });
-        
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
             public void execute() {
                 GWT.runAsync(new RunAsyncCallback() {

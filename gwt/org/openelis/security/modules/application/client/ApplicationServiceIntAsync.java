@@ -1,6 +1,7 @@
 package org.openelis.security.modules.application.client;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 import org.openelis.security.domain.ApplicationDO;
 import org.openelis.security.domain.IdNameVO;
@@ -25,7 +26,7 @@ public interface ApplicationServiceIntAsync {
 
     void query(Query query, AsyncCallback<ArrayList<IdNameVO>> callback);
 
-    void update(ApplicationManager man, AsyncCallback<ApplicationManager> callback);
+    void update(ApplicationManager man, AsyncCallback<Void> callback);
 
     void fetchModulesByAppId(Integer id, AsyncCallback<ArrayList<SystemModuleViewDO>> callback);
 

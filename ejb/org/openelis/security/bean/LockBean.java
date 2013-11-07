@@ -39,6 +39,8 @@ import javax.persistence.Query;
 
 import org.openelis.security.entity.Lock;
 import org.openelis.security.entity.Lock.PK;
+import org.openelis.security.messages.Messages;
+import org.openelis.security.messages.SecurityMessages;
 import org.openelis.ui.common.EntityLockedException;
 import org.openelis.ui.common.SystemUserVO;
 
@@ -56,6 +58,22 @@ public class LockBean {
 
     private static int    DEFAULT_LOCK_TIME = 15 * 60 * 1000, // 15 M * 60 S * 1000 Millis
                           GRACE_LOCK_TIME = 2 * 60 * 1000;
+    
+    @PostConstruct
+    protected void init() {
+        LocaleProxy.setLocaleProvider(new LocaleProvider() {
+            @Override
+            public Locale getLocale() {
+                try {
+                    return new Locale(userCache.getLocale());
+                }catch(Exception e) {
+                    return new Locale("en");
+                }
+            }
+        });
+        
+        LocaleProxy.initialize();
+    }
     
     /**
      * Method creates a new lock entry for the specified table reference and id.
@@ -100,7 +118,7 @@ public class LockBean {
                 lock.setSessionId(userCache.getSessionId());
             } else {
                 user = userCache.getSystemUser(lock.getSystemUserId());
-                throw new EntityLockedException(userCache.getMessages().exc_entityLock(user.getLoginName(), new Date(lock.getExpires())));
+                throw new EntityLockedException(Messages.get().exc_entityLock(user.getLoginName(), new Date(lock.getExpires())));
             }
         } catch (Exception e) {
             throw e;
@@ -161,7 +179,7 @@ public class LockBean {
 
         if (lock == null || !lock.getSystemUserId().equals(userId) ||
             !lock.getSessionId().equals(sessionId))
-            throw new EntityLockedException(userCache.getMessages().exc_expiredLock());
+            throw new EntityLockedException(Messages.get().exc_expiredLock());
         //
         // if the lock has expired, we are going to refresh its expiration time
         //

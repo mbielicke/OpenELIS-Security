@@ -1,7 +1,5 @@
 package org.openelis.security.modules.main.client.resources;
 
-import org.openelis.ui.resources.UIResources;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.DataResource;
@@ -9,19 +7,15 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ImageResource.ImageOptions;
 import com.google.gwt.resources.client.ImageResource.RepeatStyle;
 
-public interface SecurityResources extends UIResources {
+public interface SecurityResources extends ClientBundle {
     public static final SecurityResources INSTANCE = GWT.create(SecurityResources.class);
 
     @Source("css/style.css")
     StyleCSS style();
-    
-    @Source({"css/icon.css","org/openelis/ui/resources/css/icon.css"})
-    IconCSS icon();
 
-    @Source("images/app_background.png")
-    @ImageOptions(repeatStyle=RepeatStyle.Both)
-    ImageResource AppBackground();
-    
+    @Source("images/desktop.jpg")
+    ImageResource desktop();
+
     @Source("images/logoutbuttonimage.gif")
     ImageResource logout();
 

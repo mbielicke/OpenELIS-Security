@@ -147,8 +147,6 @@ public class ApplicationManager implements Serializable {
      * removed from the database.
      */
     protected void removeDataObject(DataObject data) {
-        if(removed == null) 
-            removed = new ArrayList<DataObject>();
         removed.add(data);
     }
 }

@@ -1,6 +1,7 @@
 package org.openelis.security.modules.application.client;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 import org.openelis.security.domain.ApplicationDO;
 import org.openelis.security.domain.IdNameVO;
@@ -9,11 +10,11 @@ import org.openelis.security.domain.SystemModuleViewDO;
 import org.openelis.security.manager.ApplicationManager;
 import org.openelis.ui.common.data.Query;
 
+import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.XsrfProtectedService;
 
 @RemoteServiceRelativePath("application")
-public interface ApplicationServiceInt extends XsrfProtectedService {
+public interface ApplicationServiceInt extends RemoteService {
 
     public ApplicationManager fetchById(Integer id, ApplicationManager.Load... elements) throws Exception;
 
@@ -23,7 +24,7 @@ public interface ApplicationServiceInt extends XsrfProtectedService {
 
     public ApplicationManager add(ApplicationManager man) throws Exception;
 
-    public ApplicationManager update(ApplicationManager man) throws Exception;
+    public void update(ApplicationManager man) throws Exception;
 
     public ApplicationManager fetchForUpdate(Integer id) throws Exception;
 

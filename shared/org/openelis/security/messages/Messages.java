@@ -1,11 +1,11 @@
 package org.openelis.security.messages;
 
-import com.google.gwt.core.shared.GWT;
+import com.teklabs.gwt.i18n.client.LocaleFactory;
 
 public class Messages  {
         
     public static SecurityMessages get() {
-        return GWT.create(SecurityMessages.class);
+        return LocaleFactory.get(SecurityMessages.class);
     }
 
     private Messages() {

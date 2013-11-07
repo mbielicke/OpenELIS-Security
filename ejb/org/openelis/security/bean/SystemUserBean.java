@@ -27,7 +27,9 @@ package org.openelis.security.bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -41,6 +43,8 @@ import org.jboss.security.annotation.SecurityDomain;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SystemUserDO;
 import org.openelis.security.entity.SystemUser;
+import org.openelis.security.messages.Messages;
+import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.meta.SystemUserMeta;
 import org.openelis.ui.common.DataBaseUtil;
 import org.openelis.ui.common.DatabaseException;
@@ -50,6 +54,10 @@ import org.openelis.ui.common.NotFoundException;
 import org.openelis.ui.common.ValidationErrorsList;
 import org.openelis.ui.common.data.QueryData;
 import org.openelis.ui.util.QueryBuilderV2;
+
+import com.google.gwt.i18n.client.LocalizableResource.Key;
+import com.teklabs.gwt.i18n.server.LocaleProvider;
+import com.teklabs.gwt.i18n.server.LocaleProxy;
 
 @Stateless
 @SecurityDomain("security")
@@ -65,7 +73,22 @@ public class SystemUserBean {
     private UserCacheBean               userCache;
     
     
- 
+    @PostConstruct
+    protected void init() {
+        LocaleProxy.setLocaleProvider(new LocaleProvider() {
+            @Override
+            public Locale getLocale() {
+                try {
+                    return new Locale(userCache.getLocale());
+                }catch(Exception e) {
+                    return new Locale("en");
+                }
+            }
+        });
+        
+        LocaleProxy.initialize();
+    }
+
     public SystemUserDO fetchById(Integer id) throws Exception {
         Query query;
         SystemUserDO data;
@@ -193,13 +216,13 @@ public class SystemUserBean {
 
         list = new ValidationErrorsList();
         if (DataBaseUtil.isEmpty(data.getLoginName())) {
-            list.add(new FieldErrorException(userCache.getMessages().exc_fieldRequired(),
+            list.add(new FieldErrorException(Messages.get().exc_fieldRequired(),
                                              SystemUserMeta.getLoginName()));
         } else {
             try {
                 qdata = fetchByLoginName(data.getLoginName());
                 if ( !qdata.getId().equals(data.getId()))
-                    list.add(new FieldErrorException(userCache.getMessages().exc_fieldUnique(),
+                    list.add(new FieldErrorException(Messages.get().exc_fieldUnique(),
                                                      SystemUserMeta.getLoginName()));
             } catch (NotFoundException ignE) {
                 // ignore

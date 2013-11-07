@@ -27,7 +27,9 @@ package org.openelis.security.bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -39,11 +41,16 @@ import javax.persistence.Query;
 import org.jboss.security.annotation.SecurityDomain;
 import org.openelis.security.domain.SystemModuleViewDO;
 import org.openelis.security.entity.SystemModule;
+import org.openelis.security.messages.Messages;
+import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.meta.ApplicationMeta;
 import org.openelis.ui.common.DataBaseUtil;
 import org.openelis.ui.common.FieldErrorException;
 import org.openelis.ui.common.NotFoundException;
 import org.openelis.ui.common.ValidationErrorsList;
+
+import com.teklabs.gwt.i18n.server.LocaleProvider;
+import com.teklabs.gwt.i18n.server.LocaleProxy;
 
 @Stateless
 @SecurityDomain("security")
@@ -59,6 +66,25 @@ public class SystemModuleBean {
     @EJB
     private UserCacheBean        userCache;
     
+    private SecurityMessages consts;
+   
+    @PostConstruct
+    protected void init() {
+        LocaleProxy.setLocaleProvider(new LocaleProvider() {
+            @Override
+            public Locale getLocale() {
+                try {
+                    return new Locale(userCache.getLocale());
+                }catch(Exception e) {
+                    return new Locale("en");
+                }
+            }
+        });
+        
+        LocaleProxy.initialize();
+
+    }
+
     public ArrayList<SystemModuleViewDO> fetchByApplicationId(Integer id) throws Exception {
         Query query;
         List list;
@@ -131,11 +157,11 @@ public class SystemModuleBean {
         name = data.getName();
 
         if (DataBaseUtil.isEmpty(name))
-            list.add(new FieldErrorException(userCache.getMessages().exc_fieldRequired(),
+            list.add(new FieldErrorException(consts.exc_fieldRequired(),
                                              ApplicationMeta.getSystemModuleName()));
 
         if ( !"Y".equals(data.getHasSelectFlag()))
-            list.add(new FieldErrorException(userCache.getMessages().exc_fieldRequired(),
+            list.add(new FieldErrorException(consts.exc_fieldRequired(),
                                              ApplicationMeta.getSystemModuleHasSelectFlag()));
 
         if (list.size() > 0)
@@ -148,7 +174,7 @@ public class SystemModuleBean {
         list = new ValidationErrorsList();
         try {
             systemUserModule.fetchBySystemModuleId(data.getId());
-            list.add(new FieldErrorException(userCache.getMessages().application_moduleAssignedToUserException(""),data.getName()));
+            list.add(new FieldErrorException(Messages.get().application_moduleAssignedToUserException(""),data.getName()));
         } catch (NotFoundException ignE) {
             // ignore
         }

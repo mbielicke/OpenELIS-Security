@@ -165,7 +165,7 @@ public class SessionTimer {
             //Application.logger().log(Level.SEVERE, e.getMessage(), e);
         }
 
-        Window.open("/security/Security.html", "_self", null);
+        Window.open("Security.html", "_self", null);
     }
 
 }

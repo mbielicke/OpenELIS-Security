@@ -2,11 +2,9 @@ package org.openelis.security.modules.main.cache;
 
 import org.openelis.ui.common.SystemUserPermission;
 import org.openelis.ui.screen.Callback;
-import org.openelis.ui.services.TokenService;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.HasRpcToken;
 
 public class UserCacheService implements UserCacheServiceInt, UserCacheServiceIntAsync {
 
@@ -23,7 +21,6 @@ public class UserCacheService implements UserCacheServiceInt, UserCacheServiceIn
 
     private UserCacheService() {
         service = (UserCacheServiceIntAsync)GWT.create(UserCacheServiceInt.class);
-        ((HasRpcToken)service).setRpcToken(TokenService.getToken());
     }
 
     @Override
