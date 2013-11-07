@@ -39,7 +39,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
 @NamedQueries({@NamedQuery(name = "Lock.FetchBySessionId", query = "select l "
                                                                    + " from Lock l where l.sessionId = :id")})

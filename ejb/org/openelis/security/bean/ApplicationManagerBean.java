@@ -25,25 +25,22 @@
  */
 package org.openelis.security.bean;
 
-import static org.openelis.security.manager.ApplicationManagerAccessor.*;
-
 import java.util.Arrays;
+import java.util.EnumSet;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.jboss.security.annotation.SecurityDomain;
+import org.openelis.gwt.common.DataBaseUtil;
+import org.openelis.gwt.common.ValidationErrorsList;
+import org.openelis.gwt.common.ModulePermission.ModuleFlags;
 import org.openelis.security.domain.ApplicationDO;
-import org.openelis.security.domain.DataObject;
 import org.openelis.security.domain.ReferenceTable;
-import org.openelis.security.domain.SectionViewDO;
-import org.openelis.security.domain.SystemModuleViewDO;
 import org.openelis.security.manager.ApplicationManager;
-import org.openelis.ui.common.DataBaseUtil;
-import org.openelis.ui.common.ModulePermission.ModuleFlags;
-import org.openelis.ui.common.NotFoundException;
-import org.openelis.ui.common.ValidationErrorsList;
+
+import static org.openelis.security.manager.ApplicationManagerAccessor.*;
 
 @Stateless
 @SecurityDomain("security")
@@ -51,45 +48,35 @@ import org.openelis.ui.common.ValidationErrorsList;
 public class ApplicationManagerBean {
 
     @EJB
-    private LockBean         lock;
+    private LockBean       lock;
+    
+    @EJB
+    private ApplicationBean application;
 
     @EJB
-    private ApplicationBean  application;
-
-    @EJB
-    private SectionBean      section;
-
+    private SectionBean section;
+    
     @EJB
     private SystemModuleBean module;
-
+    
     @EJB
-    private UserCacheBean    userCache;
+    private UserCacheBean  userCache;
 
     public ApplicationManager fetchById(Integer id, ApplicationManager.Load... elements) throws Exception {
         ApplicationDO data;
         ApplicationManager m;
-
+        
         data = application.fetchById(id);
         m = new ApplicationManager();
-
-        setApplication(m, data);
-
-        if (Arrays.asList(elements).contains(ApplicationManager.Load.MODULES)) {
-            try {
-                setModules(m, module.fetchByApplicationId(id));
-            } catch (NotFoundException e) {
-                setModules(m, null);
-            }
-        }
-
-        if (Arrays.asList(elements).contains(ApplicationManager.Load.SECTIONS)) {
-            try {
-                setSections(m, section.fetchByApplicationId(id));
-            } catch (NotFoundException e) {
-                setSections(m, null);
-            }
-        }
-
+        
+        setApplication(m,data);
+        
+        if(Arrays.asList(elements).contains(ApplicationManager.Load.MODULES)) 
+            setModules(m,module.fetchByApplicationId(id));
+        
+        if(Arrays.asList(elements).contains(ApplicationManager.Load.SECTIONS))
+            setSections(m,section.fetchByApplicationId(id));
+        
         return m;
     }
 
@@ -101,13 +88,13 @@ public class ApplicationManagerBean {
 
         application.add(man.getApplication());
         applicationId = man.getApplication().getId();
-
-        for (int i = 0; i < man.module.count(); i++ ) {
+        
+        for(int i = 0; i < man.module.count(); i++) {
             man.module.get(i).setApplicationId(applicationId);
             module.add(man.module.get(i));
         }
-
-        for (int i = 0; i < man.section.count(); i++ ) {
+        
+        for(int i = 0; i < man.section.count(); i++) {
             man.section.get(i).setApplicationId(applicationId);
             section.add(man.section.get(i));
         }
@@ -115,65 +102,57 @@ public class ApplicationManagerBean {
         return man;
     }
 
-    public ApplicationManager update(ApplicationManager man) throws Exception {
-        Integer applicationId;
+    public void update(ApplicationManager man) throws Exception {
+    	Integer applicationId;
         checkSecurity(ModuleFlags.UPDATE);
 
         validate(man);
 
         lock.validateLock(ReferenceTable.APPLICATION, man.getApplication().getId());
-
+        
         application.update(man.getApplication());
         applicationId = man.getApplication().getId();
 
-        if (man.removed != null && !man.removed.isEmpty()) {
-            for (DataObject vo : man.removed) {
-                if (vo instanceof SectionViewDO)
-                    section.delete((SectionViewDO)vo);
-                else
-                    module.delete((SystemModuleViewDO)vo);
-            }
+        
+        for(int i = 0; i < man.module.count(); i++) {
+        	if(man.module.get(i).getId() != null)
+        		module.update(man.module.get(i));
+        	else {
+        		man.module.get(i).setApplicationId(applicationId);
+        		module.add(man.module.get(i));
+        	}
         }
 
-        for (int i = 0; i < man.module.count(); i++ ) {
-            if (man.module.get(i).getId() != null)
-                module.update(man.module.get(i));
-            else {
-                man.module.get(i).setApplicationId(applicationId);
-                module.add(man.module.get(i));
-            }
+        for(int i = 0; i < man.section.count(); i++)  {
+        	if(man.section.get(i).getId() != null)
+        		section.update(man.section.get(i));
+        	else {
+        		man.section.get(i).setApplicationId(applicationId);
+        		section.add(man.section.get(i));
+        	}
         }
-
-        for (int i = 0; i < man.section.count(); i++ ) {
-            if (man.section.get(i).getId() != null)
-                section.update(man.section.get(i));
-            else {
-                man.section.get(i).setApplicationId(applicationId);
-                section.add(man.section.get(i));
-            }
-        }
-
+        
         lock.unlock(ReferenceTable.APPLICATION, man.getApplication().getId());
-        return man;
+
     }
 
     public ApplicationManager fetchForUpdate(Integer id) throws Exception {
-        lock.lock(ReferenceTable.APPLICATION, id);
-        return fetchById(id, ApplicationManager.Load.MODULES, ApplicationManager.Load.SECTIONS);
+       lock.lock(ReferenceTable.APPLICATION, id);
+       return fetchById(id, ApplicationManager.Load.MODULES,ApplicationManager.Load.SECTIONS);
     }
 
     public ApplicationManager abortUpdate(Integer id) throws Exception {
         lock.unlock(ReferenceTable.APPLICATION, id);
-        return fetchById(id, ApplicationManager.Load.MODULES, ApplicationManager.Load.SECTIONS);
+        return fetchById(id, ApplicationManager.Load.MODULES,ApplicationManager.Load.SECTIONS);
     }
 
     private void checkSecurity(ModuleFlags flag) throws Exception {
         userCache.applyPermission("application", flag);
     }
-
-    public void validate(ApplicationManager man) throws Exception {
+    
+    public void validate(ApplicationManager man) throws Exception {        
         ValidationErrorsList list;
-
+        
         list = new ValidationErrorsList();
         try {
             application.validate(man.getApplication());
@@ -181,18 +160,18 @@ public class ApplicationManagerBean {
             DataBaseUtil.mergeException(list, e);
         }
         try {
-            for (int i = 0; i < man.module.count(); i++ )
+            for(int i = 0; i < man.module.count(); i++)
                 module.validate(man.module.get(i));
         } catch (Exception e) {
             DataBaseUtil.mergeException(list, e);
         }
         try {
-            for (int i = 0; i < man.section.count(); i++ )
+            for(int i = 0; i < man.section.count(); i++)
                 section.validate(man.section.get(i));
         } catch (Exception e) {
             DataBaseUtil.mergeException(list, e);
         }
-
+        
         if (list.size() > 0)
             throw list;
     }

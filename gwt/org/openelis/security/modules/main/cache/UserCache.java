@@ -3,8 +3,8 @@ package org.openelis.security.modules.main.cache;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.openelis.ui.common.SystemUserPermission;
-import org.openelis.ui.common.SystemUserVO;
+import org.openelis.gwt.common.SystemUserPermission;
+import org.openelis.gwt.common.SystemUserVO;
 
 import com.google.gwt.user.client.Window;
 

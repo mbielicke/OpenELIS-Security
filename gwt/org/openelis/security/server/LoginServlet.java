@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.openelis.ui.server.ServiceUtils;
-import org.openelis.ui.util.XMLUtil;
+import org.openelis.gwt.server.ServiceUtils;
+import org.openelis.util.XMLUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

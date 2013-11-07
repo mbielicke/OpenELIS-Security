@@ -1,6 +1,6 @@
 package org.openelis.security.modules.main.client;
 
-import org.openelis.ui.common.Datetime;
+import org.openelis.gwt.common.Datetime;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

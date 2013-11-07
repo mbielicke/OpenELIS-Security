@@ -23,7 +23,7 @@
 	<delete file="lib/security-common.jar" />
 	<jar jarfile="lib/security-common.jar">
 		<fileset dir="bin">
-			<include name="org/openelis/security/messages/*" />
+			<include name="org/openelis/security/constants/*" />
 			<include name="org/openelis/security/domain/*.class" />				
 			<include name="org/openelis/security/meta/*.class" />
 			<include name="org/openelis/security/manager/*.class"/>
@@ -55,7 +55,7 @@
 		    <include name="lib/jasperreports-4.0.1.jar" />
 			<include name="lib/gwt-servlet.jar"/> 
 			<include name="lib/security-common.jar"/>
-			<include name="lib/gwt-i18n-server-0.17.jar"/>
+			<include name="lib/gwt-i18n-server.jar"/>
 		</fileset>
 	</ear>
 	

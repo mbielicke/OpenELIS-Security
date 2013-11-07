@@ -2,9 +2,9 @@ package org.openelis.security.modules.main.client;
 
 import java.util.Date;
 
-import org.openelis.security.messages.Messages;
-import org.openelis.ui.common.Datetime;
-import org.openelis.ui.widget.Confirm;
+import org.openelis.gwt.common.Datetime;
+import org.openelis.gwt.widget.Confirm;
+import org.openelis.security.constants.Constants;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -33,10 +33,10 @@ public class SessionTimer {
          * add session timeout dialog box and timers
          */
         timeoutPopup = new Confirm(Confirm.Type.WARN,
-                                   Messages.get().gen_timeoutHeader(),
-                                   Messages.get().gen_timeoutWarning(),
-                                   Messages.get().gen_timeoutExtendTime(),
-                                   Messages.get().gen_timeoutLogout());
+                                   Constants.get().timeoutHeader(),
+                                   Constants.get().timeoutWarning(),
+                                   Constants.get().timeoutExtendTime(),
+                                   Constants.get().timeoutLogout());
         timeoutPopup.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
                 if (event.getSelectedItem() == 0) {
@@ -119,7 +119,7 @@ public class SessionTimer {
             }
 
             public void onFailure(Throwable caught) {
-                Window.alert(Messages.get().gen_couldNotCall());
+                Window.alert(Constants.get().couldNotCall());
                 //Application.logger().log(Level.SEVERE, caught.getMessage(), caught);
             }
         });
@@ -135,7 +135,7 @@ public class SessionTimer {
             }
 
             public void onFailure(Throwable caught) {
-                Window.alert(Messages.get().gen_couldNotCall());
+                Window.alert(Constants.get().couldNotCall());
                 //Application.logger().log(Level.SEVERE, caught.getMessage(), caught);
             }
         });
@@ -165,7 +165,7 @@ public class SessionTimer {
             //Application.logger().log(Level.SEVERE, e.getMessage(), e);
         }
 
-        Window.open("/security/Security.html", "_self", null);
+        Window.open("Security.html", "_self", null);
     }
 
 }

@@ -28,6 +28,7 @@ package org.openelis.security.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -38,18 +39,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.jboss.security.annotation.SecurityDomain;
+import org.openelis.gwt.common.DataBaseUtil;
+import org.openelis.gwt.common.DatabaseException;
+import org.openelis.gwt.common.FieldErrorException;
+import org.openelis.gwt.common.LastPageException;
+import org.openelis.gwt.common.NotFoundException;
+import org.openelis.gwt.common.ValidationErrorsList;
+import org.openelis.gwt.common.data.QueryData;
+import org.openelis.security.constants.SecurityConstants;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SystemUserDO;
 import org.openelis.security.entity.SystemUser;
 import org.openelis.security.meta.SystemUserMeta;
-import org.openelis.ui.common.DataBaseUtil;
-import org.openelis.ui.common.DatabaseException;
-import org.openelis.ui.common.FieldErrorException;
-import org.openelis.ui.common.LastPageException;
-import org.openelis.ui.common.NotFoundException;
-import org.openelis.ui.common.ValidationErrorsList;
-import org.openelis.ui.common.data.QueryData;
-import org.openelis.ui.util.QueryBuilderV2;
+import org.openelis.util.QueryBuilderV2;
+
+import com.google.gwt.i18n.client.LocalizableResource.Key;
 
 @Stateless
 @SecurityDomain("security")
@@ -64,8 +68,13 @@ public class SystemUserBean {
     @EJB
     private UserCacheBean               userCache;
     
+    private SecurityConstants consts;
     
- 
+    @PostConstruct
+    protected void init() {
+        consts = userCache.getConstants(SecurityConstants.class);
+    }
+
     public SystemUserDO fetchById(Integer id) throws Exception {
         Query query;
         SystemUserDO data;
@@ -193,13 +202,13 @@ public class SystemUserBean {
 
         list = new ValidationErrorsList();
         if (DataBaseUtil.isEmpty(data.getLoginName())) {
-            list.add(new FieldErrorException(userCache.getMessages().exc_fieldRequired(),
+            list.add(new FieldErrorException(consts.fieldRequired(),
                                              SystemUserMeta.getLoginName()));
         } else {
             try {
                 qdata = fetchByLoginName(data.getLoginName());
                 if ( !qdata.getId().equals(data.getId()))
-                    list.add(new FieldErrorException(userCache.getMessages().exc_fieldUnique(),
+                    list.add(new FieldErrorException(consts.fieldUnique(),
                                                      SystemUserMeta.getLoginName()));
             } catch (NotFoundException ignE) {
                 // ignore

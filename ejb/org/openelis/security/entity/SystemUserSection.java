@@ -37,7 +37,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
     
 @NamedQueries({
@@ -55,7 +55,7 @@ import org.openelis.ui.common.DataBaseUtil;
                                   "sus.hasView,sus.hasAssign, sus.hasComplete, sus.hasRelease, sus.hasCancel)"
                                 + " from SystemUserSection sus where id = :id"),              
               @NamedQuery( name = "SystemUserSection.FetchByUserIdAndApplication",
-                          query = "select new org.openelis.ui.common.SectionPermission(sec.name,sus.hasView,sus.hasAssign,sus.hasComplete,sus.hasRelease,sus.hasCancel)"
+                          query = "select new org.openelis.gwt.common.SectionPermission(sec.name,sus.hasView,sus.hasAssign,sus.hasComplete,sus.hasRelease,sus.hasCancel)"
                                 + " from SystemUserSection sus left join sus.section sec left join sec.application app where sus.systemUserId = :systemUserId and app.name = :application")})
               
 @Entity

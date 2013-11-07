@@ -25,7 +25,6 @@
  */
 package org.openelis.security.modules.main.client;
 
-import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.modules.main.client.resources.SecurityResources;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -36,9 +35,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.teklabs.gwt.i18n.client.LocaleFactory;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -49,26 +46,16 @@ public class SecurityEntry implements EntryPoint, NativePreviewHandler {
      */
     public void onModuleLoad() {
         SecurityResources.INSTANCE.style().ensureInjected();
-        SecurityResources.INSTANCE.icon().ensureInjected();
         // All Events will flow this this handler first before any other
         // handlers.
         Event.addNativePreviewHandler(this);
-        LocaleFactory.put(SecurityMessages.class, GWT.<SecurityMessages>create(SecurityMessages.class));
-        
-        GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
-            public void onUncaughtException(Throwable e) {
-                e.printStackTrace();
-                Window.alert("Sorry, but an unexpected error has occurred.  Please contact IT support");
-            }
-        });
-        
         Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
             public void execute() {
                 GWT.runAsync(new RunAsyncCallback() {
                     public void onSuccess() {
                         try {
                             RootPanel.get("load").getElement().removeFromParent();
-                            RootLayoutPanel.get().add(new Security());
+                            RootPanel.get().add(new Security());
                             SessionTimer.start();
                         } catch (Throwable e) {
                             e.printStackTrace();

@@ -25,20 +25,20 @@
  */
 package org.openelis.security.modules.clausepopout.client;
 
-import static org.openelis.ui.screen.State.ADD;
-import static org.openelis.ui.screen.State.UPDATE;
+import static org.openelis.gwt.screen.State.ADD;
+import static org.openelis.gwt.screen.State.UPDATE;
 
-import org.openelis.ui.event.ActionEvent;
-import org.openelis.ui.event.ActionHandler;
-import org.openelis.ui.event.DataChangeEvent;
-import org.openelis.ui.event.HasActionHandlers;
-import org.openelis.ui.event.StateChangeEvent;
-import org.openelis.ui.screen.Screen;
-import org.openelis.ui.screen.ScreenHandler;
-import org.openelis.ui.screen.State;
-import org.openelis.ui.widget.Button;
-import org.openelis.ui.widget.TextArea;
-import org.openelis.ui.widget.WindowInt;
+import org.openelis.gwt.event.ActionEvent;
+import org.openelis.gwt.event.ActionHandler;
+import org.openelis.gwt.event.DataChangeEvent;
+import org.openelis.gwt.event.HasActionHandlers;
+import org.openelis.gwt.event.StateChangeEvent;
+import org.openelis.gwt.screen.Screen;
+import org.openelis.gwt.screen.ScreenHandler;
+import org.openelis.gwt.screen.State;
+import org.openelis.gwt.widget.Button;
+import org.openelis.gwt.widget.TextArea;
+import org.openelis.gwt.widget.WindowInt;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -123,7 +123,7 @@ public class ClausePopoutScreen extends Screen implements
     public void setClause(String clause) {
         this.clause = clause;
         clauseText.setFocus(true);
-        fireDataChange();
+        DataChangeEvent.fire(this);
     }
 
     public HandlerRegistration addActionHandler(ActionHandler<Action> handler) {

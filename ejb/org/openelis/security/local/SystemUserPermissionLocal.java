@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 import javax.ejb.Local;
 
-import org.openelis.ui.common.SystemUserPermission;
-import org.openelis.ui.common.SystemUserVO;
+import org.openelis.gwt.common.SystemUserPermission;
+import org.openelis.gwt.common.SystemUserVO;
 
 @Local
 public interface SystemUserPermissionLocal {    

@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 import javax.ejb.Remote;
 
-import org.openelis.ui.common.SystemUserPermission;
-import org.openelis.ui.common.SystemUserVO;
+import org.openelis.gwt.common.SystemUserPermission;
+import org.openelis.gwt.common.SystemUserVO;
 
 @Remote
 public interface SystemUserPermissionRemote {

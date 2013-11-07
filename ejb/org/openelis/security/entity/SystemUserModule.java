@@ -37,7 +37,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
 @NamedQueries({
     @NamedQuery( name = "SystemUserModule.FetchById",
@@ -56,7 +56,7 @@ import org.openelis.ui.common.DataBaseUtil;
                 query = "select new org.openelis.security.domain.SystemUserModuleDO(id,systemUserId,systemModuleId,hasSelect,hasAdd,hasUpdate,hasDelete,clause)"
                       + " from SystemUserModule where systemUserId = :systemUserId and systemModuleId = :systemModuleId"),    
     @NamedQuery( name = "SystemUserModule.FetchByUserIdAndApplication", 
-                query = "select new org.openelis.ui.common.ModulePermission(sysMod.name,um.hasSelect,um.hasAdd,um.hasUpdate,um.hasDelete,um.clause) "
+                query = "select new org.openelis.gwt.common.ModulePermission(sysMod.name,um.hasSelect,um.hasAdd,um.hasUpdate,um.hasDelete,um.clause) "
                       + " from SystemUserModule um inner join um.systemModule sysMod inner join sysMod.application app"
                       +	" where um.systemUserId = :systemUserId and app.name = :application")})
 @Entity

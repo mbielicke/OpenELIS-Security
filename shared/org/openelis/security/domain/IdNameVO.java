@@ -27,7 +27,7 @@ package org.openelis.security.domain;
 
 import java.io.Serializable;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
 public class IdNameVO implements Serializable {
 

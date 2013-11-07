@@ -1,26 +1,25 @@
 package org.openelis.security.modules.application.client;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
+import org.openelis.gwt.common.data.Query;
+import org.openelis.gwt.screen.Callback;
 import org.openelis.security.domain.ApplicationDO;
 import org.openelis.security.domain.IdNameVO;
 import org.openelis.security.domain.SectionViewDO;
 import org.openelis.security.domain.SystemModuleViewDO;
 import org.openelis.security.manager.ApplicationManager;
-import org.openelis.ui.common.data.Query;
-import org.openelis.ui.screen.Callback;
-import org.openelis.ui.services.TokenService;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.HasRpcToken;
 
 public class ApplicationService implements ApplicationServiceIntAsync, ApplicationServiceInt {
 
     private ApplicationServiceIntAsync service;
 
     private static ApplicationService  instance;
-    
+
     public static ApplicationService get() {
         if (instance == null)
             instance = new ApplicationService();
@@ -30,8 +29,6 @@ public class ApplicationService implements ApplicationServiceIntAsync, Applicati
 
     private ApplicationService() {
         service = (ApplicationServiceIntAsync)GWT.create(ApplicationServiceInt.class);
-        ((HasRpcToken)service).setRpcToken(TokenService.getToken());
-        
     }
 
     @Override
@@ -65,7 +62,7 @@ public class ApplicationService implements ApplicationServiceIntAsync, Applicati
     }
 
     @Override
-    public void update(ApplicationManager man, AsyncCallback<ApplicationManager> callback) {
+    public void update(ApplicationManager man, AsyncCallback<Void> callback) {
         service.update(man, callback);
     }
 
@@ -107,12 +104,11 @@ public class ApplicationService implements ApplicationServiceIntAsync, Applicati
     }
 
     @Override
-    public ApplicationManager update(ApplicationManager man) throws Exception {
-        Callback<ApplicationManager> callback;
+    public void update(ApplicationManager man) throws Exception {
+        Callback<Void> callback;
 
-        callback = new Callback<ApplicationManager>();
+        callback = new Callback<Void>();
         service.update(man, callback);
-        return callback.getResult();
     }
 
     @Override

@@ -25,7 +25,7 @@
  */
 package org.openelis.security.domain;
 
-import org.openelis.ui.common.DataBaseUtil;
+import org.openelis.gwt.common.DataBaseUtil;
 
 /**
  * The class extends system_user_section DO. The additional fields are for
