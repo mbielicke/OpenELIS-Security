@@ -1,0 +1,64 @@
+<project name="Security"  basedir=".">
+	
+	<delete file="build/security.war"/>
+	<war destFile="build/security.war" baseDir="war">
+		<exclude name="WEB-INF/lib/gwt-servlet.jar"/>
+    </war>
+	
+	<delete file="build/security.jar" />
+	<copy file="ejb/resources/META-INF/ehcache.xml" todir="bin" overwrite="true" />	
+	<jar jarfile="build/security.jar">
+		<fileset dir="bin">
+			<include name="org/openelis/security/bean/*.class" />
+			<include name="org/openelis/security/entity/*.class" />
+			<include name="org/openelis/security/local/*.class"/>
+			<include name="ehcache.xml" />
+		</fileset>
+		<fileset dir="ejb/resources/">
+			<include name="META-INF/persistence.xml" />
+			<include name="META-INF/ehcache.xml" />
+		</fileset>
+	</jar>
+	
+	<delete file="lib/security-common.jar" />
+	<jar jarfile="lib/security-common.jar">
+		<fileset dir="bin">
+			<include name="org/openelis/security/constants/*" />
+			<include name="org/openelis/security/domain/*.class" />				
+			<include name="org/openelis/security/meta/*.class" />
+			<include name="org/openelis/security/manager/*.class"/>
+			<include name="org/openelis/security/remote/*.class"/>
+		</fileset>
+	</jar>
+		
+	<delete file="build/security.ear"/>
+	<copy file="../OpenELIS-UI/ui.jar" todir="./lib" overwrite="true" />
+	<copy file="war/WEB-INF/lib/gwt-servlet.jar" todir="./lib" overwrite="true"/>
+	<ear destfile="build/security.ear" appxml="ejb/resources/META-INF/application.xml">
+		<fileset dir="build">
+			<include name="security.jar" />
+		</fileset>
+		<fileset dir="build">
+			<include name="security.war"/>
+	    </fileset>
+		<fileset dir=".">
+			<include name="lib/ui.jar" />
+			<include name="lib/poi-3.6-20091214.jar" />
+			<include name="lib/iText-2.1.7.jar" />
+			<include name="lib/jcommon-1.0.15.jar" />
+			<include name="lib/jfreechart-1.0.12.jar" />				
+		    <include name="lib/groovy-all-1.7.5.jar" />
+		    <include name="lib/barbecue-1.5-beta1.jar" />			    
+		    <include name="lib/commons-digester-1.7.jar" />
+		    <include name="lib/ehcache-1.2.jar"/>
+	    	<include name="lib/commons-beanutils-1.8.2.jar" />
+		    <include name="lib/jasperreports-4.0.1.jar" />
+			<include name="lib/gwt-servlet.jar"/> 
+			<include name="lib/security-common.jar"/>
+			<include name="lib/gwt-i18n-server.jar"/>
+		</fileset>
+	</ear>
+	
+	<copy file="build/security.ear" todir="/usr/local/java/jboss-as-7.1.1.Final/standalone/deployments" overwrite="true"/>
+	
+</project>

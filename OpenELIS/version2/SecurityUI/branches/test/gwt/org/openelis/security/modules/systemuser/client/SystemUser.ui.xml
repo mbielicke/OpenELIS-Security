@@ -1,0 +1,260 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:w='urn:import:org.openelis.gwt.widget'
+  xmlns:t='urn:import:org.openelis.gwt.widget.table'>
+
+  <ui:with type="org.openelis.security.constants.SecurityConstants" field="msg" />
+  <ui:with type="org.openelis.gwt.resources.UIResources" field="libRes" />
+  <ui:with type="org.openelis.security.modules.main.client.resources.SecurityResources" field="res" />
+
+  <g:HorizontalPanel styleName="{res.style.WhiteContentPanel}">
+    <w:CollapsePanel height="655px" ui:field="collapsePanel" styleName="{libRes.collapse.LeftSidePanel}">
+      <w:content>
+        <w:TabPanel height="625" ui:field="tabPanel" width="280">
+          <w:Tab text="{msg.users}" key="userTab">
+            <g:VerticalPanel>
+              <g:VerticalPanel height="10" />
+              <g:HorizontalPanel>
+                <w:AtoZButtons ui:field="atozButtons" multiColumn="false" />
+                <g:VerticalPanel>
+                  <t:Table horizontalScroll="NEVER" ui:field="atozTable" visibleRows="25" styleName="{libRes.table.ScreenTableWithSides}"
+                    verticalScroll="ALWAYS" width="230px">
+                    <t:Column label="{msg.loginName}" width="210">
+                      <t:LabelCell />
+                    </t:Column>
+                  </t:Table>
+                  <g:HorizontalPanel horizontalAlignment="CENTER" width="100%">
+                    <g:HorizontalPanel>
+                      <w:Button enabled="false" ui:field="atozPrev" leftIcon="{libRes.buttonPanel.PreviousButtonImage}" />
+                      <w:Button enabled="false" ui:field="atozNext" leftIcon="{libRes.buttonPanel.NextButtonImage}" />
+                    </g:HorizontalPanel>
+                  </g:HorizontalPanel>
+                </g:VerticalPanel>
+              </g:HorizontalPanel>
+            </g:VerticalPanel>
+          </w:Tab>
+          <w:Tab text="{msg.modules}" key="modulesTab">
+            <g:VerticalPanel>
+              <g:VerticalPanel height="10" />
+              <g:HTMLPanel>
+                <table class="{res.style.Form}">
+                  <tr>
+                    <td class="{res.style.Prompt}">
+                      <ui:text from="{msg.selectApplication}" />
+                      :
+                    </td>
+                    <td>
+                      <w:Dropdown field="Integer" ui:field="modAppDropDown" width="125" />
+                    </td>
+                  </tr>
+                </table>
+              </g:HTMLPanel>
+              <t:Table horizontalScroll="NEVER" ui:field="appModuleTable" visibleRows="24" verticalScroll="ALWAYS" width="257px" header="true">
+                <t:Column label="{msg.modules}" width="200">
+                  <t:LabelCell />
+                </t:Column>
+              </t:Table>
+            </g:VerticalPanel>
+          </w:Tab>
+          <w:Tab text="{msg.sections}" key="sectionsTab">
+            <g:VerticalPanel>
+              <g:HTMLPanel>
+                <table class="{res.style.Form}">
+                  <tr>
+                    <td class="{res.style.Prompt}">
+                      <ui:text from="{msg.selectApplication}" />
+                      :
+                    </td>
+                    <td>
+                      <w:Dropdown field="Integer" ui:field="secAppDropDown" width="125" />
+                    </td>
+                  </tr>
+                </table>
+              </g:HTMLPanel>
+              <t:Table horizontalScroll="NEVER" ui:field="appSectionTable" visibleRows="24" verticalScroll="ALWAYS" width="257" header="true">
+                <t:Column label="{msg.sections}" width="200">
+                  <t:LabelCell />
+                </t:Column>
+              </t:Table>
+            </g:VerticalPanel>
+          </w:Tab>
+          <w:Tab text="{msg.templates}" key="templatesTab">
+            <g:VerticalPanel>
+              <t:Table horizontalScroll="NEVER" ui:field="templateTable" visibleRows="25" verticalScroll="ALWAYS" width="257" header="true">
+                <t:Column label="{msg.templates}" width="200">
+                  <t:LabelCell />
+                </t:Column>
+              </t:Table>
+            </g:VerticalPanel>
+          </w:Tab>
+        </w:TabPanel>
+      </w:content>
+    </w:CollapsePanel>
+    <!--button panel code -->
+    <g:VerticalPanel>
+      <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonPanelContainer}">
+        <g:HorizontalPanel>
+          <w:Button css="{libRes.buttonPanel}" ui:field="query" leftIcon="{libRes.buttonPanel.QueryButtonImage}" text="{msg.query}" action="query"
+            toggles="true" />
+          <w:Button css="{libRes.buttonPanel}" ui:field="previous" leftIcon="{libRes.buttonPanel.PreviousButtonImage}" text="{msg.previous}" action="previous" />
+          <w:Button css="{libRes.buttonPanel}" ui:field="next" leftIcon="{libRes.buttonPanel.NextButtonImage}" text="{msg.next}" action="next" />
+          <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonDivider}" />
+          <w:Button css="{libRes.buttonPanel}" ui:field="add" leftIcon="{libRes.buttonPanel.AddButtonImage}" text="{msg.add}" action="add" toggles="true" />
+          <w:Button css="{libRes.buttonPanel}" ui:field="update" leftIcon="{libRes.buttonPanel.UpdateButtonImage}" text="{msg.update}" toggles="true"
+            action="update" />
+          <w:Button css="{libRes.buttonPanel}" ui:field="delete" leftIcon="{libRes.buttonPanel.DeleteButtonImage}" text="{msg.delete}" action="delete" />
+          <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonDivider}" />
+          <w:Button css="{libRes.buttonPanel}" ui:field="commit" leftIcon="{libRes.buttonPanel.CommitButtonImage}" text="{msg.commit}" action="commit" />
+          <w:Button css="{libRes.buttonPanel}" ui:field="abort" leftIcon="{libRes.buttonPanel.AbortButtonImage}" text="{msg.abort}" action="abort" />
+          <g:AbsolutePanel styleName="{libRes.buttonPanel.ButtonDivider}" />
+          <w:Menu ui:field="optionsMenu" selfShow="true">
+            <w:display>
+              <w:Button action="option" css="{libRes.buttonPanel}" text="{msg.options}" rightIcon="{libRes.buttonPanel.OptionsButtonImage}" />
+            </w:display>
+            <w:MenuItem ui:field="duplicateRecord" icon="{libRes.buttonPanel.DuplicateRowButtonImage}" display="{msg.duplicate}" />
+          </w:Menu>
+        </g:HorizontalPanel>
+      </g:AbsolutePanel>
+      <g:VerticalPanel>
+        <g:HTMLPanel>
+          <table class="{res.style.Form}">
+            <tr>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.id}" />
+                :
+              </td>
+              <td>
+                <w:TextBox field="Integer" ui:field="id" width="50px" />
+              </td>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.loginName}" />
+                :
+              </td>
+              <td>
+                <w:TextBox case="LOWER" ui:field="loginName" maxLength="20" required="true" width="145px" />
+              </td>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.employee}" />
+                :
+              </td>
+              <td>
+                <w:CheckBox ui:field="isEmployee" />
+              </td>
+            </tr>
+            <tr>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.lastName}" />
+                :
+              </td>
+              <td>
+                <w:TextBox case="LOWER" ui:field="lastName" maxLength="30" width="215px" />
+              </td>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.firstName}" />
+                :
+              </td>
+              <td>
+                <w:TextBox case="LOWER" ui:field="firstName" maxLength="20" width="145px" />
+              </td>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.active}" />
+                :
+              </td>
+              <td>
+                <w:CheckBox ui:field="isActive" />
+              </td>
+            </tr>
+            <tr>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.initials}" />
+                :
+              </td>
+              <td>
+                <w:TextBox case="UPPER" ui:field="initials" maxLength="3" width="35px" />
+              </td>
+              <td class="{res.style.Prompt}">
+                <ui:text from="{msg.externalId}" />
+                :
+              </td>
+              <td>
+                <w:TextBox ui:field="externalId" maxLength="80" width="145px" />
+              </td>
+            </tr>
+          </table>
+        </g:HTMLPanel>
+        <t:Table horizontalScroll="ALWAYS" ui:field="userModuleTable" visibleRows="12" styleName="{libRes.table.ScreenTableWithSides}" verticalScroll="ALWAYS"
+          header="true">
+          <t:Column label="{msg.application}" width="70" resizable="true">
+            <t:TextBoxCell>
+              <w:TextBox />
+            </t:TextBoxCell>
+          </t:Column>
+          <t:Column label="{msg.name}" width="85" resizeable="true">
+            <t:TextBoxCell>
+              <w:TextBox />
+            </t:TextBoxCell>
+          </t:Column>
+          <t:Column label="{msg.description}" width="200" resizable="true">
+            <t:TextBoxCell>
+              <w:TextBox />
+            </t:TextBoxCell>
+          </t:Column>
+          <t:Column label="{msg.selectPerm}" width="25" resizable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.addPerm}" width="25" resizeable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.updatePerm}" width="25" resizable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.deletePerm}" width="25" resizeable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.clause}" width="170" resizable="true">
+            <t:TextBoxCell>
+              <w:TextBox />
+            </t:TextBoxCell>
+          </t:Column>
+        </t:Table>
+        <g:HorizontalPanel>
+          <w:Button ui:field="removeModuleButton" leftIcon="{res.style.RemoveRowButtonImage}" text="{msg.removeRow}" />
+          <w:Button ui:field="showClause" text="{msg.showClause}" />
+        </g:HorizontalPanel>
+        <t:Table horizontalScroll="ALWAYS" ui:field="userSectionTable" visibleRows="6" styleName="{libRes.table.ScreenTableWithSides}" verticalScroll="ALWAYS" header="true">
+          <t:Column label="{msg.application}" width="70" resizable="true">
+            <t:TextBoxCell>
+              <w:TextBox />
+            </t:TextBoxCell>
+          </t:Column>
+          <t:Column label="{msg.name}" width="105" resizable="true">
+            <t:TextBoxCell>
+              <w:TextBox />
+            </t:TextBoxCell>
+          </t:Column>
+          <t:Column label="{msg.description}" width="300" resizable="true">
+            <t:TextBoxCell>
+              <w:TextBox />
+            </t:TextBoxCell>
+          </t:Column>
+          <t:Column label="{msg.viewPerm}" width="30" resizable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.assignPerm}" width="30" resizable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.completePerm}" width="30" resizable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.releasePerm}" width="30" resizable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+          <t:Column label="{msg.cancelPerm}" width="30" resizable="true">
+            <t:CheckBoxCell />
+          </t:Column>
+        </t:Table>
+        <g:HorizontalPanel>
+          <w:Button ui:field="removeSectionButton" leftIcon="{res.style.RemoveRowButtonImage}" text="{msg.removeRow}" />
+        </g:HorizontalPanel>
+      </g:VerticalPanel>
+    </g:VerticalPanel>
+  </g:HorizontalPanel>
+</ui:UiBinder>

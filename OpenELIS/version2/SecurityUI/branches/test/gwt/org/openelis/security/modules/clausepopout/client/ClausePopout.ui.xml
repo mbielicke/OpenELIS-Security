@@ -1,0 +1,21 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' 
+             xmlns:g='urn:import:com.google.gwt.user.client.ui' 
+             xmlns:w='urn:import:org.openelis.gwt.widget'
+             xmlns:t='urn:import:org.openelis.gwt.widget.table'>
+
+  <ui:with type="org.openelis.security.constants.SecurityConstants" field="msg" />
+  <ui:with type="org.openelis.gwt.resources.UIResources" field="libRes" />
+  <ui:with type="org.openelis.security.modules.main.client.resources.SecurityResources" field="res" />
+
+  <g:VerticalPanel width="505px">
+    <g:VerticalPanel styleName="WhiteContentPanel">
+      <w:TextArea height="100px" ui:field="clauseText" width="500px" />
+    </g:VerticalPanel>
+    <g:AbsolutePanel styleName="{libRes.buttonPanel.BottomButtonPanelContainer}">
+      <g:HorizontalPanel>
+        <w:Button ui:field="ok" text="{msg.ok}" />
+        <w:Button ui:field="cancel" text="{msg.cancel}" />
+      </g:HorizontalPanel>
+    </g:AbsolutePanel>
+  </g:VerticalPanel>
+</ui:UiBinder>

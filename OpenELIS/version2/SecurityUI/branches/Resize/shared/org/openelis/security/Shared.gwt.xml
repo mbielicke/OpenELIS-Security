@@ -1,0 +1,6 @@
+<module>
+  <source path="messages"/>
+  <source path="meta"/>
+  <source path="domain"/>
+  <source path="manager"/>
+</module>
