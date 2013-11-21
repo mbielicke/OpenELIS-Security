@@ -86,7 +86,7 @@ public class Security extends ResizeComposite {
                 public void execute() {
                     try {
                         final org.openelis.ui.widget.Window win = new org.openelis.ui.widget.Window(true);
-                        win.setSize("967px", "751px");
+                        win.setSize("967px", "754px");
                         new SystemUserScreen(win);
                         win.setName("System User");
                         browser.addWindow(win, "systemuser");
@@ -104,7 +104,7 @@ public class Security extends ResizeComposite {
                 public void execute() {
                     try {
                         final org.openelis.ui.widget.Window win = new org.openelis.ui.widget.Window(true);
-                        win.setSize("917px", "698px");
+                        win.setSize("967px", "698px");
                         new TemplateScreen(win);
                         win.setName("Templates");
                         browser.addWindow(win, "template");
@@ -122,7 +122,7 @@ public class Security extends ResizeComposite {
                 public void execute() {
                     try {
                         final org.openelis.ui.widget.Window win = new org.openelis.ui.widget.Window(true);
-                        win.setSize("886px","686px");
+                        win.setSize("967px","686px");
                         new ApplicationScreen(win);
                         win.setName("Application");
                         browser.addWindow(win, "application");

@@ -49,8 +49,6 @@ public class SystemUserService extends RemoteServlet implements SystemUserServic
 
     private static final long serialVersionUID = 1L;
 
-    private static final int      rowPP = 24;
-
     @EJB
     private SystemUserManagerBean systemUserManager;
 
@@ -67,7 +65,7 @@ public class SystemUserService extends RemoteServlet implements SystemUserServic
 
     public ArrayList<IdNameVO> query(Query query) throws Exception {
         try {
-            return systemUser.query(query.getFields(), query.getPage() * rowPP, rowPP);
+            return systemUser.query(query.getFields(), query.getPage() * query.getRowsPerPage(), query.getRowsPerPage());
         } catch (Exception anyE) {
             throw serializeForGWT(anyE);
         }
