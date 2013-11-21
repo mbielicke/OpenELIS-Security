@@ -562,6 +562,7 @@ public class ApplicationScreen extends Screen {
             public void executeQuery(final Query query) {
                 setBusy(Messages.get().msg_querying());
 
+                query.setRowsPerPage(29);
                 ApplicationService.get().query(query, new AsyncCallback<ArrayList<IdNameVO>>() {
                     public void onSuccess(ArrayList<IdNameVO> result) {
                         setQueryResult(result);

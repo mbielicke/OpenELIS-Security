@@ -932,6 +932,7 @@ public class SystemUserScreen extends Screen {
             public void executeQuery(final Query query) {
                 setBusy(Messages.get().msg_querying());
 
+                query.setRowsPerPage(32);
                 SystemUserService.get().query(query, new AsyncCallback<ArrayList<IdNameVO>>() {
                     public void onSuccess(ArrayList<IdNameVO> result) {
                         setQueryResult(result);
