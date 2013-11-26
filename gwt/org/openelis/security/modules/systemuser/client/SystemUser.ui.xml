@@ -17,7 +17,7 @@
                 <g:layer left="0px" top="0px" bottom="0px" width="20px">
                   <w:AtoZButtons ui:field="atozButtons" multiColumn="false" />
                 </g:layer>
-                <g:layer top="0px" left="20px" right="0px" bottom="25px">
+                <g:layer top="0px" left="20px" right="0px" bottom="20px">
                   <t:Table horizontalScroll="ALWAYS" ui:field="atozTable" visibleRows="25" styleName="{res.table.ScreenTableWithSides}"
                     verticalScroll="ALWAYS" header="true">
                     <t:Column label="{prm.gen_loginName}" width="225">
@@ -25,11 +25,11 @@
                     </t:Column>
                   </t:Table>
                 </g:layer>
-                <g:layer bottom="0px" height="25px" left="20px" right="0px">
+                <g:layer bottom="0px" height="20px" left="20px" right="0px">
                   <g:HorizontalPanel horizontalAlignment="CENTER" width="100%">
                     <g:HorizontalPanel>
-                      <w:Button enabled="false" ui:field="atozPrev" leftIcon="{res.atozButton.PreviousPageButtonImage}" css="{res.atozButton}" />
-                      <w:Button enabled="false" ui:field="atozNext" leftIcon="{res.atozButton.NextPageButtonImage}" css="{res.atozButton}" />
+                      <w:Button enabled="false" ui:field="atozPrev" leftIcon="{res.icon.PreviousButtonImage}" css="{res.buttonPanel}" />
+                      <w:Button enabled="false" ui:field="atozNext" leftIcon="{res.icon.NextButtonImage}" css="{res.buttonPanel}" />
                     </g:HorizontalPanel>
                   </g:HorizontalPanel>
                 </g:layer>
@@ -81,7 +81,7 @@
               </g:HTMLPanel>
             </g:layer>
             <g:layer top="40px" bottom="0px">
-              <t:Table horizontalScroll="ALWAYS" ui:field="appSectionTable" visibleRows="24" verticalScroll="ALWAYS" header="true" styleName="libRes.table.ScreenTableWithSides">
+              <t:Table horizontalScroll="ALWAYS" ui:field="appSectionTable" visibleRows="24" verticalScroll="ALWAYS" header="true">
                 <t:Column label="{prm.gen_sections}" width="200">
                   <t:LabelCell />
                 </t:Column>
@@ -95,7 +95,7 @@
           </w:customHeader>
           <g:LayoutPanel styleName="{res.tabpanel.TabContainer}">
             <g:layer top="0px" bottom="0px">
-              <t:Table horizontalScroll="ALWAYS" ui:field="templateTable" visibleRows="25" verticalScroll="ALWAYS" header="true" styleName="libRes.table.ScreenTableWithSides">
+              <t:Table horizontalScroll="ALWAYS" ui:field="templateTable" visibleRows="25" verticalScroll="ALWAYS" header="true">
                 <t:Column label="{prm.gen_templates}" width="200">
                   <t:LabelCell />
                 </t:Column>
@@ -109,7 +109,7 @@
       <g:LayoutPanel ui:field="content">
         <g:layer top="0px" height="30px">
           <g:AbsolutePanel styleName="{res.buttonPanel.ButtonPanelContainer}" width="100%">
-            <g:HorizontalPanel>
+            <g:HorizontalPanel width="100%">
               <w:Button css="{res.buttonPanel}" ui:field="query" leftIcon="{res.icon.QueryButtonImage}" text="{prm.btn_query}" toggles="true" />
               <w:Button css="{res.buttonPanel}" ui:field="previous" leftIcon="{res.icon.PreviousButtonImage}" text="{prm.btn_previous}"/>
               <w:Button css="{res.buttonPanel}" ui:field="next" leftIcon="{res.icon.NextButtonImage}" text="{prm.btn_next}" />
@@ -196,19 +196,19 @@
                         <w:TextBox />
                       </t:TextBoxCell>
                     </t:Column>
-                    <t:Column label="{prm.gen_selectPerm}" width="30">
+                    <t:Column label="{prm.gen_selectPerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_addPerm}" width="30">
+                    <t:Column label="{prm.gen_addPerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_updatePerm}" width="30">
+                    <t:Column label="{prm.gen_updatePerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_deletePerm}" width="30">
+                    <t:Column label="{prm.gen_deletePerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_clause}" width="150">
+                    <t:Column label="{prm.gen_clause}" width="170">
                       <t:TextBoxCell>
                         <w:TextBox />
                       </t:TextBoxCell>
@@ -244,19 +244,19 @@
                         <w:TextBox />
                       </t:TextBoxCell>
                     </t:Column>
-                    <t:Column label="{prm.gen_viewPerm}" width="35">
+                    <t:Column label="{prm.gen_viewPerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_assignPerm}" width="35">
+                    <t:Column label="{prm.gen_assignPerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_completePerm}" width="35">
+                    <t:Column label="{prm.gen_completePerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_releasePerm}" width="35">
+                    <t:Column label="{prm.gen_releasePerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_cancelPerm}" width="35">
+                    <t:Column label="{prm.gen_cancelPerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
                   </t:Table>

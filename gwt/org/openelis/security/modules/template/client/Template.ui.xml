@@ -6,7 +6,7 @@
 
   <g:SplitLayoutPanel ui:field="layout" styleName="{res.style.WhiteContentPanel}">
     <g:west size="280">
-      <w:TabLayoutPanel ui:field="tabPanel" barHeight="25" barUnit="PX" >
+      <w:TabLayoutPanel ui:field="tabPanel" barHeight="30" barUnit="PX" >
         <w:tab>
           <w:customHeader>
             <w:TabWidget text="{prm.gen_templates}" />
@@ -26,8 +26,8 @@
             <g:layer bottom="0px" height="25px">
               <g:HorizontalPanel horizontalAlignment="CENTER" width="100%">
                 <g:HorizontalPanel>
-                  <w:Button enabled="false" ui:field="atozPrev" leftIcon="{res.atozButton.PreviousPageButtonImage}" css="{res.atozButton}" />
-                  <w:Button enabled="false" ui:field="atozNext" leftIcon="{res.atozButton.NextPageButtonImage}" css="{res.atozButton}" />
+                  <w:Button enabled="false" ui:field="atozPrev" leftIcon="{res.icon.PreviousButtonImage}" css="{res.buttonPanel}"/>
+                  <w:Button enabled="false" ui:field="atozNext" leftIcon="{res.icon.NextButtonImage}" css="{res.buttonPanel}"/>
                 </g:HorizontalPanel>
               </g:HorizontalPanel>
             </g:layer>
@@ -93,8 +93,8 @@
     <g:center>
       <g:LayoutPanel>
         <g:layer top="0px" height="30px">
-          <g:AbsolutePanel styleName="{res.buttonPanel.ButtonPanelContainer}" width="100%">
-            <g:HorizontalPanel>
+          <g:AbsolutePanel styleName="{res.buttonPanel.ButtonPanelContainer}">
+            <g:HorizontalPanel width="100%">
               <w:Button css="{res.buttonPanel}" ui:field="query" leftIcon="{res.icon.QueryButtonImage}" text="{prm.btn_query}" toggles="true" />
               <w:Button css="{res.buttonPanel}" ui:field="previous" leftIcon="{res.icon.PreviousButtonImage}" text="{prm.btn_previous}"/>
               <w:Button css="{res.buttonPanel}" ui:field="next" leftIcon="{res.icon.NextButtonImage}" text="{prm.btn_next}"/>
@@ -142,19 +142,19 @@
                         <w:TextBox />
                       </t:TextBoxCell>
                     </t:Column>
-                    <t:Column label="{prm.gen_selectPerm}" width="30">
+                    <t:Column label="{prm.gen_selectPerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_addPerm}" width="30">
+                    <t:Column label="{prm.gen_addPerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_updatePerm}" width="30">
+                    <t:Column label="{prm.gen_updatePerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_deletePerm}" width="30">
+                    <t:Column label="{prm.gen_deletePerm}" width="25">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_clause}" width="150">
+                    <t:Column label="{prm.gen_clause}" width="170">
                       <t:TextBoxCell>
                         <w:TextBox case="MIXED" />
                       </t:TextBoxCell>
@@ -189,19 +189,19 @@
                         <w:TextBox />
                       </t:TextBoxCell>
                     </t:Column>
-                    <t:Column label="{prm.gen_viewPerm}" width="35">
+                    <t:Column label="{prm.gen_viewPerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_assignPerm}" width="35">
+                    <t:Column label="{prm.gen_assignPerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_completePerm}" width="35">
+                    <t:Column label="{prm.gen_completePerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_releasePerm}" width="35">
+                    <t:Column label="{prm.gen_releasePerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
-                    <t:Column label="{prm.gen_cancelPerm}" width="35">
+                    <t:Column label="{prm.gen_cancelPerm}" width="30">
                       <t:CheckBoxCell />
                     </t:Column>
                   </t:Table>

@@ -1,8 +1,3 @@
-body {
-    font-family:"Open Sans",sans-serif;
-    font-size:11px;
-}
-
 @sprite .AppBackground {
 	gwt-image: 'AppBackground';
 	opacity: 0.8;

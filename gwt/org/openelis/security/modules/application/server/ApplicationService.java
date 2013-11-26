@@ -52,6 +52,8 @@ public class ApplicationService extends RemoteServlet implements ApplicationServ
 
     private static final long      serialVersionUID = 1L;
 
+    private static final int       rowPP            = 23;
+
     @EJB
     private ApplicationManagerBean appManager;
 
@@ -82,7 +84,7 @@ public class ApplicationService extends RemoteServlet implements ApplicationServ
 
     public ArrayList<IdNameVO> query(Query query) throws Exception {
         try {
-            return application.query(query.getFields(), query.getPage() * query.getRowsPerPage(), query.getRowsPerPage());
+            return application.query(query.getFields(), query.getPage() * rowPP, rowPP);
         } catch (Exception anyE) {
             throw serializeForGWT(anyE);
         }
