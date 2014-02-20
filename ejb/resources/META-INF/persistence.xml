@@ -1,4 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
 <!--
 Exhibit A - UIRF Open-source Based Public Software License.
 
@@ -25,20 +24,11 @@ Alternatively, the contents of this file marked
 license ("UIRF Software License"), in which case the provisions of a
 UIRF Software License are applicable instead of those above. 
 -->
-
-<application xmlns="http://java.sun.com/xml/ns/javaee" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5"
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd">
-
-    <display-name>Security EJB</display-name>
-
-    <module>
-        <ejb>security.jar</ejb>
-    </module>
-    <module>
-        <web>
-          <web-uri>security.war</web-uri>
-          <context-root>security</context-root>
-        </web>
-    </module>
-</application>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"  
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
+             version="1.0">
+   <persistence-unit name="newsecurity">
+      <jta-data-source>java:/SecurityDS</jta-data-source>
+   </persistence-unit>
+</persistence>
