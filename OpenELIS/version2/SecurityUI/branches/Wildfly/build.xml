@@ -35,6 +35,9 @@
 	<copy file="../OpenELIS-UI/ui.jar" todir="./lib" overwrite="true" />
 	<copy file="war/WEB-INF/lib/gwt-servlet.jar" todir="./lib" overwrite="true"/>
 	<ear destfile="build/security.ear" appxml="ejb/resources/META-INF/application.xml">
+		<fileset dir="ejb/resources/" >
+	        <include name="META-INF/jboss-all.xml"/>
+        </fileset>
 		<fileset dir="build">
 			<include name="security.jar" />
 		</fileset>
@@ -59,6 +62,6 @@
 		</fileset>
 	</ear>
 	
-	<copy file="build/security.ear" todir="/usr/local/java/jboss-as-7.1.1.Final/standalone/deployments" overwrite="true"/>
+	<copy file="build/security.ear" todir="/usr/local/java/wildfly-8.0.0.Final/standalone/deployments" overwrite="true"/>
 	
 </project>

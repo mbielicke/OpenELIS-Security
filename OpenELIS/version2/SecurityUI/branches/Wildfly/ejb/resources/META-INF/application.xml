@@ -30,15 +30,15 @@ UIRF Software License are applicable instead of those above.
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd">
 
-    <display-name>TestWidget</display-name>
+    <display-name>Security</display-name>
 
     <module>
-        <ejb>testwidget.jar</ejb>
+        <ejb>security.jar</ejb>
     </module>
     <module>
         <web>
-          <web-uri>testwidget.war</web-uri>
-          <context-root>testwidget</context-root>
+          <web-uri>security.war</web-uri>
+          <context-root>security</context-root>
         </web>
     </module>
 </application>

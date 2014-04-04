@@ -69,7 +69,7 @@ public class Security extends ResizeComposite {
             public void execute() {
                 try {
                     logout();
-                    Window.open("/security/Security.html", "_self", null);
+                    Window.open("/security", "_self", null);
                 } catch (Throwable e) {
                     e.printStackTrace();
                     Window.alert(e.getMessage());
@@ -152,6 +152,5 @@ public class Security extends ResizeComposite {
             public void onFailure(Throwable caught) {
             }
         });
-        Window.open("/security/Security.html", "_self", null);
     }
 }
