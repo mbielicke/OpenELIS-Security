@@ -27,9 +27,8 @@ package org.openelis.security.bean;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import javax.annotation.PostConstruct;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,9 +40,6 @@ import org.openelis.security.entity.Lock;
 import org.openelis.security.entity.Lock.PK;
 import org.openelis.ui.common.EntityLockedException;
 import org.openelis.ui.common.SystemUserVO;
-
-import com.teklabs.gwt.i18n.server.LocaleProvider;
-import com.teklabs.gwt.i18n.server.LocaleProxy;
 
 @Stateless
 public class LockBean {

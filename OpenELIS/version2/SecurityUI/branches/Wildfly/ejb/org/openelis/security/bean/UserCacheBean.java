@@ -33,6 +33,8 @@ import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Singleton;
 
+import net.lightoze.gwt.i18n.client.LocaleFactory;
+import net.lightoze.gwt.i18n.server.LocaleProxy;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -47,8 +49,6 @@ import org.openelis.ui.common.SectionPermission.SectionFlags;
 import org.openelis.ui.common.SystemUserPermission;
 import org.openelis.ui.common.SystemUserVO;
 
-import com.teklabs.gwt.i18n.client.LocaleFactory;
-import com.teklabs.gwt.i18n.server.LocaleProxy;
 
 /**
  * This class provides application level cache handling for user and permission

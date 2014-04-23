@@ -25,6 +25,8 @@
  */
 package org.openelis.security.modules.main.client;
 
+import net.lightoze.gwt.i18n.client.LocaleFactory;
+
 import org.openelis.security.messages.SecurityMessages;
 import org.openelis.security.modules.main.client.resources.SecurityResources;
 
@@ -38,7 +40,6 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.teklabs.gwt.i18n.client.LocaleFactory;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
