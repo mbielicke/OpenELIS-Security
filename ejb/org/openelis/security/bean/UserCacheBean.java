@@ -47,8 +47,8 @@ import org.openelis.ui.common.SectionPermission.SectionFlags;
 import org.openelis.ui.common.SystemUserPermission;
 import org.openelis.ui.common.SystemUserVO;
 
-import com.teklabs.gwt.i18n.client.LocaleFactory;
-import com.teklabs.gwt.i18n.server.LocaleProxy;
+import net.lightoze.gwt.i18n.client.LocaleFactory;
+import net.lightoze.gwt.i18n.server.LocaleProxy;
 
 /**
  * This class provides application level cache handling for user and permission

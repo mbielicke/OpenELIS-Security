@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='security'>
+  <inherits name="org.openelis.security.Security"/>
+  <inherits name="com.google.gwt.debug.Debug"/>
+    
+  <set-property name="user.agent" value="gecko1_8" />
+  
+  <set-configuration-property name="CssResource.style" value="pretty"/>
+    
+</module>
