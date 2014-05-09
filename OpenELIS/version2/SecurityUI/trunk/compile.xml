@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Security" default="gwtc.dev" basedir=".">
+
+	<property name="gwt.sdk" location="/usr/local/java/gwt-2.6.0" />
+	
+	<property name="jboss.home" location="/usr/local/java/jboss-as-7.1.1.Final"/>
+	
+	<taskdef name="ivy-configure" classname="org.apache.ivy.ant.IvyConfigure" classpath="/usr/share/java/ivy.jar"/>
+	<taskdef name="ivy-resolve" classname="org.apache.ivy.ant.IvyResolve" classpath="/usr/share/java/ivy.jar"/>
+	<taskdef name="ivy-retrieve" classname="org.apache.ivy.ant.IvyRetrieve" classpath="/usr/share/java/ivy.jar"/>
+	<taskdef name="ivy-deliver" classname="org.apache.ivy.ant.IvyDeliver" classpath="/usr/share/java/ivy.jar"/> 
+	<taskdef name="ivy-publish" classname="org.apache.ivy.ant.IvyPublish" classpath="/usr/share/java/ivy.jar"/>
+	
+	<ivy-configure file="ivysettings.xml"/>
+	<ivy-retrieve pattern="lib/[artifact]-[type]-[revision].[ext]"/>
+	
+	<path id="ivy.lib">
+	   <fileset dir="lib" includes="*.jar"/>
+    </path>
+
+	<path id="gwt.jars">
+		<pathelement location="${gwt.sdk}/gwt-user.jar" />
+		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar" />
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar" />
+    </path>
+	
+	<path id="jboss.jars">
+		<fileset dir="${jboss.home}/bin/client" includes="jboss-client.jar" />
+		<fileset dir="${jboss.home}/modules/javax/persistence/api/main" includes="*.jar" />
+		<fileset dir="${jboss.home}/modules/javax/annotation/api/main" includes="*.jar"/>
+		<fileset dir="${jboss.home}/modules/javax/validation/api/main" includes="*.jar"/>
+		<fileset dir="${jboss.home}/modules/org/picketbox/main" includes="*.jar"/>
+		<fileset dir="${jboss.home}/modules/org/jboss/jboss-transaction-spi/main" includes="*.jar"/>
+		<fileset dir="${jboss.home}/modules/org/jboss/ejb3/main" includes="*.jar"/>
+	</path>
+		
+	<path id="security.class.path">
+		<path refid="gwt.jars"/>
+    	<path refid="ivy.lib"/>
+		<path refid="jboss.jars"/>
+		<pathelement location="bin"/>
+	</path>
+	
+	<path id="security.gwtc.path">
+		<path refid="gwt.jars"/>
+    	<path refid="ivy.lib"/>
+		<path refid="jboss.jars"/>
+		<pathelement location="gwt"/>
+		<pathelement location="shared"/>
+		<pathelement location="war/WEB-INF/classes"/>
+	</path>
+
+	<target name="javac" depends="clean" description="Compile java source to bytecode">
+		<mkdir dir="bin"/>
+		<mkdir dir="war/WEB-INF/classes"/>
+		
+		<!-- Projects need to be compiled in the order that they are in until we can remove the manager circular references -->
+		
+		<!-- Compile of Security project -->
+		<javac includeantruntime="false" srcdir="shared:ejb" includes="**" encoding="utf-8" destdir="bin" source="1.7" target="1.7" nowarn="true" debug="true" debuglevel="lines,vars,source">
+		    <classpath refid="security.class.path"/>
+	    </javac>
+		
+		<javac includeantruntime="false" srcdir="gwt" includes="**" encoding="utf-8" destdir="war/WEB-INF/classes" source="1.7" target="1.7" nowarn="true" debug="true" debuglevel="lines,vars,source">
+		    <classpath refid="security.class.path"/>
+	    </javac>
+
+	</target>
+	
+	<target name="gwtc.dev" depends="javac" description="GWT compile to JavaScript">
+		<!-- GWT compile of Security project -->
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath refid="security.gwtc.path"/>
+			<jvmarg value="-Xmx2048M" />
+			<arg line="-war" />
+			<arg value="war" />
+			<arg line="-optimize"/>
+			<arg value="0"/>
+			<arg value="org.openelis.security.Development" />
+		</java>
+	</target>
+	
+	<target name="gwtc.prod" description="GWT compile to JavaScript">
+		<!-- GWT compile of OpenELIS-GWT project -->
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath refid="gwt.gwtc.path"/>
+			<jvmarg value="-Xmx2048M" />
+			<arg line="-war" />
+			<arg value="war" />
+			<arg value="org.openelis.security.Security" />
+		</java>
+	</target>
+
+	<target name="clean" description="Cleans this project">
+		<delete dir="bin" failonerror="false"/>
+		<delete dir="war/WEB-INF/classes" failonerror="false" />
+	</target>
+	
+	<target name="security.client">
+		<delete file="security-client.jar" />
+		<jar jarfile="security-client.jar">
+			<fileset dir="bin">
+				<include name="org/openelis/security/domain/*.class" />
+				<include name="org/openelis/security/remote/*.class" />
+			</fileset>
+		</jar>
+    </target>
+
+</project>

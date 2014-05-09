@@ -38,7 +38,7 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.teklabs.gwt.i18n.client.LocaleFactory;
+import net.lightoze.gwt.i18n.client.LocaleFactory;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

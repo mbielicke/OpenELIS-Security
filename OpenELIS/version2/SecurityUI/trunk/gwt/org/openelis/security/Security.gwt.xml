@@ -4,7 +4,8 @@
   <inherits name="org.openelis.ui.UI"/>
   <inherits name="org.openelis.security.Shared"/>
   <inherits name="org.openelis.security.modules.Modules"/>
-  <inherits name="com.teklabs.gwt.i18n.GwtI18nServer"/>
+  <inherits name="com.google.gwt.i18n.I18N"/> 
+  <inherits name="net.lightoze.gwt.i18n.GwtI18nServer"/>
 
   <!-- Other module inherits                                      -->
 
@@ -22,7 +23,4 @@
   <set-property name="compiler.stackMode" value="emulated" />
   <set-configuration-property name="compiler.emulatedStack.recordLineNumbers" value="TRUE"/>
     
-  <set-configuration-property name="CssResource.style" value="pretty"/>
-    
-
 </module>
