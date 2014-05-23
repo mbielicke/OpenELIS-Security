@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="Security" default="gwtc.dev" basedir=".">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Security" default="gwtc.dev" basedir=".">
 
 	<property name="gwt.sdk" location="/usr/local/java/gwt-2.6.0" />
 	
 	<property name="jboss.home" location="/usr/local/java/jboss-as-7.1.1.Final"/>
 	
-	<taskdef name="ivy-configure" classname="org.apache.ivy.ant.IvyConfigure" classpath="/usr/share/java/ivy.jar"/>
-	<taskdef name="ivy-resolve" classname="org.apache.ivy.ant.IvyResolve" classpath="/usr/share/java/ivy.jar"/>
-	<taskdef name="ivy-retrieve" classname="org.apache.ivy.ant.IvyRetrieve" classpath="/usr/share/java/ivy.jar"/>
-	<taskdef name="ivy-deliver" classname="org.apache.ivy.ant.IvyDeliver" classpath="/usr/share/java/ivy.jar"/> 
-	<taskdef name="ivy-publish" classname="org.apache.ivy.ant.IvyPublish" classpath="/usr/share/java/ivy.jar"/>
+	<taskdef resource="org/apache/ivy/ant/antlib.xml"
+			         uri="antlib:org.apache.ivy.ant" classpath="/usr/share/java/ivy.jar"/>
 	
-	<ivy-configure file="ivysettings.xml"/>
-	<ivy-retrieve pattern="lib/[artifact]-[type]-[revision].[ext]"/>
+	<ivy:configure file="ivysettings.xml"/>
+	<ivy:retrieve pattern="lib/[artifact]-[type]-[revision].[ext]"/>
 	
 	<path id="ivy.lib">
 	   <fileset dir="lib" includes="*.jar"/>
@@ -98,13 +95,24 @@
 	</target>
 	
 	<target name="security.client">
-		<delete file="security-client.jar" />
-		<jar jarfile="security-client.jar">
+		<delete file="security.jar" />
+		<jar jarfile="security.jar">
 			<fileset dir="bin">
 				<include name="org/openelis/security/domain/*.class" />
 				<include name="org/openelis/security/remote/*.class" />
 			</fileset>
 		</jar>
     </target>
+	
+	<target name="publish">
+		  <ivy:deliver deliverpattern="ivy.xml" pubrevision="1.0.0-SNAPSHOT" status="release"/>
+		  <ivy:resolve/>
+		  <ivy:publish resolver="nexus-snapshots"
+		                      revision="1.0.0-SNAPSHOT"
+		                      overwrite="true" 
+		                      publishivy="false"
+		  	                  artifactspattern="[artifact].[ext]"
+		  	                  />
+	</target>
 
 </project>
