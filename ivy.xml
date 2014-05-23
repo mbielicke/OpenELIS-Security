@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
    Licensed to the Apache Software Foundation (ASF) under one
    or more contributor license agreements.  See the NOTICE file
@@ -17,15 +17,24 @@
    specific language governing permissions and limitations
    under the License.    
 -->
-<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
-    <info
-        organisation="org.openelis"
-        module="Security"
-        status="integration">
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="org.openelis" module="security" revision="1.0.0-SNAPSHOT" status="release" publication="20140523153303">
 	</info>
+  
+    <publications>
+        <artifact name="security" type="jar"/>
+    </publications>
+    
     <dependencies>
-      <dependency org="com.allen-sauer.gwt.dnd" name="gwt-dnd" rev="3.3.0" transitive="false" conf="default->master"/> 
-	  <dependency org="net.lightoze.gwt-i18n-server" name="gwt-i18n-server" rev="0.22" transitive="false" conf="default->master"/>
+      <dependency org="org.mockito" name="mockito-all" rev="1.9.5"/>
+      <dependency org="junit" name="junit" rev="4.11"/>
+      <dependency org="com.allen-sauer.gwt.dnd" name="gwt-dnd" rev="3.3.0" transitive="false"/> 
+	  <dependency org="net.lightoze.gwt-i18n-server" name="gwt-i18n-server" rev="0.22" transitive="false"/>
+      <dependency org="org.jboss.spec" name="jboss-javaee-6.0" rev="3.0.2.Final"/>
+      <dependency org="xalan" name="xalan" rev="2.7.1"/>  
+      <dependency org="org.picketbox" name="picketbox-spi-bare" rev="4.0.7.Final"/>
+      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0"/>
+      <dependency org="net.sf.ehcache" name="ehcache" rev="2.8.2"/>
+      <dependency org="org.openelis" name="ui" rev="1.0.0-SNAPSHOT"/>
     </dependencies>
 </ivy-module>
