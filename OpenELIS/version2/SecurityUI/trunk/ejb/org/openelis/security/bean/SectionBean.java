@@ -51,13 +51,13 @@ import org.openelis.ui.common.ValidationErrorsList;
 public class SectionBean {
 
     @PersistenceContext(unitName = "newsecurity")
-    private EntityManager         manager;
+    EntityManager         manager;
 
     @EJB
-    private SystemUserSectionBean systemUserSection;
+    SystemUserSectionBean systemUserSection;
     
     @EJB
-    private UserCacheBean         userCache;
+    UserCacheBean         userCache;
 
     public ArrayList<SectionViewDO> fetchByApplicationId(Integer id) throws Exception {
         Query query;
