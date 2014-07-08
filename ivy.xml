@@ -35,6 +35,5 @@
       <dependency org="org.picketbox" name="picketbox-spi-bare" rev="4.0.7.Final"/>
       <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0"/>
       <dependency org="net.sf.ehcache" name="ehcache" rev="2.8.2"/>
-      <dependency org="org.openelis" name="ui" rev="1.0.0-SNAPSHOT"/>
     </dependencies>
 </ivy-module>
