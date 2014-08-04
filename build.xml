@@ -32,7 +32,7 @@
 	</jar>
 		
 	<delete file="build/security.ear"/>
-	<copy file="../OpenELIS-UI/ui.jar" todir="./deploylib" overwrite="true" failonerror="false"/>
+	<copy file="../OpenELIS-UI/ui.jar" todir="./lib" overwrite="true" failonerror="false"/>
 	<copy file="war/WEB-INF/lib/gwt-servlet.jar" todir="./lib" overwrite="true"/>
 	<ear destfile="build/security.ear" appxml="ejb/resources/META-INF/application.xml">
 		<fileset dir="build">
