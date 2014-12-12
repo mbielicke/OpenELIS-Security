@@ -1,5 +1,6 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:w='urn:import:org.openelis.ui.widget'
-  xmlns:t='urn:import:org.openelis.ui.widget.table'>
+  xmlns:t='urn:import:org.openelis.ui.widget.table'
+  xmlns:cell='urn:import:org.openelis.ui.widget.cell'>
 
   <ui:with type="org.openelis.security.messages.SecurityMessages" field="prm" />
   <ui:with type="org.openelis.security.modules.main.client.resources.SecurityResources" field="res" />
@@ -13,7 +14,7 @@
         <g:layer top="0px" bottom="25px" left="25px" right="0px">
           <t:Table ui:field="atozTable" horizontalScroll="ALWAYS" verticalScroll="ALWAYS" visibleRows="27" styleName="{res.table.ScreenTableWithSides}" header="true">
             <t:Column label="{prm.gen_name}" width="175">
-              <t:LabelCell />
+              <cell:LabelCell />
             </t:Column>
           </t:Table>
         </g:layer>
@@ -71,31 +72,31 @@
                   <t:Table horizontalScroll="ALWAYS" ui:field="moduleTable" visibleRows="9" styleName="{res.table.ScreenTableWithSides}"
                     verticalScroll="ALWAYS" width="600px" header="true">
                     <t:Column label="{prm.gen_name}" width="120">
-                      <t:TextBoxCell>
+                      <cell:TextBoxCell>
                         <w:TextBox case="LOWER" maxLength="32" required="true" />
-                      </t:TextBoxCell>
+                      </cell:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_description}" width="321">
-                      <t:TextBoxCell>
+                      <cell:TextBoxCell>
                         <w:TextBox maxLength="80" />
-                      </t:TextBoxCell>
+                      </cell:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_selectPerm}" width="30">
-                      <t:CheckBoxCell />
+                      <cell:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_addPerm}" width="30">
-                      <t:CheckBoxCell />
+                      <cell:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_updatePerm}" width="30">
-                      <t:CheckBoxCell />
+                      <cell:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_deletePerm}" width="30">
-                      <t:CheckBoxCell />
+                      <cell:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_clause}" width="305">
-                      <t:TextBoxCell>
+                      <cell:TextBoxCell>
                         <w:TextBox />
-                      </t:TextBoxCell>
+                      </cell:TextBoxCell>
                     </t:Column>
                   </t:Table>
                 </g:layer>
@@ -114,14 +115,14 @@
                   <t:Table horizontalScroll="ALWAYS" ui:field="sectionTable" visibleRows="7" styleName="{res.table.ScreenTableWithSides}"
                     verticalScroll="ALWAYS" width="600px" header="true">
                     <t:Column label="{prm.gen_name}" width="120">
-                      <t:TextBoxCell>
+                      <cell:TextBoxCell>
                         <w:TextBox case="LOWER" maxLength="20" required="true" />
-                      </t:TextBoxCell>
+                      </cell:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_description}" width="400">
-                      <t:TextBoxCell>
+                      <cell:TextBoxCell>
                         <w:TextBox maxLength="60" />
-                      </t:TextBoxCell>
+                      </cell:TextBoxCell>
                     </t:Column>
                   </t:Table>
                 </g:layer>
