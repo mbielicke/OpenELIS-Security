@@ -1,7 +1,5 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:w='urn:import:org.openelis.ui.widget'
-  xmlns:t='urn:import:org.openelis.ui.widget.table'
-  xmlns:cell='urn:import:org.openelis.ui.widget.cell'  
->
+  xmlns:t='urn:import:org.openelis.ui.widget.table'>
 
   <ui:with type="org.openelis.security.messages.SecurityMessages" field="prm" />
   <ui:with type="org.openelis.security.modules.main.client.resources.SecurityResources" field="res" />
@@ -21,7 +19,7 @@
               <t:Table horizontalScroll="ALWAYS" ui:field="atozTable" visibleRows="25" styleName="{res.table.ScreenTableWithSides}"
                 verticalScroll="ALWAYS" width="230px" header="true">
                 <t:Column label="{prm.gen_name}" width="210">
-                  <cell:LabelCell />
+                  <t:LabelCell />
                 </t:Column>
               </t:Table>
             </g:layer>
@@ -56,7 +54,7 @@
               <t:Table horizontalScroll="ALWAYS" ui:field="appModuleTable" visibleRows="24" verticalScroll="ALWAYS" width="257px"
                 header="true" styleName="{res.table.ScreenTableWithSides}">
                 <t:Column label="{prm.gen_modules}" width="200">
-                  <cell:LabelCell />
+                  <t:LabelCell />
                 </t:Column>
               </t:Table>
             </g:layer>
@@ -83,7 +81,7 @@
               <t:Table horizontalScroll="ALWAYS" ui:field="appSectionTable" visibleRows="24" verticalScroll="ALWAYS" width="257px"
                 header="true" styleName="{res.table.ScreenTableWithSides}">
                 <t:Column label="{prm.gen_sections}" width="200">
-                  <cell:LabelCell />
+                  <t:LabelCell />
                 </t:Column>
               </t:Table>
             </g:layer>
@@ -130,36 +128,36 @@
                   <t:Table horizontalScroll="ALWAYS" ui:field="userModuleTable" visibleRows="13" styleName="{res.table.ScreenTableWithSides}"
                     verticalScroll="ALWAYS" header="true">
                     <t:Column label="{prm.gen_application}" width="70">
-                      <cell:TextBoxCell>
+                      <t:TextBoxCell>
                         <w:TextBox />
-                      </cell:TextBoxCell>
+                      </t:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_name}" width="80">
-                      <cell:TextBoxCell>
+                      <t:TextBoxCell>
                         <w:TextBox />
-                      </cell:TextBoxCell>
+                      </t:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_description}" width="200">
-                      <cell:TextBoxCell>
+                      <t:TextBoxCell>
                         <w:TextBox />
-                      </cell:TextBoxCell>
+                      </t:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_selectPerm}" width="30">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_addPerm}" width="30">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_updatePerm}" width="30">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_deletePerm}" width="30">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_clause}" width="150">
-                      <cell:TextBoxCell>
+                      <t:TextBoxCell>
                         <w:TextBox case="MIXED" />
-                      </cell:TextBoxCell>
+                      </t:TextBoxCell>
                     </t:Column>
                   </t:Table>
                 </g:layer>
@@ -177,34 +175,34 @@
                   <t:Table horizontalScroll="ALWAYS" ui:field="userSectionTable" visibleRows="7" styleName="{res.table.ScreenTableWithSides}"
                     verticalScroll="ALWAYS" header="true">
                     <t:Column label="{prm.gen_application}" width="70">
-                      <cell:TextBoxCell>
+                      <t:TextBoxCell>
                         <w:TextBox />
-                      </cell:TextBoxCell>
+                      </t:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_name}" width="100">
-                      <cell:TextBoxCell>
+                      <t:TextBoxCell>
                         <w:TextBox />
-                      </cell:TextBoxCell>
+                      </t:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_description}" width="300">
-                      <cell:TextBoxCell>
+                      <t:TextBoxCell>
                         <w:TextBox />
-                      </cell:TextBoxCell>
+                      </t:TextBoxCell>
                     </t:Column>
                     <t:Column label="{prm.gen_viewPerm}" width="35">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_assignPerm}" width="35">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_completePerm}" width="35">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_releasePerm}" width="35">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                     <t:Column label="{prm.gen_cancelPerm}" width="35">
-                      <cell:CheckBoxCell />
+                      <t:CheckBoxCell />
                     </t:Column>
                   </t:Table>
                 </g:layer>
