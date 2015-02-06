@@ -36,6 +36,9 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <ejb>security.jar</ejb>
     </module>
     <module>
+        <ejb>security-common.jar</ejb>
+    </module>
+    <module>
         <web>
           <web-uri>security.war</web-uri>
           <context-root>security</context-root>
