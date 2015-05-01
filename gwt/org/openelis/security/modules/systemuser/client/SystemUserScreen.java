@@ -140,7 +140,7 @@ public class SystemUserScreen extends Screen {
     @UiField
     protected CheckBox                     isEmployee, isActive;
     @UiField
-    protected Table                        appModuleTable, appSectionTable, templateTable,
+    protected Table<Row>                   appModuleTable, appSectionTable, templateTable,
                                            userModuleTable, userSectionTable, atozTable;
     
     

@@ -132,7 +132,7 @@ public class TemplateScreen extends Screen {
     protected Dropdown<Integer>          modAppDropDown, secAppDropDown;
 
     @UiField
-    protected Table                      appModuleTable, appSectionTable, atozTable,
+    protected Table<Row>                 appModuleTable, appSectionTable, atozTable,
                                          userModuleTable, userSectionTable;
 
     @UiField
