@@ -30,10 +30,17 @@
       <dependency org="junit" name="junit" rev="4.11"/>
       <dependency org="com.allen-sauer.gwt.dnd" name="gwt-dnd" rev="3.3.0" transitive="false"/> 
 	  <dependency org="net.lightoze.gwt-i18n-server" name="gwt-i18n-server" rev="0.22" transitive="false"/>
-      <dependency org="org.jboss.spec" name="jboss-javaee-6.0" rev="3.0.2.Final"/>
       <dependency org="xalan" name="xalan" rev="2.7.1"/>  
-      <dependency org="org.picketbox" name="picketbox-spi-bare" rev="4.0.7.Final"/>
       <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0"/>
       <dependency org="net.sf.ehcache" name="ehcache" rev="2.8.2"/>
+      
+       <!-- JBoss 7.1.1 EE 6.0 -->
+      <dependency org="org.jboss.spec" name="jboss-javaee-6.0" rev="3.0.2.Final"/>
+      <dependency org="org.picketbox" name="picketbox-spi-bare" rev="4.0.7.Final"/>
+      
+      <!-- Wildfly 9.0.1 EE 7.0 
+      <dependency org="org.jboss.spec" name="jboss-javaee-7.0" rev="1.0.3.Final" />
+      <dependency org="org.picketbox" name="picketbox" rev="4.9.2.Final" />
+      -->
     </dependencies>
 </ivy-module>
