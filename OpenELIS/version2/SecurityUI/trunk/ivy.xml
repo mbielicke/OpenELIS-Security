@@ -24,7 +24,12 @@
     <publications>
         <artifact name="security" type="jar"/>
     </publications>
-    
+
+    <configurations>
+      <conf name="jboss7"/>
+      <conf name="wildfly9"/>
+    </configurations>
+
     <dependencies>
       <dependency org="org.mockito" name="mockito-all" rev="1.9.5"/>
       <dependency org="junit" name="junit" rev="4.11"/>
@@ -34,13 +39,12 @@
       <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0"/>
       <dependency org="net.sf.ehcache" name="ehcache" rev="2.8.2"/>
       
-       <!-- JBoss 7.1.1 EE 6.0 -->
-      <dependency org="org.jboss.spec" name="jboss-javaee-6.0" rev="3.0.2.Final"/>
-      <dependency org="org.picketbox" name="picketbox-spi-bare" rev="4.0.7.Final"/>
-      
-      <!-- Wildfly 9.0.1 EE 7.0 
-      <dependency org="org.jboss.spec" name="jboss-javaee-7.0" rev="1.0.3.Final" />
-      <dependency org="org.picketbox" name="picketbox" rev="4.9.2.Final" />
-      -->
+      <!-- JBoss 7.1.1 EE 6.0 -->
+      <dependency org="org.jboss.spec" name="jboss-javaee-6.0" rev="3.0.2.Final" conf="jboss7->default"/>
+      <dependency org="org.picketbox" name="picketbox" rev="4.0.20.Final" conf="jboss7->default"/>
+
+      <!-- Wildfly 9.0.1 EE 7.0 --> 
+      <dependency org="org.jboss.spec" name="jboss-javaee-7.0" rev="1.0.3.Final" conf="wildfly9->default"/>
+      <dependency org="org.picketbox" name="picketbox" rev="4.9.2.Final" conf="wildfly9->default"/>
     </dependencies>
 </ivy-module>

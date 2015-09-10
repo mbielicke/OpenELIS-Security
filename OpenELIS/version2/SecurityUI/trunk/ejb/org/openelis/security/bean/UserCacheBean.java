@@ -59,15 +59,15 @@ import net.lightoze.gwt.i18n.server.LocaleProxy;
 public class UserCacheBean {
 
     @Resource
-    private SessionContext   ctx;
+    private SessionContext     ctx;
 
-    private Cache            cache, permCache;
+    private Cache              cache, permCache;
 
     @EJB
     SystemUserPermissionRemote security;
 
     @EJB
-    LockBean                 lock;
+    LockBean                   lock;
 
     @PostConstruct
     public void init() {
@@ -146,7 +146,7 @@ public class UserCacheBean {
         name = getName();
         e = cache.get(name);
         if (e != null)
-            return (SystemUserVO)e.getValue();
+            return (SystemUserVO)e.getObjectValue();
 
         return getSystemUser(name);
     }
@@ -160,7 +160,7 @@ public class UserCacheBean {
 
         e = cache.get(id);
         if (e != null)
-            return (SystemUserVO)e.getValue();
+            return (SystemUserVO)e.getObjectValue();
 
         try {
             data = security.fetchById(id);
@@ -183,7 +183,7 @@ public class UserCacheBean {
 
         e = cache.get(name);
         if (e != null)
-            return (SystemUserVO)e.getValue();
+            return (SystemUserVO)e.getObjectValue();
 
         data = null;
         try {
@@ -242,7 +242,7 @@ public class UserCacheBean {
             name = getName();
             e = permCache.get(name);
             if (e != null) {
-                data = (SystemUserPermission)e.getValue();
+                data = (SystemUserPermission)e.getObjectValue();
                 permCache.remove(name);
                 cache.remove(data.getLoginName());
                 cache.remove(data.getSystemUserId());
@@ -275,18 +275,17 @@ public class UserCacheBean {
      */
     public SystemUserPermission getPermission() throws Exception {
         Element e;
-        String name, appName;
+        String name;
         SystemUserPermission data;
 
         name = getName();
         e = permCache.get(name);
         if (e != null)
-            return (SystemUserPermission)e.getValue();
+            return (SystemUserPermission)e.getObjectValue();
 
         data = null;
         try {
-            appName = System.getProperty("org.openelis.security.system.security.application");
-            data = security.fetchByApplicationAndLoginName(appName, name);
+            data = security.fetchByApplicationAndLoginName("security", name);
             permCache.put(new Element(name, data));
             cache.put(new Element(data.getLoginName(), data.getUser()));
             cache.put(new Element(data.getSystemUserId(), data.getUser()));
@@ -297,17 +296,14 @@ public class UserCacheBean {
 
         return data;
     }
-    
-    
+
     public SecurityMessages getMessages() {
         try {
             LocaleProxy.initialize();
-            return LocaleFactory.get(SecurityMessages.class,getLocale());
-        }catch(Exception e) {
+            return LocaleFactory.get(SecurityMessages.class, getLocale());
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    
-    
 }
