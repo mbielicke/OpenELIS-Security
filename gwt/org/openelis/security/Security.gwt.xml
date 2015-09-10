@@ -16,9 +16,7 @@
   <set-property name="gwt.logging.logLevel" value="SEVERE"/>
   <set-property name="gwt.logging.consoleHandler" value="DISABLED"/>
   <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED"/>
-  <set-property name="gwt.logging.popupHandler" value="DISABLED"/>
   <set-property name="gwt.logging.systemHandler" value="DISABLED"/>
-  <set-property name="gwt.logging.firebugHandler" value="DISABLED"/>
     
   <set-property name="compiler.stackMode" value="emulated" />
   <set-configuration-property name="compiler.emulatedStack.recordLineNumbers" value="TRUE"/>
