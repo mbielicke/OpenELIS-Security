@@ -47,7 +47,7 @@ import org.openelis.ui.common.SystemUserVO;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class SystemUserPermissionBean implements SystemUserPermissionLocal, SystemUserPermissionRemote {
 
-    @PersistenceContext(unitName = "newsecurity")
+    @PersistenceContext(unitName = "security")
     private EntityManager manager;
 
     public SystemUserVO fetchById(Integer id) throws Exception {

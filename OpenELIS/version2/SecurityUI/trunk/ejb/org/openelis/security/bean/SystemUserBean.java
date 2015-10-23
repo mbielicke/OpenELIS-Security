@@ -56,7 +56,7 @@ import org.openelis.ui.util.QueryBuilderV2;
 @RolesAllowed({"user-select", "templates-select"})
 public class SystemUserBean {
 
-    @PersistenceContext(unitName = "newsecurity")
+    @PersistenceContext(unitName = "security")
     private EntityManager               manager;
 
     private static final SystemUserMeta meta = new SystemUserMeta();
