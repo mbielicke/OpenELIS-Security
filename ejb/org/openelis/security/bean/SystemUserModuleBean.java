@@ -51,7 +51,7 @@ import org.openelis.ui.common.ValidationErrorsList;
 @RolesAllowed({"user-select", "templates-select"})
 public class SystemUserModuleBean {
 
-    @PersistenceContext(unitName = "newsecurity")
+    @PersistenceContext(unitName = "security")
     private EntityManager manager;
     
     @EJB

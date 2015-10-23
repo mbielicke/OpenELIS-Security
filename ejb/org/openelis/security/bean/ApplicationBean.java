@@ -56,7 +56,7 @@ import org.openelis.ui.util.QueryBuilderV2;
 @RolesAllowed("application-select")
 public class ApplicationBean {
 
-    @PersistenceContext(unitName = "newsecurity")
+    @PersistenceContext(unitName = "security")
     private EntityManager                manager;
     
     @EJB

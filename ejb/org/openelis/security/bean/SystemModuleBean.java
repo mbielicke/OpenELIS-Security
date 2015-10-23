@@ -50,7 +50,7 @@ import org.openelis.ui.common.ValidationErrorsList;
 @RolesAllowed("application-select")
 public class SystemModuleBean {
 
-    @PersistenceContext(unitName = "newsecurity")
+    @PersistenceContext(unitName = "security")
     private EntityManager        manager;
 
     @EJB
