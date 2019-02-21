@@ -26,6 +26,7 @@
       <conf name="deploy"/>
       <conf name="jboss7"/>
       <conf name="wildfly9"/>
+      <conf name="wildfly11"/>
     </configurations>
     
     <dependencies>
@@ -34,15 +35,21 @@
       <dependency org="com.allen-sauer.gwt.dnd" name="gwt-dnd" rev="3.3.0" transitive="false" conf="compile->default"/> 
 	  <dependency org="net.lightoze.gwt-i18n-server" name="gwt-i18n-server" rev="0.22" transitive="false" conf="compile,deploy->default"/>
       <dependency org="xalan" name="xalan" rev="2.7.1" conf="compile->default"/>  
-      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0" conf="compile->default"/>
       <dependency org="net.sf.ehcache" name="ehcache" rev="2.8.2" conf="compile,deploy->default"/>
      
       <!-- JBoss 7.1.1 EE 6.0 -->
+      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0" conf="jboss7->default"/>
       <dependency org="org.jboss.spec" name="jboss-javaee-6.0" rev="3.0.2.Final" conf="jboss7->default"/>
       <dependency org="org.picketbox" name="picketbox" rev="4.0.20.Final" conf="jboss7->default"/>
 
       <!-- Wildfly 9.0.1 EE 7.0 --> 
+      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.1.0" conf="wildfly9->default"/>
       <dependency org="org.jboss.spec" name="jboss-javaee-7.0" rev="1.0.3.Final" conf="wildfly9->default"/>
       <dependency org="org.picketbox" name="picketbox" rev="4.9.2.Final" conf="wildfly9->default"/>
+
+      <!-- Wildfly 11.0.0 EE 7.0 -->
+      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.2.0.Final" conf="wildfly11->default"/>
+      <dependency org="org.jboss.spec" name="jboss-javaee-7.0" rev="1.0.3.Final" conf="wildfly11->default"/>
+      <dependency org="org.picketbox" name="picketbox" rev="5.0.2.Final" conf="wildfly11->default"/>
     </dependencies>
 </ivy-module>
