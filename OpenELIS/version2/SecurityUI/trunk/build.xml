@@ -54,7 +54,7 @@
 		<zipfileset dir="deploylib" prefix="lib" includes="*.jar"/>
 	</ear>
 	
-	<copy file="build/security.ear" todir="/usr/local/java/wildfly/standalone/deployments" overwrite="true"/>
+<!--    <copy file="build/security.ear" todir="/usr/local/java/wildfly/standalone/deployments" overwrite="true"/> -->
 	
 	<delete dir="deploylib"/>
 	
