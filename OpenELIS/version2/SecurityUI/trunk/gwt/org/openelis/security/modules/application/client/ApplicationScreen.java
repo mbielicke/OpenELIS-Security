@@ -566,6 +566,7 @@ public class ApplicationScreen extends Screen {
                 ApplicationService.get().query(query, new AsyncCallback<ArrayList<IdNameVO>>() {
                     public void onSuccess(ArrayList<IdNameVO> result) {
                         setQueryResult(result);
+                        select(0);
                     }
 
                     public void onFailure(Throwable error) {
