@@ -765,7 +765,7 @@ public class TemplateScreen extends Screen {
                 SystemUserService.get().query(query, new AsyncCallback<ArrayList<IdNameVO>>() {
                     public void onSuccess(ArrayList<IdNameVO> result) {
                         setQueryResult(result);
-                        removeBusy();
+                        select(0);
                     }
 
                     public void onFailure(Throwable error) {
