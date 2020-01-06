@@ -36,7 +36,7 @@ import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.jboss.security.annotation.SecurityDomain;
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.openelis.security.domain.SystemModuleViewDO;
 import org.openelis.security.entity.SystemModule;
 import org.openelis.security.meta.ApplicationMeta;

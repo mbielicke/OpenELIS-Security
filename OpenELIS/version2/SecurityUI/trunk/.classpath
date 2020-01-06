@@ -5,6 +5,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER/gwt-2.7.0"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=Security&amp;ivyXmlPath=ivy.xml&amp;confs=compile%2Cjboss7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OpenELIS-UI"/>
