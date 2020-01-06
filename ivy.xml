@@ -25,31 +25,27 @@
       <conf name="compile"/>
       <conf name="deploy"/>
       <conf name="jboss7"/>
-      <conf name="wildfly9"/>
-      <conf name="wildfly11"/>
+      <conf name="wildfly14"/>
     </configurations>
     
     <dependencies>
-      <dependency org="org.mockito" name="mockito-all" rev="1.9.5" conf="compile->default"/>
-      <dependency org="junit" name="junit" rev="4.11" conf="compile->default"/>
-      <dependency org="com.allen-sauer.gwt.dnd" name="gwt-dnd" rev="3.3.0" transitive="false" conf="compile->default"/> 
+      <dependency org="com.allen-sauer.gwt.dnd" name="gwt-dnd" rev="3.3.2" transitive="false" conf="compile->default"/> 
 	  <dependency org="net.lightoze.gwt-i18n-server" name="gwt-i18n-server" rev="0.22" transitive="false" conf="compile,deploy->default"/>
-      <dependency org="xalan" name="xalan" rev="2.7.1" conf="compile->default"/>  
-      <dependency org="net.sf.ehcache" name="ehcache" rev="2.8.2" conf="compile,deploy->default"/>
-     
+      <dependency org="net.sf.ehcache" name="ehcache" rev="2.9.1" transitive="false" conf="compile,deploy->default"/>
+      <dependency org="org.mockito" name="mockito-all" rev="1.9.5" transitive="false" conf="compile->default"/>
+
       <!-- JBoss 7.1.1 EE 6.0 -->
-      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0" conf="jboss7->default"/>
-      <dependency org="org.jboss.spec" name="jboss-javaee-6.0" rev="3.0.2.Final" conf="jboss7->default"/>
-      <dependency org="org.picketbox" name="picketbox" rev="4.0.20.Final" conf="jboss7->default"/>
+      <dependency org="org.hibernate.javax.persistence" name="hibernate-jpa-2.0-api" rev="1.0.1.Final" transitive="false" conf="jboss7->default"/>
+      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.0.0" transitive="false" conf="jboss7->default"/>
+      <dependency org="org.jboss.spec.javax.ejb" name="jboss-ejb-api_3.1_spec" rev="1.0.1.Final" transitive="false" conf="jboss7->default"/>
+      <dependency org="org.jboss.spec.javax.annotation" name="jboss-annotations-api_1.1_spec" rev="1.0.0.Final" transitive="false" conf="jboss7->default"/>
+      <dependency org="org.picketbox" name="picketbox" rev="4.0.20.Final" transitive="false" conf="jboss7->default"/>
 
-      <!-- Wildfly 9.0.1 EE 7.0 --> 
-      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.1.0" conf="wildfly9->default"/>
-      <dependency org="org.jboss.spec" name="jboss-javaee-7.0" rev="1.0.3.Final" conf="wildfly9->default"/>
-      <dependency org="org.picketbox" name="picketbox" rev="4.9.2.Final" conf="wildfly9->default"/>
-
-      <!-- Wildfly 11.0.0 EE 7.0 -->
-      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.2.0.Final" conf="wildfly11->default"/>
-      <dependency org="org.jboss.spec" name="jboss-javaee-7.0" rev="1.0.3.Final" conf="wildfly11->default"/>
-      <dependency org="org.picketbox" name="picketbox" rev="5.0.2.Final" conf="wildfly11->default"/>
+      <!-- Wildfly 14.0.0 EE 7.0 -->
+      <dependency org="javax.persistence" name="javax.persistence-api" rev="2.2" transitive="false" conf="wildfly14->default"/>
+      <dependency org="org.jboss.ejb3" name="jboss-ejb3-ext-api" rev="2.2.0.Final" transitive="false" conf="wildfly14->default"/>
+      <dependency org="org.jboss.spec.javax.annotation" name="jboss-annotations-api_1.3_spec" rev="1.0.1.Final" transitive="false" conf="wildfly14->default"/>
+      <dependency org="org.jboss.spec.javax.ejb" name="jboss-ejb-api_3.2_spec" rev="1.0.1.Final" transitive="false" conf="wildfly14->default"/>
+<!--      <dependency org="org.picketbox" name="picketbox" rev="5.0.3.Final" transitive="false" conf="wildfly14->default"/> -->
     </dependencies>
 </ivy-module>
