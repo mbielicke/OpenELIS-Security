@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="Security" default="gwtc.dev" basedir=".">
 
-	<property name="gwt.sdk" location="/usr/local/java/gwt-2.6.0" />
+	<property name="gwt.sdk" location="/usr/local/java/gwt-2.7.0" />
 	
 	<property name="jboss.home" location="/usr/local/java/jboss-as-7.1.1.Final"/>
 	
