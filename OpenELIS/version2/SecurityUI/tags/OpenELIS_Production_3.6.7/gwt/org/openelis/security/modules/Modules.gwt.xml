@@ -1,0 +1,7 @@
+<module>
+  <inherits name="org.openelis.security.modules.application.Application"/>
+  <inherits name="org.openelis.security.modules.systemuser.SystemUser"/>
+  <inherits name="org.openelis.security.modules.main.Main"/>
+  <inherits name="org.openelis.security.modules.clausepopout.ClausePopout"/>
+  <inherits name="org.openelis.security.modules.template.Template"/>
+</module>

@@ -1,0 +1,4 @@
+<module>
+  <source path="cache"/>
+  <source path="client"/>
+</module>

@@ -1,0 +1,18 @@
+@sprite .logoutIcon {
+	gwt-image:'logout';
+	height:20px;
+	width:20px;
+}
+
+@sprite .RemoveRowButtonImage{
+	gwt-image:'removeRow';
+}
+@sprite .Disabled .RemoveRowButtonImage{
+	gwt-image:'removeRowDisabled';
+}
+@sprite .AddRowButtonImage{
+	gwt-image:'addRow';
+}
+@sprite .Disabled .AddRowButtonImage{
+	gwt-image:'addRowDisabled';
+}

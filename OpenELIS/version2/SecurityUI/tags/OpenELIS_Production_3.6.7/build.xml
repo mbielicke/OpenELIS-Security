@@ -1,0 +1,61 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Security"  basedir=".">
+	
+	<taskdef resource="org/apache/ivy/ant/antlib.xml"
+			         uri="antlib:org.apache.ivy.ant" classpath="/usr/share/java/ivy.jar"/>
+	
+	<mkdir dir="deploylib"/>
+	
+	<ivy:configure file="ivysettings.xml"/>
+	<ivy:retrieve conf="deploy" pattern="deploylib/[artifact]-[revision].[ext]" sync="false"/>
+		
+	<delete file="build/security.war"/>
+	<war destFile="build/security.war" baseDir="war">
+		<exclude name="WEB-INF/lib/gwt-servlet.jar"/>
+    </war>
+	
+	<delete file="build/security.jar" />
+	<copy file="ejb/resources/META-INF/ehcache.xml" todir="bin" overwrite="true" />	
+	<jar jarfile="build/security.jar">
+		<fileset dir="bin">
+			<include name="org/openelis/security/bean/*.class" />
+			<include name="org/openelis/security/entity/*.class" />
+			<include name="org/openelis/security/local/*.class"/>
+			<include name="ehcache.xml" />
+		</fileset>
+		<fileset dir="ejb/resources/">
+			<include name="META-INF/persistence.xml" />
+			<include name="META-INF/ehcache.xml" />
+		</fileset>
+	</jar>
+	
+	<jar jarfile="deploylib/security-common.jar">
+		<fileset dir="bin">
+			<include name="org/openelis/security/messages/*" />
+			<include name="org/openelis/security/domain/*.class" />				
+			<include name="org/openelis/security/meta/*.class" />
+			<include name="org/openelis/security/manager/*.class"/>
+			<include name="org/openelis/security/remote/*.class"/>
+		</fileset>
+	</jar>
+		
+	<delete file="build/security.ear"/>
+	<copy file="war/WEB-INF/lib/gwt-servlet.jar" todir="./deploylib" overwrite="true" />
+	<copy file="../OpenELIS-UI/ui.jar" todir="./deploylib" overwrite="true" failonerror="false"/>
+	<ear destfile="build/security.ear" appxml="ejb/resources/META-INF/application.xml">
+	    <fileset dir="ejb/resources/">
+	       <include name="META-INF/jboss-app.xml"/>
+	    </fileset>
+		<fileset dir="build">
+			<include name="security.jar" />
+		</fileset>
+		<fileset dir="build">
+			<include name="security.war"/>
+	    </fileset>
+		<zipfileset dir="deploylib" prefix="lib" includes="*.jar"/>
+	</ear>
+	
+<!--    <copy file="build/security.ear" todir="/usr/local/java/wildfly/standalone/deployments" overwrite="true"/> -->
+	
+	<delete dir="deploylib"/>
+	
+</project>
