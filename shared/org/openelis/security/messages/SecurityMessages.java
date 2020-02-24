@@ -2,7 +2,7 @@ package org.openelis.security.messages;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	/home/mbielick/workspace-test/Security/bin/org/openelis/security/messages/SecurityMessages.properties'.
+ * 	/home/mbielick/workspace-production/Security/bin/org/openelis/security/messages/SecurityMessages.properties'.
  */
 public interface SecurityMessages extends org.openelis.ui.messages.UIMessages {
   
